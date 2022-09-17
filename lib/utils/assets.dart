@@ -9,6 +9,8 @@ class Assets {
   static const String logoShape = "${_imagePath}shape.png";
   static const String logoUser = "${_imagePath}user.png";
   static const String logoAvatar = "${_imagePath}avatar.png";
+  static const String imgBrandPlaceholder =
+      "${_imagePath}brand_placeholder.png";
 
   // ICONS
   static const String icLainya = "${_iconPath}lainya.svg";
@@ -19,5 +21,8 @@ class Assets {
   static const String icProfile = "${_iconPath}profile.svg";
   static const String icProfileActive = "${_iconPath}profile-active.svg";
   static const String icHeart = "${_iconPath}heart.svg";
-  static const String icHeartActive = "${_iconPath}heart-active.png";
+  static const String icHeartActive = "${_iconPath}heart-active.svg";
+  static const String icCalendar = "${_iconPath}calendar.svg";
+  static const String icPeople = "${_iconPath}people.svg";
+  static const String icTag = "${_iconPath}tag.svg";
 }

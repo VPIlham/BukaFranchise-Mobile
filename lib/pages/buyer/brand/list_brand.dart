@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
@@ -78,15 +79,20 @@ class _ListBrandPageState extends State<ListBrandPage> {
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
                         // TODO: Detail
-                        print("Go To Detail $index");
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (builder) => DetailBrandPage()));
                       },
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       enableFeedback: false,
                       child: Card(
                         elevation: 0,
                         shape: const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(12))),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(12),
+                          ),
+                        ),
                         child: Padding(
                           padding: const EdgeInsets.only(
                               left: 12, right: 12, top: 12, bottom: 12),
