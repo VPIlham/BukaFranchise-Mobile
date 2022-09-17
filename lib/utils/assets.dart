@@ -5,6 +5,7 @@ class Assets {
 
   // IMAGES
   static const String logo = "${_imagePath}logo.png";
+  static const String logoShape = "${_imagePath}shape.png";
 
   // ICONS
   static const String icHome = "${_iconPath}home.svg";

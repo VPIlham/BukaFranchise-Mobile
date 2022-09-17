@@ -1,4 +1,5 @@
 import 'package:bukafranchise/pages/login.dart';
+import 'package:bukafranchise/pages/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'BukaFranchise',
       debugShowCheckedModeBanner: false,
-      supportedLocales: [Locale('en'), Locale('id', 'ID')],
+      // supportedLocales: [Locale('en'), Locale('id', 'ID')],
       initialRoute: '/',
       home: LoginPage(),
     );

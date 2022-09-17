@@ -5,6 +5,7 @@ import 'package:validators/validators.dart';
 import 'package:bukafranchise/utils/assets.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String routeName = '/login';
   const LoginPage({super.key});
 
   @override
