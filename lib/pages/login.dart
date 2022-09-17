@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             hintText: 'Masukan email',
                             filled: true,
-                            contentPadding: EdgeInsets.all(18),
+                            contentPadding: const EdgeInsets.all(18),
                             fillColor: inputColorGray,
                           ),
                           validator: (String? value) {
@@ -222,7 +222,8 @@ class _LoginPageState extends State<LoginPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (builder) => RegisterPage()));
+                                        builder: (builder) =>
+                                            const RegisterPage()));
                               },
                               child: Text(
                                 'sekarang',
