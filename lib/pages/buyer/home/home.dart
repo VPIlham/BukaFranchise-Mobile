@@ -1,4 +1,3 @@
-import 'package:bukafranchise/pages/buyer/brand/list_brand.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -18,17 +17,6 @@ class _HomePageState extends State<HomePage> {
         child: Stack(
           children: [
             Text('ini home page'),
-            SizedBox(
-              height: 24,
-            ),
-            ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => const ListBrandPage()));
-                },
-                child: const Text("List Brand"))
           ],
         ),
       ),
