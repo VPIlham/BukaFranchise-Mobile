@@ -1,11 +1,14 @@
 class Assets {
   // PATH
+  static const String imagePath = "assets/img/";
   static const String _imagePath = "assets/img/";
   static const String _iconPath = "assets/icons/";
 
   // IMAGES
   static const String logo = "${_imagePath}logo.png";
   static const String logoShape = "${_imagePath}shape.png";
+  static const String logoUser = "${_imagePath}user.png";
+  static const String logoAvatar = "${_imagePath}avatar.png";
 
   // ICONS
   static const String icHome = "${_iconPath}home.svg";
