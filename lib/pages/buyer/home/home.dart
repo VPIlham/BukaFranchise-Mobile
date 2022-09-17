@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
               child: ListView(
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   //Header User
@@ -40,7 +41,11 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  KemitraanWidget()
+                  //Kemitraan
+                  KemitraanWidget(),
+                  const SizedBox(
+                    height: 10,
+                  ),
                 ],
               ),
             )

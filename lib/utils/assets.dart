@@ -11,6 +11,7 @@ class Assets {
   static const String logoAvatar = "${_imagePath}avatar.png";
 
   // ICONS
+  static const String icLainya = "${_iconPath}lainya.svg";
   static const String icHome = "${_iconPath}home.svg";
   static const String icHomeActive = "${_iconPath}home-active.svg";
   static const String icOrder = "${_iconPath}order.svg";

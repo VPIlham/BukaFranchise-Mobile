@@ -1,7 +1,4 @@
-import 'package:bukafranchise/pages/buyer/home/home.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
-import 'package:bukafranchise/pages/login.dart';
-import 'package:bukafranchise/pages/register.dart';
 import 'package:flutter/material.dart';
 
 void main() {

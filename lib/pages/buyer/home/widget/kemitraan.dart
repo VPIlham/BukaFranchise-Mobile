@@ -31,18 +31,64 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
         const SizedBox(
           height: 10,
         ),
-        Container(
-          height: 200,
-          color: Colors.red,
-          child: ListView(
+        SizedBox(
+          height: 225,
+          child: ListView.builder(
             shrinkWrap: true,
             scrollDirection: Axis.horizontal,
-            children: [
-              Text('Ayam'),
-              Text('Ayam'),
-              Text('Ayam'),
-              Text('Ayam'),
-            ],
+            itemCount: 10,
+            physics: const BouncingScrollPhysics(),
+            itemBuilder: (context, index) {
+              return Container(
+                margin: const EdgeInsets.only(left: 15, top: 8, bottom: 10),
+                width: 135,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.1),
+                      spreadRadius: 3,
+                      blurRadius: 5,
+                      offset: const Offset(2, 3), // changes position of shadow
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.network(
+                          'https://e-geber.com/assets/post/img/1612163671_image2.jpg',
+                          height: 110,
+                          width: 115,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Geprek Bensu Kang ujo banget',
+                        style: labelTextStyle.copyWith(
+                            fontSize: 14, overflow: TextOverflow.ellipsis),
+                        maxLines: 2,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        'Rp22.000.000',
+                        style: regularTextStyle.copyWith(fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            },
           ),
         )
       ],
