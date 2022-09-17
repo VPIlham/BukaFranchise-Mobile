@@ -10,8 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'BukaFranchise',
+      debugShowCheckedModeBanner: false,
       supportedLocales: [Locale('en'), Locale('id', 'ID')],
       initialRoute: '/',
       home: LoginPage(),

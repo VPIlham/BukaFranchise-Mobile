@@ -14,11 +14,48 @@ class _LoginPageState extends State<LoginPage> {
   String? _email, _password;
   bool _isObscure = true;
 
+  void _submit() {
+    setState(() {
+      _autovalidateMode = AutovalidateMode.always;
+    });
+
+    final form = _formKey.currentState;
+    if (form == null || !form.validate()) return;
+
+    form.save();
+
+    // context.read<SigninCubit>().signin(email: _email!, password: _password!);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(
-        child: Text('Login'),
+    return Scaffold(
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 40,
+                      ),
+                      Image.asset(
+                        'assets/img/logo.png',
+                        width: 298,
+                        height: 80,
+                      ),
+                      const SizedBox(
+                        height: 59,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
