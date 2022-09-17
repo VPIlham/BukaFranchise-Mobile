@@ -15,7 +15,6 @@ class DefaultAppBar {
     return PreferredSize(
       preferredSize: const Size.fromHeight(80.0),
       child: Container(
-        color: inputColorGray,
         padding: const EdgeInsets.symmetric(vertical: 15),
         child: AppBar(
           toolbarHeight: 80,
@@ -23,6 +22,7 @@ class DefaultAppBar {
           titleSpacing: 0,
           leadingWidth: 80,
           backgroundColor: Colors.transparent,
+          foregroundColor: Colors.black,
           elevation: 0,
           title: title,
           automaticallyImplyLeading: false,
