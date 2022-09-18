@@ -25,4 +25,10 @@ class Assets {
   static const String icCalendar = "${_iconPath}calendar.svg";
   static const String icPeople = "${_iconPath}people.svg";
   static const String icTag = "${_iconPath}tag.svg";
+  static const String icQuestion = "${_iconPath}question.svg";
+  static const String icGroup = "${_iconPath}group.svg";
+  static const String icHeadphones = "${_iconPath}headphones.svg";
+  static const String icHeartTick = "${_iconPath}heart-tick.svg";
+  static const String icSettingLine = "${_iconPath}setting-line.svg";
+  static const String icArrow = "${_iconPath}arrow.svg";
 }

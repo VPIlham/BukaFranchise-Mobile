@@ -40,7 +40,7 @@ class _TransactionPageState extends State<TransactionPage> {
                         '28 Agustus 2022',
                         style: labelTextStyle.copyWith(
                           color: textDateGray,
-                          fontSize: 12,
+                          fontSize: 10,
                         ),
                       ),
                     ),
@@ -100,40 +100,40 @@ class _TransactionPageState extends State<TransactionPage> {
                                 ),
                               ),
                             ),
-                            Container(
-                              width: 100,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                color: greenColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Terdaftar',
-                                  style: labelTextStyle.copyWith(
-                                      color: Colors.white,
-                                      letterSpacing: 1,
-                                      fontSize: 10),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              width: 100,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                color: redColor,
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Dibatalkan',
-                                  style: labelTextStyle.copyWith(
-                                      color: Colors.white,
-                                      letterSpacing: 1,
-                                      fontSize: 10),
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   width: 100,
+                            //   height: 20,
+                            //   decoration: BoxDecoration(
+                            //     color: greenColor,
+                            //     borderRadius: BorderRadius.circular(16),
+                            //   ),
+                            //   child: Center(
+                            //     child: Text(
+                            //       'Terdaftar',
+                            //       style: labelTextStyle.copyWith(
+                            //           color: Colors.white,
+                            //           letterSpacing: 1,
+                            //           fontSize: 10),
+                            //     ),
+                            //   ),
+                            // ),
+                            // Container(
+                            //   width: 100,
+                            //   height: 20,
+                            //   decoration: BoxDecoration(
+                            //     color: redColor,
+                            //     borderRadius: BorderRadius.circular(16),
+                            //   ),
+                            //   child: Center(
+                            //     child: Text(
+                            //       'Dibatalkan',
+                            //       style: labelTextStyle.copyWith(
+                            //           color: Colors.white,
+                            //           letterSpacing: 1,
+                            //           fontSize: 10),
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -141,7 +141,7 @@ class _TransactionPageState extends State<TransactionPage> {
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),

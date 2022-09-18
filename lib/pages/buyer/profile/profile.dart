@@ -1,7 +1,10 @@
+import 'package:bukafranchise/pages/buyer/profile/faq/faq.dart';
+import 'package:bukafranchise/pages/buyer/profile/layanan/layanan.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -24,6 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
         leading: const Text(''),
       ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
         shrinkWrap: true,
         children: [
           Center(
@@ -50,7 +54,148 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
           ),
-          const Text('data')
+          const SizedBox(
+            height: 20,
+          ),
+          InkWell(
+            onTap: () {},
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.icHeartTick),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Daftar Keinginan',
+                        style: regularTextStyle,
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(Assets.icArrow),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          InkWell(
+            onTap: () {},
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.icSettingLine),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Pengaturan Akun',
+                        style: regularTextStyle,
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(Assets.icArrow),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (builder) => const FaqPage()));
+            },
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.icQuestion),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Frequently Asked Questions',
+                        style: regularTextStyle,
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(Assets.icArrow),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          InkWell(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (builder) => const LayananPage()));
+            },
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.icHeadphones),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Layanan Pelanggan',
+                        style: regularTextStyle,
+                      ),
+                    ],
+                  ),
+                  SvgPicture.asset(Assets.icArrow),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(
+            height: 16,
+          ),
+          InkWell(
+            onTap: () {},
+            child: SizedBox(
+              height: 30,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(Assets.icGroup),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      Text(
+                        'Keluar',
+                        style: regularTextStyle.copyWith(
+                          color: redColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
       ),
     );
