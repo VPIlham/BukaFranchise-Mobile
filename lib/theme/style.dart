@@ -7,6 +7,7 @@ Color blueColor = const Color(0xff4B7BE5);
 Color greenColor = const Color(0xff14C38E);
 Color redColor = const Color(0xffEB1D36);
 Color inputColorGray = const Color(0xffF6FAFB);
+Color textDateGray = const Color(0xbbbbbbbb);
 
 TextStyle titleTextStyle = GoogleFonts.poppins(
   color: blackColor,
