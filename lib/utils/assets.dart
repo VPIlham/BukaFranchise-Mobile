@@ -11,6 +11,7 @@ class Assets {
   static const String logoAvatar = "${_imagePath}avatar.png";
   static const String imgBrandPlaceholder =
       "${_imagePath}brand_placeholder.png";
+  static const String paymentSuccess = "${_imagePath}payment_success.png";
 
   // ICONS
   static const String icLainya = "${_iconPath}lainya.svg";

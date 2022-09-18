@@ -16,8 +16,18 @@ class LayananPage extends StatelessWidget {
           style: titleTextStyle,
         ),
       ),
-      body: const Center(
-        child: Text('Ini Layanan Pelanggan'),
+      body: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Text(
+              'Call Center : 0x0000',
+              style: regularTextStyle.copyWith(
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

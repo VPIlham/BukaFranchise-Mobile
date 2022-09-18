@@ -1,5 +1,7 @@
+import 'package:bukafranchise/pages/buyer/profile/akun/akun.dart';
 import 'package:bukafranchise/pages/buyer/profile/faq/faq.dart';
 import 'package:bukafranchise/pages/buyer/profile/layanan/layanan.dart';
+import 'package:bukafranchise/pages/buyer/profile/whislist/whislist.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
@@ -58,7 +60,12 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 20,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => const WhistlistPage()));
+            },
             child: SizedBox(
               height: 30,
               child: Row(
@@ -85,7 +92,12 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 16,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (builder) => const PengaturanAkun()));
+            },
             child: SizedBox(
               height: 30,
               child: Row(

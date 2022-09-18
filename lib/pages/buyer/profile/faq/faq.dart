@@ -16,8 +16,58 @@ class FaqPage extends StatelessWidget {
           style: titleTextStyle,
         ),
       ),
-      body: const Center(
-        child: Text('Ini FAQ'),
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bagaimana proses di BukaFranchise ?',
+                  style: titleTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque ante neque hac bibendum quis nunc molestie interdum nunc. In amet euismod sit erat ac risus laoreet condimentum euismod. Nunc bibendum pellentesque commodo massa quisque suspendisse duis id. Gravida cras quam auctor augue tellus ac.',
+                  style: regularTextStyle.copyWith(
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Bagaimana proses di BukaFranchise ?',
+                  style: titleTextStyle.copyWith(
+                    fontSize: 12,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque ante neque hac bibendum quis nunc molestie interdum nunc. In amet euismod sit erat ac risus laoreet condimentum euismod. Nunc bibendum pellentesque commodo massa quisque suspendisse duis id. Gravida cras quam auctor augue tellus ac.',
+                  style: regularTextStyle.copyWith(
+                    fontSize: 10,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
