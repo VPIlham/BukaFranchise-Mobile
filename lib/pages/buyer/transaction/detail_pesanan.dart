@@ -30,34 +30,31 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '#22231341',
-                    style: titleTextStyle.copyWith(
-                      fontSize: 16,
-                    ),
+                  Column(
+                    children: [
+                      Text(
+                        '#22231341',
+                        style: titleTextStyle.copyWith(
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        'April 17, 2017',
+                        style: regularTextStyle.copyWith(
+                          fontSize: 14,
+                        ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
                   Text(
                     'Pembayaran Cicilan',
                     style: regularTextStyle,
                   ),
                 ],
               ),
-              Column(
-                children: [
-                  Text(
-                    'April 17, 2017',
-                    style: regularTextStyle.copyWith(
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
+
               const SizedBox(
                 height: 30,
               ),
@@ -120,7 +117,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                 height: 20,
               ),
               SvgPicture.asset(
-                Assets.icSuccess,
+                Assets.icProcess,
                 width: 234,
                 height: 38,
               ),
