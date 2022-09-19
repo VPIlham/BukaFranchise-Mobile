@@ -20,7 +20,6 @@ class _BannerWidgetState extends State<BannerWidget> {
 
   @override
   Widget build(BuildContext context) {
-    print('IMG = $imgList');
     return Column(children: [
       CarouselSlider(
         items: imgList

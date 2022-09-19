@@ -31,16 +31,13 @@ class _HomePageState extends State<HomePage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  //Banner
+                  // //Banner
                   BannerWidget(),
                   const SizedBox(
                     height: 10,
                   ),
-                  //Brand Partner
+                  // //Brand Partner
                   BrandWidget(),
-                  const SizedBox(
-                    height: 15,
-                  ),
                   //Kemitraan
                   KemitraanWidget(),
                   const SizedBox(

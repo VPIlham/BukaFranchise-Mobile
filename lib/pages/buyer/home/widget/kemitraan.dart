@@ -1,4 +1,5 @@
 import 'package:bukafranchise/theme/style.dart';
+import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter/material.dart';
 
 class KemitraanWidget extends StatefulWidget {
@@ -19,7 +20,7 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Kemitraan',
+              'Paket Kemitraan',
               style: titleTextStyle.copyWith(letterSpacing: 1),
             ),
             Text(
@@ -61,8 +62,8 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          'https://e-geber.com/assets/post/img/1612163671_image2.jpg',
+                        child: Image.asset(
+                          '${Assets.imagePath}gb.png',
                           height: 110,
                           width: 115,
                           fit: BoxFit.cover,
