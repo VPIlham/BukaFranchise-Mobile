@@ -32,4 +32,7 @@ class Assets {
   static const String icHeartTick = "${_iconPath}heart-tick.svg";
   static const String icSettingLine = "${_iconPath}setting-line.svg";
   static const String icArrow = "${_iconPath}arrow.svg";
+  static const String icSuccess = "${_iconPath}success.svg";
+  static const String icFail = "${_iconPath}fail.svg";
+  static const String icProcess = "${_iconPath}process.svg";
 }
