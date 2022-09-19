@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -32,6 +33,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CardBrandWidget(
                 brandName: "Kopi Kenangan",
@@ -41,6 +43,97 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                 price: "Rp 20.000.000",
                 startOperation: "April 17, 2017",
                 totalEmployees: "120",
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                "Profil Brand",
+                style: labelTextStyle,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              ExpandableText(
+                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque ante neque hac bibendum quis nunc molestie interdum nunc. In amet euismod sit erat ac risus laoreet condimentum euismod. Nunc bibendum pellentesque commodo massa quisque suspendisse duis id. Gravida cras quam auctor augue tellus ac.',
+                style: regularTextStyle,
+                expandText: "Selengkapnya",
+                maxLines: 5,
+                collapseText: "Lebih sedikit",
+                linkColor: mainColor,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Text(
+                "Daftar Paket",
+                style: labelTextStyle,
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                primary: false,
+                itemCount: 5,
+                itemBuilder: (context, index) => InkWell(
+                  onTap: () {},
+                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  enableFeedback: false,
+                  child: Card(
+                    elevation: 0,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 12, right: 12, top: 12, bottom: 12),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            child: Image.network(
+                              "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
+                              fit: BoxFit.cover,
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Paket 2 (Kios + Starter Bahan Pertama)",
+                                  style: labelTextStyle.copyWith(fontSize: 14),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  "Rp 20.000.000",
+                                  style: regularTextStyle,
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 36,
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
