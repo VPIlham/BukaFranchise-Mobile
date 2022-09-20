@@ -1,3 +1,7 @@
+import 'package:bukafranchise/pages/seller/home/widget/dashboard.dart';
+import 'package:bukafranchise/pages/seller/home/widget/header_user.dart';
+import 'package:bukafranchise/pages/seller/home/widget/produk.dart';
+import 'package:bukafranchise/pages/seller/home/widget/wishlist.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,6 +14,41 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+          child: Stack(
+        children: [
+          ListView(
+            children: [
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //Header
+                    HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    DashboardWidget(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    ProdukWidget(),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    WishlistWidget(),
+                  ],
+                ),
+              ),
+              //Header
+            ],
+          )
+        ],
+      )),
+    );
   }
 }

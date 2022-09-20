@@ -1,3 +1,5 @@
+import 'package:bukafranchise/pages/buyer/home/home.dart';
+import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/register.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +41,11 @@ class _LoginPageState extends State<LoginPage> {
 
     form.save();
 
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => BottomNavbarPage()),
+    );
+
     // context.read<SigninCubit>().signin(email: _email!, password: _password!);
   }
 
@@ -67,35 +74,36 @@ class _LoginPageState extends State<LoginPage> {
                         height: 49,
                       ),
                       Text(
-                        'MASUK',
-                        style: titleTextStyle.copyWith(
-                            fontSize: 22, letterSpacing: 1),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      Text(
                         'Selamat datang di',
-                        style: labelTextStyle.copyWith(
-                            letterSpacing: 1, fontWeight: FontWeight.w600),
+                        style: regularTextStyle.copyWith(
+                          letterSpacing: 1,
+                        ),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             'Buka',
-                            style: labelTextStyle,
+                            style: regularTextStyle,
                           ),
                           Text('Franchise',
-                              style: labelTextStyle.copyWith(
+                              style: regularTextStyle.copyWith(
                                   color: mainColor, letterSpacing: 1)),
                         ],
+                      ),
+                      const SizedBox(
+                        height: 18,
+                      ),
+                      Text(
+                        'MASUK',
+                        style: titleTextStyle.copyWith(
+                            fontSize: 22, letterSpacing: 1),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(
-                  height: 36,
+                  height: 20,
                 ),
                 //Form
                 Padding(
@@ -210,6 +218,9 @@ class _LoginPageState extends State<LoginPage> {
                         Text(
                           'Atau',
                           style: labelTextStyle,
+                        ),
+                        const SizedBox(
+                          height: 24,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -1,4 +1,6 @@
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
+import 'package:bukafranchise/pages/login.dart';
+import 'package:bukafranchise/pages/seller/widget/BottomNavbarSeller.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // supportedLocales: [Locale('en'), Locale('id', 'ID')],
       initialRoute: '/',
-      home: BottomNavbarPage(),
+      home: LoginPage(),
     );
   }
 }

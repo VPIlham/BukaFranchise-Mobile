@@ -16,6 +16,7 @@ class Assets {
   // ICONS
   static const String icLainya = "${_iconPath}lainya.svg";
   static const String icHome = "${_iconPath}home.svg";
+  static const String icCategory = "${_iconPath}category.svg";
   static const String icHomeActive = "${_iconPath}home-active.svg";
   static const String icOrder = "${_iconPath}order.svg";
   static const String icOrderActive = "${_iconPath}order-active.svg";
