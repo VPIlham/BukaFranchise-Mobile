@@ -57,7 +57,7 @@ class _WhistlistPageState extends State<WhistlistPage> {
                     child: GridView.builder(
                       shrinkWrap: true,
                       primary: false,
-                      itemCount: 150,
+                      itemCount: 25,
                       gridDelegate:
                           const SliverGridDelegateWithFixedCrossAxisCount(
                               childAspectRatio: 1.0 / 1.5,

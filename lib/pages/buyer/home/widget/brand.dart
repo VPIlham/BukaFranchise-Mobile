@@ -1,3 +1,4 @@
+import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/pages/buyer/brand/list_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
@@ -63,13 +64,18 @@ class _BrandWidgetState extends State<BrandWidget> {
               );
             } else {
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailBrandPage()),
+                  );
+                },
                 child: Column(
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(15),
                       child: Image.network(
-                        'https://source.unsplash.com/random/200x200',
+                        'https://source.unsplash.com/random/200x200?sig=$index',
                         height: 45,
                       ),
                     ),

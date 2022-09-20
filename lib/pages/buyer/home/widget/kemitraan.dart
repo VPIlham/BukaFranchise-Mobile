@@ -1,3 +1,4 @@
+import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter/material.dart';
@@ -57,35 +58,44 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          '${Assets.imagePath}gb.png',
-                          height: 110,
-                          width: 115,
-                          fit: BoxFit.cover,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => DetailBrandPage()),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: Image.asset(
+                            '${Assets.imagePath}gb.png',
+                            height: 110,
+                            width: 115,
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Geprek Bensu Kang ujo banget',
-                        style: labelTextStyle.copyWith(
-                            fontSize: 14, overflow: TextOverflow.ellipsis),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Rp22.000.000',
-                        style: regularTextStyle.copyWith(fontSize: 12),
-                      ),
-                    ],
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Geprek Bensu Express',
+                          style: labelTextStyle.copyWith(
+                              fontSize: 14, overflow: TextOverflow.ellipsis),
+                          maxLines: 2,
+                        ),
+                        const SizedBox(
+                          height: 8,
+                        ),
+                        Text(
+                          'Rp22.000.000',
+                          style: regularTextStyle.copyWith(fontSize: 12),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

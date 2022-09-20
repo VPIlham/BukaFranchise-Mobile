@@ -38,6 +38,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   // //Brand Partner
                   BrandWidget(),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   //Kemitraan
                   KemitraanWidget(),
                   const SizedBox(
