@@ -69,7 +69,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
                   child: GridView.builder(
                     shrinkWrap: true,
                     primary: false,
-                    itemCount: 150,
+                    itemCount: 25,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             childAspectRatio: 5.0 / 6.5,
