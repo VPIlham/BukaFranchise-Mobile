@@ -59,6 +59,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                 style: regularTextStyle,
                 expandText: "Selengkapnya",
                 maxLines: 5,
+                textAlign: TextAlign.justify,
                 collapseText: "Lebih sedikit",
                 linkColor: mainColor,
               ),
