@@ -34,8 +34,8 @@ class _BrandWidgetState extends State<BrandWidget> {
             if (index == 7) {
               return GestureDetector(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ListBrandPage()));
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const ListBrandPage()));
                 },
                 child: Column(
                   children: [
@@ -67,7 +67,8 @@ class _BrandWidgetState extends State<BrandWidget> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailBrandPage()),
+                    MaterialPageRoute(
+                        builder: (context) => const DetailBrandPage()),
                   );
                 },
                 child: Column(

@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       // supportedLocales: [Locale('en'), Locale('id', 'ID')],
       initialRoute: '/',
-      home: LoginPage(),
+      home: BottomNavbarSellerPage(),
     );
   }
 }

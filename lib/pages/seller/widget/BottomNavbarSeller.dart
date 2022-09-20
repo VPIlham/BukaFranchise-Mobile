@@ -1,7 +1,9 @@
+// ignore_for_file: file_names
+
+import 'package:flutter/material.dart';
 import 'package:bukafranchise/pages/seller/home/home.dart';
 import 'package:bukafranchise/pages/seller/profile/profile.dart';
 import 'package:bukafranchise/pages/seller/transaction/transaction.dart';
-import 'package:flutter/material.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -33,6 +35,14 @@ class _BottomNavbarSellerPageState extends State<BottomNavbarSellerPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: _widgetOptions.elementAt(selectedNavbar),
+      floatingActionButton: FloatingActionButton(
+        elevation: 3,
+        focusColor: mainColor,
+        onPressed: () {},
+        backgroundColor: mainColor,
+        tooltip: 'Tambahkan Produk Anda',
+        child: const Icon(Icons.add),
+      ),
       bottomNavigationBar: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(

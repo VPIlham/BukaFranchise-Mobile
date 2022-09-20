@@ -26,21 +26,22 @@ class _HomePageState extends State<HomePage> {
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     //Header
-                    HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
-                    SizedBox(
+                    const HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
+                    const SizedBox(
                       height: 25,
                     ),
-                    DashboardWidget(),
-                    SizedBox(
+                    const DashboardWidget(),
+                    const SizedBox(
                       height: 15,
                     ),
-                    ProdukWidget(),
-                    SizedBox(
+                    const ProdukWidget(),
+                    const SizedBox(
                       height: 15,
                     ),
-                    WishlistWidget(),
+                    const WishlistWidget(),
                   ],
                 ),
               ),

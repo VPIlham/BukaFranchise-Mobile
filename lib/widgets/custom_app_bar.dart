@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 
-import 'package:bukafranchise/theme/style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

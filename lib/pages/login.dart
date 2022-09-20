@@ -1,4 +1,3 @@
-import 'package:bukafranchise/pages/buyer/home/home.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/register.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -43,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => BottomNavbarPage()),
+      MaterialPageRoute(builder: (context) => const BottomNavbarPage()),
     );
 
     // context.read<SigninCubit>().signin(email: _email!, password: _password!);

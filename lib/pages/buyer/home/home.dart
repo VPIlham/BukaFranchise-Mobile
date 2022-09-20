@@ -25,24 +25,25 @@ class _HomePageState extends State<HomePage> {
               child: ListView(
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
+                // ignore: prefer_const_literals_to_create_immutables
                 children: [
                   //Header User
-                  HeaderUserWidget(),
+                  const HeaderUserWidget(),
                   const SizedBox(
                     height: 15,
                   ),
                   // //Banner
-                  BannerWidget(),
+                  const BannerWidget(),
                   const SizedBox(
                     height: 10,
                   ),
                   // //Brand Partner
-                  BrandWidget(),
+                  const BrandWidget(),
                   const SizedBox(
                     height: 10,
                   ),
                   //Kemitraan
-                  KemitraanWidget(),
+                  const KemitraanWidget(),
                   const SizedBox(
                     height: 10,
                   ),

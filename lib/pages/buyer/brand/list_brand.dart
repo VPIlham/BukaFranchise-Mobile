@@ -48,9 +48,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
                     icon: const Icon(
                       Icons.search,
                     ),
-                    onPressed: () {
-                      print("Search Clicked!");
-                    },
+                    onPressed: () {},
                   ),
                 ),
               ),
@@ -78,13 +76,12 @@ class _ListBrandPageState extends State<ListBrandPage> {
                             mainAxisSpacing: 10),
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        // TODO: Detail
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (builder) => DetailBrandPage()));
+                                builder: (builder) => const DetailBrandPage()));
                       },
-                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
                       enableFeedback: false,
                       child: Card(
                         elevation: 0,

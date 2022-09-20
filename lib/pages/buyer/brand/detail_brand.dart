@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'dart:math';
 
 import 'package:bukafranchise/theme/style.dart';
@@ -79,7 +81,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                 itemCount: 5,
                 itemBuilder: (context, index) => InkWell(
                   onTap: () {},
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
+                  borderRadius: const BorderRadius.all(Radius.circular(12)),
                   enableFeedback: false,
                   child: Card(
                     elevation: 0,
@@ -164,7 +166,6 @@ class CardBrandWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(image);
     return Card(
       elevation: 0,
       color: inputColorGray,
