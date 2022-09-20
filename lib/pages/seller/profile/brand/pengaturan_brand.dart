@@ -13,18 +13,28 @@ class PengaturanBrand extends StatefulWidget {
 class _PengaturanBrandState extends State<PengaturanBrand> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  String? _name, _telp, _password;
-  bool _isObscure = true;
+  String? _name, _deskripsi, _total, _tanggal, _status, valStatus;
+
+  final roleStatus = [
+    'Pengajuan diproses, ',
+    'Pengajuan dibatalkan',
+    'Pengajuan ditolak',
+    'Pengajuan berhasil'
+  ];
 
   final nameC = TextEditingController();
-  final telpC = TextEditingController();
-  final passwordC = TextEditingController();
+  final deskripsiC = TextEditingController();
+  final totalC = TextEditingController();
+  final tanggalC = TextEditingController();
+  final statusC = TextEditingController();
 
   @override
   void dispose() {
     nameC.dispose();
-    telpC.dispose();
-    passwordC.dispose();
+    deskripsiC.dispose();
+    totalC.dispose();
+    tanggalC.dispose();
+    statusC.dispose();
     super.dispose();
   }
 
@@ -83,6 +93,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                     autovalidateMode: _autovalidateMode,
                     child: Column(
                       children: [
+                        // Nama Brand
                         TextFormField(
                           keyboardType: TextInputType.name,
                           style: regularTextStyle,
@@ -96,14 +107,14 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                 style: BorderStyle.none,
                               ),
                             ),
-                            hintText: 'Masukan Nama Lengkap',
+                            hintText: 'Masukan Nama Brand',
                             filled: true,
                             contentPadding: const EdgeInsets.all(18),
                             fillColor: inputColorGray,
                           ),
                           validator: (String? value) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Nama wajib diisi!';
+                              return 'Nama Brand wajib diisi!';
                             }
 
                             return null;
@@ -115,11 +126,12 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                         const SizedBox(
                           height: 20,
                         ),
+                        // Deskripsi
                         TextFormField(
-                          obscureText: _isObscure,
-                          controller: passwordC,
-                          keyboardType: TextInputType.visiblePassword,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: null,
                           style: regularTextStyle,
+                          controller: deskripsiC,
                           decoration: InputDecoration(
                             disabledBorder: InputBorder.none,
                             border: OutlineInputBorder(
@@ -129,67 +141,123 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                 style: BorderStyle.none,
                               ),
                             ),
-                            hintText: 'Ubah password',
-                            filled: true,
-                            fillColor: inputColorGray,
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                _isObscure
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                              ),
-                              onPressed: () {
-                                setState(() {
-                                  _isObscure = !_isObscure;
-                                });
-                              },
-                            ),
-                          ),
-                          validator: (String? value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return 'Password wajib diisi!';
-                            }
-
-                            if (value.trim().length < 6) {
-                              return 'Password harus lebih dari 6 karakter!';
-                            }
-                            return null;
-                          },
-                          onSaved: (String? value) {
-                            _password = value;
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          keyboardType: TextInputType.name,
-                          style: regularTextStyle,
-                          controller: telpC,
-                          decoration: InputDecoration(
-                            disabledBorder: InputBorder.none,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: const BorderSide(
-                                width: 0,
-                                style: BorderStyle.none,
-                              ),
-                            ),
-                            hintText: 'Masukan Nomor Telepon',
+                            hintText: 'Deskripsi',
                             filled: true,
                             contentPadding: const EdgeInsets.all(18),
                             fillColor: inputColorGray,
                           ),
                           validator: (String? value) {
                             if (value == null || value.trim().isEmpty) {
-                              return 'Nomor Telepon wajib diisi!';
+                              return 'Deskripsi wajib diisi!';
                             }
 
                             return null;
                           },
                           onSaved: (String? value) {
-                            _telp = value;
+                            _deskripsi = value;
                           },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        // Total Karyawan
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          style: regularTextStyle,
+                          controller: totalC,
+                          decoration: InputDecoration(
+                            disabledBorder: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: 'Masukan Total Karyawan',
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(18),
+                            fillColor: inputColorGray,
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Total Karyawan wajib diisi!';
+                            }
+
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _total = value;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        // Tanggal Berdiri
+                        TextFormField(
+                          keyboardType: TextInputType.number,
+                          style: regularTextStyle,
+                          controller: totalC,
+                          decoration: InputDecoration(
+                            disabledBorder: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: 'Masukan Total Karyawan',
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(18),
+                            fillColor: inputColorGray,
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Total Karyawan wajib diisi!';
+                            }
+
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _total = value;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: inputColorGray,
+                          ),
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Status Pesanan"),
+                            value: valStatus,
+                            decoration: const InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.all(18),
+                            ),
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Status Pesanan Wajib diisi!';
+                              }
+                              return null;
+                            },
+                            items: roleStatus.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                valStatus = value.toString();
+                              });
+                            },
+                          ),
                         ),
                         const SizedBox(
                           height: 33,
@@ -205,7 +273,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                             ),
                             child: Center(
                                 child: Text(
-                              'Ubah Profile',
+                              'Ubah Brand',
                               style: labelTextStyle.copyWith(
                                   color: Colors.white, letterSpacing: 1),
                             )),

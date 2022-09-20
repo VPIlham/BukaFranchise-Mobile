@@ -13,18 +13,22 @@ class PengaturanAkun extends StatefulWidget {
 class _PengaturanAkunState extends State<PengaturanAkun> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  String? _name, _telp, _password;
+  String? _name, _telp, _password, _rekening, _bank, valBank;
   bool _isObscure = true;
+
+  final roleBank = ['BCA', 'BRI'];
 
   final nameC = TextEditingController();
   final telpC = TextEditingController();
   final passwordC = TextEditingController();
+  final rekeningC = TextEditingController();
 
   @override
   void dispose() {
     nameC.dispose();
     telpC.dispose();
     passwordC.dispose();
+    rekeningC.dispose();
     super.dispose();
   }
 
@@ -190,6 +194,74 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                           onSaved: (String? value) {
                             _telp = value;
                           },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        TextFormField(
+                          keyboardType: TextInputType.name,
+                          style: regularTextStyle,
+                          controller: telpC,
+                          decoration: InputDecoration(
+                            disabledBorder: InputBorder.none,
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: const BorderSide(
+                                width: 0,
+                                style: BorderStyle.none,
+                              ),
+                            ),
+                            hintText: 'Masukan Nomor Rekekning',
+                            filled: true,
+                            contentPadding: const EdgeInsets.all(18),
+                            fillColor: inputColorGray,
+                          ),
+                          validator: (String? value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Nomor Rekening wajib diisi!';
+                            }
+
+                            return null;
+                          },
+                          onSaved: (String? value) {
+                            _rekening = value;
+                          },
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: inputColorGray,
+                          ),
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Pilih Bank"),
+                            value: valBank,
+                            decoration: const InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.all(18),
+                            ),
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Bank Wajib diisi!';
+                              }
+                              return null;
+                            },
+                            items: roleBank.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                valBank = value.toString();
+                              });
+                            },
+                          ),
                         ),
                         const SizedBox(
                           height: 33,
