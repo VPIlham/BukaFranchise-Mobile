@@ -8,19 +8,24 @@ class User extends Equatable {
   final String? email;
   final String? password;
   final String? role;
+  final int? totalEmployee;
+  final String? nameBrand;
+  final String? startOperation;
+  final String? categoryBrand;
 
-  const User({
+  static var empty;
+
+  User({
     this.id,
     this.name,
     this.email,
     this.password,
     this.role,
+    this.totalEmployee,
+    this.nameBrand,
+    this.startOperation,
+    this.categoryBrand,
   });
-
-  @override
-  String toString() {
-    return 'User(id: $id, name: $name, email: $email, password: $password, role: $role)';
-  }
 
   @override
   List<Object?> get props {
@@ -30,6 +35,10 @@ class User extends Equatable {
       email,
       password,
       role,
+      totalEmployee,
+      nameBrand,
+      startOperation,
+      categoryBrand,
     ];
   }
 
@@ -39,6 +48,10 @@ class User extends Equatable {
     String? email,
     String? password,
     String? role,
+    int? totalEmployee,
+    String? nameBrand,
+    String? startOperation,
+    String? categoryBrand,
   }) {
     return User(
       id: id ?? this.id,
@@ -46,42 +59,15 @@ class User extends Equatable {
       email: email ?? this.email,
       password: password ?? this.password,
       role: role ?? this.role,
+      totalEmployee: totalEmployee ?? this.totalEmployee,
+      nameBrand: nameBrand ?? this.nameBrand,
+      startOperation: startOperation ?? this.startOperation,
+      categoryBrand: categoryBrand ?? this.categoryBrand,
     );
   }
 
-  Map<String, dynamic> toMap() {
-    final result = <String, dynamic>{};
-
-    if (id != null) {
-      result.addAll({'id': id});
-    }
-    if (name != null) {
-      result.addAll({'name': name});
-    }
-    if (email != null) {
-      result.addAll({'email': email});
-    }
-    if (password != null) {
-      result.addAll({'password': password});
-    }
-    if (role != null) {
-      result.addAll({'role': role});
-    }
-
-    return result;
+  @override
+  String toString() {
+    return 'User(id: $id, name: $name, email: $email, password: $password, role: $role, totalEmployee: $totalEmployee, nameBrand: $nameBrand, startOperation: $startOperation, categoryBrand: $categoryBrand)';
   }
-
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
-      id: map['id']?.toInt(),
-      name: map['name'],
-      email: map['email'],
-      password: map['password'],
-      role: map['role'],
-    );
-  }
-
-  String toJson() => json.encode(toMap());
-
-  factory User.fromJson(String source) => User.fromMap(json.decode(source));
 }

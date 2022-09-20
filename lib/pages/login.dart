@@ -1,7 +1,8 @@
-import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
+import 'package:bukafranchise/bloc/cubit/login_cubit.dart';
 import 'package:bukafranchise/pages/register.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:validators/validators.dart';
 import 'package:bukafranchise/utils/assets.dart';
 
@@ -20,8 +21,8 @@ class _LoginPageState extends State<LoginPage> {
   String? _email, _password;
   bool _isObscure = true;
 
-  final emailC = TextEditingController();
-  final passwordC = TextEditingController();
+  final emailC = TextEditingController(text: 'user2@gmail.com');
+  final passwordC = TextEditingController(text: 'test1234');
 
   @override
   void dispose() {
@@ -40,12 +41,12 @@ class _LoginPageState extends State<LoginPage> {
 
     form.save();
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const BottomNavbarPage()),
-    );
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(builder: (context) => const BottomNavbarPage()),
+    // );
 
-    // context.read<SigninCubit>().signin(email: _email!, password: _password!);
+    context.read<LoginCubit>().login(email: _email!, password: _password!);
   }
 
   @override

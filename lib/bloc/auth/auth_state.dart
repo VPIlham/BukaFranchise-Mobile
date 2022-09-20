@@ -1,14 +1,22 @@
 part of 'auth_bloc.dart';
 
-class AuthState {
-  final String? email;
-  final String? password;
-  final AuthStatus? formStatus;
+class AuthenticationState extends Equatable {
+  const AuthenticationState._({
+    this.status = AuthenticationStatus.unknown,
+    this.user = '-',
+  });
 
-  AuthState({this.email, this.password, this.formStatus});
+  const AuthenticationState.unknown() : this._();
 
-  AuthState copyWith(
-      {String? email, String? password, AuthStatus? formStatus}) {
-    return AuthState(email: email, password: password, formStatus: formStatus);
-  }
+  const AuthenticationState.authenticated(User user)
+      : this._(status: AuthenticationStatus.authenticated, user: user);
+
+  const AuthenticationState.unauthenticated()
+      : this._(status: AuthenticationStatus.unauthenticated);
+
+  final AuthenticationStatus status;
+  final dynamic user;
+
+  @override
+  List<Object> get props => [status, user];
 }

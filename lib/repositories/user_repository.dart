@@ -1,59 +1,38 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bukafranchise/models/user.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 
-class UserServices {
-  Dio dio = Dio();
+class UserRepository {
+  var dio = Dio();
 
-  Future<User> authLogin({String? email, String? password}) async {
+  Future<User?> getUser({int? id}) async {
     try {
-      final data = await dio
-          .post("$baseUrl/login",
-              data: {"email": email, "password": password},
+      final result = await dio
+          .get("$baseUrl/users/$id?populate=Brand.Item,Upload",
               options: Options(
                   followRedirects: false,
                   validateStatus: (status) => true,
                   headers: {"Content-Type": "application/json"}))
           .then((response) {
-        print("DATA API : ${response.data}");
-        final User data = User.fromJson(response.data);
+        print("DATA API GET ==== ${response.data}");
+        var data = response.data['data'];
         if (response.statusCode == 200) {
-          return data;
+          print('SUKSES 200 OK');
+          return User(
+            id: data['id'],
+            name: data['name'],
+            email: data['email'],
+            role: data['role'],
+          );
         } else {
           return data;
         }
       });
-
-      return data;
-    } on SocketException {
-      throw Exception("Connection Problem");
-    }
-  }
-
-  Future<User> authLogout({String? token}) async {
-    try {
-      final data = await dio
-          .post("$baseUrl/logout",
-              options: Options(
-                  followRedirects: false,
-                  validateStatus: (status) => true,
-                  headers: {
-                    "Authorization": "Bearer $token",
-                    "Content-Type": "application/json"
-                  }))
-          .then((response) {
-        print("DATA API : ${response.data}");
-        final User data = User.fromJson(response.data);
-        if (response.statusCode == 200) {
-          return data;
-        } else {
-          return data;
-        }
-      });
-
-      return data;
+      print('RESULT === $result');
+      return result;
     } on SocketException {
       throw Exception("Connection Problem");
     }
