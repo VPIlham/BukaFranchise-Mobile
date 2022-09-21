@@ -199,7 +199,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                           height: 20,
                         ),
                         TextFormField(
-                          keyboardType: TextInputType.name,
+                          keyboardType: TextInputType.number,
                           style: regularTextStyle,
                           controller: telpC,
                           decoration: InputDecoration(

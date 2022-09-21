@@ -9,6 +9,7 @@ class Assets {
   static const String logoShape = "${_imagePath}shape.png";
   static const String logoUser = "${_imagePath}user.png";
   static const String logoAvatar = "${_imagePath}avatar.png";
+  static const String exampleGB = "${_imagePath}gb.png";
   static const String imgBrandPlaceholder =
       "${_imagePath}brand_placeholder.png";
   static const String paymentSuccess = "${_imagePath}payment_success.png";
@@ -37,4 +38,5 @@ class Assets {
   static const String icFail = "${_iconPath}fail.svg";
   static const String icProcess = "${_iconPath}process.svg";
   static const String icShop = "${_iconPath}shop.svg";
+  static const String icUpdate = "${_iconPath}update.svg";
 }
