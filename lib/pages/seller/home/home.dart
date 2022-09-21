@@ -17,39 +17,40 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-          child: Stack(
-        children: [
-          ListView(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    //Header
-                    const HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    const DashboardWidget(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const ProdukWidget(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const WishlistWidget(),
-                  ],
+        child: Stack(
+          children: [
+            ListView(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    // ignore: prefer_const_literals_to_create_immutables
+                    children: [
+                      //Header
+                      const HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      const DashboardWidget(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const ProdukWidget(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const WishlistWidget(),
+                    ],
+                  ),
                 ),
-              ),
-              //Header
-            ],
-          )
-        ],
-      )),
+                //Header
+              ],
+            )
+          ],
+        ),
+      ),
     );
   }
 }

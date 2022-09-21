@@ -4,8 +4,10 @@ import 'package:bukafranchise/pages/seller/profile/faq/faq.dart';
 import 'package:bukafranchise/pages/seller/profile/layanan/layanan.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -184,7 +186,9 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 16,
           ),
           InkWell(
-            onTap: () {},
+            onTap: () {
+              context.read<AuthRepository>().logOut();
+            },
             child: SizedBox(
               height: 30,
               child: Row(

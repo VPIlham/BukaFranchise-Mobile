@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:bukafranchise/pages/seller/home/home.dart';
 import 'package:bukafranchise/pages/seller/profile/profile.dart';
 import 'package:bukafranchise/pages/seller/transaction/transaction.dart';
+import 'package:bukafranchise/pages/seller/produk/tambah_produk.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -38,7 +39,10 @@ class _BottomNavbarSellerPageState extends State<BottomNavbarSellerPage> {
       floatingActionButton: FloatingActionButton(
         elevation: 3,
         focusColor: mainColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (builder) => const TambahProduk()));
+        },
         backgroundColor: mainColor,
         tooltip: 'Tambahkan Produk Anda',
         child: const Icon(Icons.add),
