@@ -1,6 +1,7 @@
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
+import 'package:bukafranchise/bloc/register/register_cubit.dart';
 import 'package:bukafranchise/pages/buyer/home/home.dart';
 import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/register.dart';
@@ -41,11 +42,15 @@ class MyApp extends StatelessWidget {
           BlocProvider<AuthenticationBloc>(
             create: (context) => AuthenticationBloc(
               authRepository: context.read<AuthRepository>(),
-              userRepository: context.read<UserRepository>(),
             ),
           ),
           BlocProvider<LoginCubit>(
             create: (context) => LoginCubit(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
+          BlocProvider<RegisterCubit>(
+            create: (context) => RegisterCubit(
               authRepository: context.read<AuthRepository>(),
             ),
           ),

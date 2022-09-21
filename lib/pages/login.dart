@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/pages/register.dart';
@@ -52,7 +53,16 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state.status == AuthenticationStatus.error) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.topSlide,
+              title: 'Gagal',
+              desc: 'Email/Password Anda salah!',
+              btnOkOnPress: () {},
+            ).show();
+          }
         },
         builder: (context, state) {
           return SafeArea(

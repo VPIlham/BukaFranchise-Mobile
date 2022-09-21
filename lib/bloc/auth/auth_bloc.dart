@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:bukafranchise/models/user.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
-import 'package:bukafranchise/repositories/user_repository.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:equatable/equatable.dart';
 
@@ -14,9 +13,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
     required AuthRepository authRepository,
-    required UserRepository userRepository,
   })  : _authenticationRepository = authRepository,
-        _userRepository = userRepository,
         super(const AuthenticationState.unknown()) {
     on<AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
@@ -26,7 +23,7 @@ class AuthenticationBloc
   }
 
   final AuthRepository _authenticationRepository;
-  final UserRepository _userRepository;
+
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
 
@@ -43,6 +40,8 @@ class AuthenticationBloc
   ) async {
     print('EVENT STATUS = ${event.status}');
     switch (event.status) {
+      case AuthenticationStatus.error:
+        return emit(const AuthenticationState.error());
       case AuthenticationStatus.submitting:
         return emit(const AuthenticationState.submitting());
       case AuthenticationStatus.unauthenticated:

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:bukafranchise/models/user.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 
@@ -8,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum AuthenticationStatus {
   unknown,
   authenticated,
+  error,
   submitting,
   unauthenticated
 }
@@ -53,7 +56,7 @@ class AuthRepository {
 
   void dispose() => _controller.close();
 
-  Future<void> logIn({String? email, String? password}) async {
+  Future<void> login({String? email, String? password}) async {
     try {
       _controller.add(AuthenticationStatus.submitting);
       return await dio
@@ -78,7 +81,67 @@ class AuthRepository {
           _controller.add(AuthenticationStatus.authenticated);
           return data;
         } else {
-          print('data tidak ada');
+          _controller.add(AuthenticationStatus.error);
+          return data;
+        }
+      });
+    } catch (err) {
+      _controller.add(AuthenticationStatus.error);
+      print('ERROR = $err');
+    }
+  }
+
+  Future<void> register({
+    required String? name,
+    required String? email,
+    required String? password,
+    required String? role,
+    int? totalEmployee,
+    String? nameBrand,
+    String? startOperation,
+    String? categoryBrand,
+  }) async {
+    try {
+      var dataBrand = '';
+
+      if (role == 'seller') {
+        dataBrand = jsonEncode({
+          "name": name,
+          "email": email,
+          "password": password,
+          "role": role,
+          "brand": {
+            "name": nameBrand,
+            "totalEmployees": totalEmployee,
+            "startOperation": startOperation,
+            "category": categoryBrand,
+          }
+        });
+      } else {
+        dataBrand = jsonEncode({
+          "name": name,
+          "email": email,
+          "password": password,
+          "role": role,
+        });
+      }
+
+      return await dio
+          .post("$baseUrl/auth/register",
+              data: dataBrand,
+              options: Options(
+                  followRedirects: false,
+                  validateStatus: (status) => true,
+                  headers: {"Content-Type": "application/json"}))
+          .then((response) {
+        final data = response.data['data'];
+        print("DATA API REGISTER : $data");
+
+        if (response.statusCode == 200) {
+          print('DATA BERHASIL DIBUAT');
+          return data;
+        } else {
+          print('data gagal dibuat');
           return data;
         }
       });
