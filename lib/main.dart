@@ -69,6 +69,14 @@ class MyApp extends StatelessWidget {
             LoginPage.routeName: (context) => const LoginPage(),
             HomePage.routeName: (context) => const HomePage(),
           },
+          theme: ThemeData(
+            primaryColor: Colors.white,
+            pageTransitionsTheme: const PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+              },
+            ),
+          ),
         ),
       ),
     );

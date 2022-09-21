@@ -2,7 +2,7 @@
     package="com.example.bukafranchise">
    <uses-permission android:name="android.permission.INTERNET"/> 
    <application
-        android:label="bukafranchise"
+        android:label="Buka Franchise"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
