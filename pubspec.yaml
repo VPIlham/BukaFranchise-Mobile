@@ -39,10 +39,10 @@ dependencies:
     sdk: flutter
   flutter_bloc: ^8.1.1
   flutter_datetime_picker: ^1.5.1
-  flutter_secure_storage: ^6.0.0
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   intl: ^0.17.0
+  shared_preferences: ^2.0.15
   skeletons: ^0.0.3
   validators: ^3.0.0
 

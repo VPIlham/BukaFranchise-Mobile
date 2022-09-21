@@ -1,10 +1,16 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 
-enum AuthenticationStatus { unknown, authenticated, unauthenticated }
+import 'package:shared_preferences/shared_preferences.dart';
+
+enum AuthenticationStatus {
+  unknown,
+  authenticated,
+  submitting,
+  unauthenticated
+}
 
 class AuthRepository {
   Dio dio = Dio();
@@ -12,21 +18,44 @@ class AuthRepository {
   final _controller = StreamController<AuthenticationStatus>();
 
   Stream<AuthenticationStatus> get status async* {
-    await Future<void>.delayed(const Duration(seconds: 1));
     yield AuthenticationStatus.unauthenticated;
     yield* _controller.stream;
   }
 
-  void logOut() {
-    print('MASUK LOGOUT');
+  void setUserId(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('userId', value.toString());
+  }
+
+  void setRole(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('role', value.toString());
+  }
+
+  void setName(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('name', value.toString());
+  }
+
+  void setEmail(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', value.toString());
+  }
+
+  void logOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     _controller.add(AuthenticationStatus.unauthenticated);
+    await prefs.remove('userId');
+    await prefs.remove('role');
+    await prefs.remove('name');
+    await prefs.remove('email');
   }
 
   void dispose() => _controller.close();
 
   Future<void> logIn({String? email, String? password}) async {
     try {
-      print('aaaaaaaaa');
+      _controller.add(AuthenticationStatus.submitting);
       return await dio
           .post("$baseUrl/auth/login",
               data: {"email": email, "password": password},
@@ -39,6 +68,13 @@ class AuthRepository {
         print("DATA API LOGIN : $data");
 
         if (response.statusCode == 200) {
+          //SAVE LOCAL STORAGE
+          setUserId(data['id']);
+          setName(data['name']);
+          setRole(data['role']);
+          setEmail(data['email']);
+
+          //PENGHUBUNG KE BLOC
           _controller.add(AuthenticationStatus.authenticated);
           return data;
         } else {
@@ -47,7 +83,7 @@ class AuthRepository {
         }
       });
     } catch (err) {
-      print('ERR = $err');
+      print('ERROR = $err');
     }
   }
 }

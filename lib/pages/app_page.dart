@@ -1,6 +1,7 @@
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/login.dart';
+import 'package:bukafranchise/pages/seller/widget/BottomNavbarSeller.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,16 +22,26 @@ class AppPage extends StatelessWidget {
                 : false;
           });
         } else if (state.status == AuthenticationStatus.authenticated) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BottomNavbarPage(),
-            ),
-          );
+          final role = state.user.role;
+
+          if (role == 'buyer') {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BottomNavbarPage(),
+              ),
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const BottomNavbarSellerPage(),
+              ),
+            );
+          }
         }
       },
       builder: (context, state) {
-        print('STATE SPLASH BUILDER = $state');
         return const Scaffold(
           body: Center(
             child: CircularProgressIndicator(),

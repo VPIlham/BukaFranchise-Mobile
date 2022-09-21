@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:bukafranchise/models/user.dart';
@@ -8,7 +7,7 @@ import 'package:dio/dio.dart';
 class UserRepository {
   var dio = Dio();
 
-  Future<User?> getUser({int? id}) async {
+  Future<User> getUser({id}) async {
     try {
       final result = await dio
           .get("$baseUrl/users/$id?populate=Brand.Item,Upload",
@@ -26,6 +25,8 @@ class UserRepository {
             name: data['name'],
             email: data['email'],
             role: data['role'],
+            phoneNumber: data['phoneNumber'],
+            image: data['imageId'],
           );
         } else {
           return data;

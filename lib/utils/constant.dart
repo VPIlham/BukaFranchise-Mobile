@@ -1,9 +1,34 @@
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 const String baseUrl = "https://franchise-be.herokuapp.com/api";
 
 final formatRupiah =
     NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0);
+
+getUserId() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final userId = prefs.getString('userId') ?? "N/A";
+  return userId;
+}
+
+getNameUser() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final name = prefs.getString('name') ?? "N/A";
+  return name;
+}
+
+getEmailUser() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final name = prefs.getString('email') ?? "N/A";
+  return name;
+}
+
+getRoleUser() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final role = prefs.getString('role') ?? "N/A";
+  return role;
+}
 
 extension StringCasingExtension on String {
   String toCapitalized() =>

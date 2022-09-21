@@ -11,6 +11,9 @@ class AuthenticationState extends Equatable {
   const AuthenticationState.authenticated(User user)
       : this._(status: AuthenticationStatus.authenticated, user: user);
 
+  const AuthenticationState.submitting()
+      : this._(status: AuthenticationStatus.submitting);
+
   const AuthenticationState.unauthenticated()
       : this._(status: AuthenticationStatus.unauthenticated);
 

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:equatable/equatable.dart';
 
 class User extends Equatable {
@@ -7,6 +5,8 @@ class User extends Equatable {
   final String? name;
   final String? email;
   final String? password;
+  final String? phoneNumber;
+  final String? image;
   final String? role;
   final int? totalEmployee;
   final String? nameBrand;
@@ -20,6 +20,8 @@ class User extends Equatable {
     this.name,
     this.email,
     this.password,
+    this.phoneNumber,
+    this.image,
     this.role,
     this.totalEmployee,
     this.nameBrand,
@@ -34,6 +36,8 @@ class User extends Equatable {
       name,
       email,
       password,
+      phoneNumber,
+      image,
       role,
       totalEmployee,
       nameBrand,
@@ -47,6 +51,8 @@ class User extends Equatable {
     String? name,
     String? email,
     String? password,
+    String? phoneNumber,
+    String? image,
     String? role,
     int? totalEmployee,
     String? nameBrand,
@@ -58,6 +64,8 @@ class User extends Equatable {
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      image: image ?? this.image,
       role: role ?? this.role,
       totalEmployee: totalEmployee ?? this.totalEmployee,
       nameBrand: nameBrand ?? this.nameBrand,
@@ -68,6 +76,22 @@ class User extends Equatable {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, password: $password, role: $role, totalEmployee: $totalEmployee, nameBrand: $nameBrand, startOperation: $startOperation, categoryBrand: $categoryBrand)';
+    return 'User(id: $id, name: $name, email: $email, password: $password, phoneNumber: $phoneNumber, image: $image, role: $role, totalEmployee: $totalEmployee, nameBrand: $nameBrand, startOperation: $startOperation, categoryBrand: $categoryBrand)';
+  }
+
+  factory User.initialUser() {
+    return User(
+      id: 0,
+      name: '',
+      email: '',
+      password: '',
+      phoneNumber: '',
+      image: '',
+      role: '',
+      totalEmployee: 0,
+      nameBrand: '',
+      startOperation: '',
+      categoryBrand: '',
+    );
   }
 }
