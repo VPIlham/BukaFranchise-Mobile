@@ -1,4 +1,3 @@
-import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
@@ -20,20 +19,16 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
     super.initState();
   }
 
-  void _getProfile() {
-    final id = context.read<AuthenticationBloc>().state.user!.id;
+  void _getProfile() async {
+    final id = await getUserId();
     context.read<ProfileCubit>().getProfile(id: id);
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {
-        // TODO: implement listener
-        print('STATE LISTENER = $state');
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        print('STATE = $state');
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [

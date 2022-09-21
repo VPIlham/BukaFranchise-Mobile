@@ -16,10 +16,9 @@ class UserRepository {
                   validateStatus: (status) => true,
                   headers: {"Content-Type": "application/json"}))
           .then((response) {
-        print("DATA API GET ==== ${response.data}");
+        print("===== GET USER ==== \n ${response.data}");
         var data = response.data['data'];
         if (response.statusCode == 200) {
-          print('SUKSES 200 OK');
           return User(
             id: data['id'],
             name: data['name'],
@@ -32,7 +31,6 @@ class UserRepository {
           return data;
         }
       });
-      print('RESULT === $result');
       return result;
     } on SocketException {
       throw Exception("Connection Problem");

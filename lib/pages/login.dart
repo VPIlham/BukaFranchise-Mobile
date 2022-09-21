@@ -1,6 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
+import 'package:bukafranchise/pages/app_page.dart';
 import 'package:bukafranchise/pages/register.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -62,6 +63,9 @@ class _LoginPageState extends State<LoginPage> {
               desc: 'Email/Password Anda salah!',
               btnOkOnPress: () {},
             ).show();
+          } else if (state.status == AuthenticationStatus.authenticated) {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => const AppPage()));
           }
         },
         builder: (context, state) {

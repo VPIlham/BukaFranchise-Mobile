@@ -66,7 +66,6 @@ class _WhistlistPageState extends State<WhistlistPage> {
                               mainAxisSpacing: 10),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          // TODO: Detail
                           Navigator.push(
                               context,
                               MaterialPageRoute(

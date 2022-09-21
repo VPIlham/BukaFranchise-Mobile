@@ -13,8 +13,6 @@ class User extends Equatable {
   final String? startOperation;
   final String? categoryBrand;
 
-  static var empty;
-
   User({
     this.id,
     this.name,

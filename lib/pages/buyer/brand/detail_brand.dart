@@ -33,7 +33,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
           ]),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -179,21 +179,23 @@ class CardBrandWidget extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: image != null
-                  ? Image.network(
-                      image,
-                      height: 130,
-                      width: 117,
-                      fit: BoxFit.cover,
-                    )
-                  : Image.asset(
-                      Assets.imgBrandPlaceholder,
-                      height: 130,
-                      width: 117,
-                      fit: BoxFit.cover,
-                    ),
+            Expanded(
+              child: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(12)),
+                child: image != null
+                    ? Image.network(
+                        image,
+                        height: 130,
+                        width: 117,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        Assets.imgBrandPlaceholder,
+                        height: 130,
+                        width: 117,
+                        fit: BoxFit.cover,
+                      ),
+              ),
             ),
             const SizedBox(
               width: 16,

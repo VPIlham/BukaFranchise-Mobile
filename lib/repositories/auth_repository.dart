@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-
-import 'package:bukafranchise/models/user.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 
@@ -47,14 +45,14 @@ class AuthRepository {
 
   void logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _controller.add(AuthenticationStatus.unauthenticated);
     await prefs.remove('userId');
     await prefs.remove('role');
     await prefs.remove('name');
     await prefs.remove('email');
+    _controller.add(AuthenticationStatus.unauthenticated);
   }
 
-  void dispose() => _controller.close();
+  // void dispose() => _controller.close();
 
   Future<void> login({String? email, String? password}) async {
     try {
@@ -68,7 +66,7 @@ class AuthRepository {
                   headers: {"Content-Type": "application/json"}))
           .then((response) {
         final data = response.data['data'];
-        print("DATA API LOGIN : $data");
+        print("=== DATA API LOGIN ===  \n$data");
 
         if (response.statusCode == 200) {
           //SAVE LOCAL STORAGE
@@ -135,13 +133,12 @@ class AuthRepository {
                   headers: {"Content-Type": "application/json"}))
           .then((response) {
         final data = response.data['data'];
-        print("DATA API REGISTER : $data");
 
         if (response.statusCode == 200) {
           print('DATA BERHASIL DIBUAT');
           return data;
         } else {
-          print('data gagal dibuat');
+          print('DATA GAGAL DIBUAT');
           return data;
         }
       });

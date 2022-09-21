@@ -8,25 +8,25 @@ final formatRupiah =
 
 getUserId() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final userId = prefs.getString('userId') ?? "N/A";
+  final userId = prefs.getString('userId');
   return userId;
 }
 
 getNameUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final name = prefs.getString('name') ?? "N/A";
+  final name = prefs.getString('name');
   return name;
 }
 
 getEmailUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final name = prefs.getString('email') ?? "N/A";
+  final name = prefs.getString('email');
   return name;
 }
 
 getRoleUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final role = prefs.getString('role') ?? "N/A";
+  final role = prefs.getString('role');
   return role;
 }
 

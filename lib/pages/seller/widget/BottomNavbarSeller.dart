@@ -33,45 +33,48 @@ class _BottomNavbarSellerPageState extends State<BottomNavbarSellerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: _widgetOptions.elementAt(selectedNavbar),
-      floatingActionButton: FloatingActionButton(
-        elevation: 3,
-        focusColor: mainColor,
-        onPressed: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (builder) => const TambahProduk()));
-        },
-        backgroundColor: mainColor,
-        tooltip: 'Tambahkan Produk Anda',
-        child: const Icon(Icons.add),
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: _widgetOptions.elementAt(selectedNavbar),
+        floatingActionButton: FloatingActionButton(
+          elevation: 3,
+          focusColor: mainColor,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (builder) => const TambahProduk()));
+          },
+          backgroundColor: mainColor,
+          tooltip: 'Tambahkan Produk Anda',
+          child: const Icon(Icons.add),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+            items: <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(Assets.icHome),
+                activeIcon: SvgPicture.asset(Assets.icHomeActive),
+                label: 'Beranda',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(Assets.icOrder),
+                activeIcon: SvgPicture.asset(Assets.icOrderActive),
+                label: 'Pesanan',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(Assets.icProfile),
+                activeIcon: SvgPicture.asset(Assets.icProfileActive),
+                label: 'Akun',
+              ),
+            ],
+            currentIndex: selectedNavbar,
+            selectedItemColor: mainColor,
+            unselectedItemColor: Colors.grey,
+            type: BottomNavigationBarType.fixed,
+            elevation: 2,
+            showUnselectedLabels: true,
+            onTap: _changeSelectedNavBar),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.icHome),
-              activeIcon: SvgPicture.asset(Assets.icHomeActive),
-              label: 'Beranda',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.icOrder),
-              activeIcon: SvgPicture.asset(Assets.icOrderActive),
-              label: 'Pesanan',
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(Assets.icProfile),
-              activeIcon: SvgPicture.asset(Assets.icProfileActive),
-              label: 'Akun',
-            ),
-          ],
-          currentIndex: selectedNavbar,
-          selectedItemColor: mainColor,
-          unselectedItemColor: Colors.grey,
-          type: BottomNavigationBarType.fixed,
-          elevation: 2,
-          showUnselectedLabels: true,
-          onTap: _changeSelectedNavBar),
     );
   }
 }

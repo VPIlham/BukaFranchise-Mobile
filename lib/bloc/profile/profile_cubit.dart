@@ -10,7 +10,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   ProfileCubit({required this.userRepository}) : super(ProfileState.initial());
 
-  Future<void> getProfile({required int id}) async {
+  Future<void> getProfile({required var id}) async {
     emit(state.copyWith(profileStatus: ProfileStatus.loading));
 
     try {

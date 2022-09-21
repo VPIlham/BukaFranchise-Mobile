@@ -75,11 +75,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     form.save();
 
-    print('----------------------');
-    print(
-        "NAMA = $_name \nEMAIL = $_email \nPASSWORD = $_password\nROLE = $_role \nBRAND = $_namaBrand \nTOTAL KAR = $_totalEmployee \nTGL BERDIRI = $_startOperation ");
-    print('----------------------');
-
     context.read<RegisterCubit>().register(
           email: _email!,
           password: _password!,
@@ -99,7 +94,6 @@ class _RegisterPageState extends State<RegisterPage> {
       backgroundColor: Colors.white,
       body: BlocConsumer<RegisterCubit, RegisterState>(
         listener: (context, state) {
-          print('STATUS STATE Listener = $state');
           if (state.registerStatus == RegisterStatus.success) {
             AwesomeDialog(
               context: context,
@@ -126,7 +120,6 @@ class _RegisterPageState extends State<RegisterPage> {
           }
         },
         builder: (context, state) {
-          print('STATUS STATE Builder = $state');
           return SafeArea(
             child: Stack(
               children: [
@@ -485,7 +478,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                                   Date.formatTglIndo(
                                                       _startOperation
                                                           .toString());
-                                              ;
+
                                               _validasiStartOperation = false;
                                             });
                                           },

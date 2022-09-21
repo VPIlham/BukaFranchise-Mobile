@@ -27,18 +27,17 @@ class AuthenticationBloc
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
 
-  @override
-  Future<void> close() {
-    _authenticationStatusSubscription.cancel();
-    _authenticationRepository.dispose();
-    return super.close();
-  }
+  // @override
+  // Future<void> close() {
+  //   _authenticationStatusSubscription.cancel();
+  //   _authenticationRepository.dispose();
+  //   return super.close();
+  // }
 
   Future<void> _onAuthenticationStatusChanged(
     AuthenticationStatusChanged event,
     Emitter<AuthenticationState> emit,
   ) async {
-    print('EVENT STATUS = ${event.status}');
     switch (event.status) {
       case AuthenticationStatus.error:
         return emit(const AuthenticationState.error());
@@ -48,7 +47,6 @@ class AuthenticationBloc
         return emit(const AuthenticationState.unauthenticated());
       case AuthenticationStatus.authenticated:
         final user = await _tryGetUser();
-        print('TIPE DATA USER = $user ');
         return emit(
           user != null
               ? AuthenticationState.authenticated(user)
@@ -73,7 +71,7 @@ class AuthenticationBloc
       final role = await getRoleUser();
       final email = await getEmailUser();
       print(
-          'USER ID = $userId \n Name = $name \n Role = $role \n Email = $email');
+          'GET USER ID = $userId \n Name = $name \n Role = $role \n Email = $email');
       return User(id: int.parse(userId), name: name, role: role, email: email);
     } catch (err) {
       print('ERROR = $err');
