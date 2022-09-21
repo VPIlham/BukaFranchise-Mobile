@@ -42,6 +42,7 @@ dependencies:
   flutter_svg: ^1.1.5
   google_fonts: ^3.0.1
   intl: ^0.17.0
+  shared_preferences: ^2.0.15
   skeletons: ^0.0.3
   validators: ^3.0.0
 
