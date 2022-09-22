@@ -25,9 +25,15 @@ class _AppPageState extends State<AppPage> {
 
   void _redirect() async {
     final userId = await getUserId();
+    final role = await getRoleUser();
     if (userId != null) {
-      Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
+      if (role == 'buyer') {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
+      } else {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => const BottomNavbarSellerPage()));
+      }
     } else {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const LoginPage()));

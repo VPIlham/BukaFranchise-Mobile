@@ -1,3 +1,4 @@
+import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/seller/profile/akun/akun.dart';
 import 'package:bukafranchise/pages/seller/profile/brand/pengaturan_brand.dart';
 import 'package:bukafranchise/pages/seller/profile/faq/faq.dart';
@@ -188,6 +189,9 @@ class _ProfilePageState extends State<ProfilePage> {
           InkWell(
             onTap: () {
               context.read<AuthRepository>().logOut();
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  (Route<dynamic> route) => false);
             },
             child: SizedBox(
               height: 30,
