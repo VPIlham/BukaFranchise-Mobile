@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   String? _email, _password;
   bool _isObscure = true;
 
-  final emailC = TextEditingController(text: 'user2@gmail.com');
+  final emailC = TextEditingController(text: 'userbuyer@gmail.com');
   final passwordC = TextEditingController(text: 'test1234');
 
   @override

@@ -65,7 +65,7 @@ class _RegisterPageState extends State<RegisterPage> {
     final form = _formKey.currentState;
 
     if (form == null || !form.validate()) {
-      if (_startOperation == null) {
+      if (_startOperation == null && _role == 'seller') {
         _validasiStartOperation = true;
       } else {
         _validasiStartOperation = false;
