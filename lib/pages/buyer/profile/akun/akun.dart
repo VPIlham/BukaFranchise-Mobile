@@ -16,6 +16,7 @@ class PengaturanAkun extends StatefulWidget {
 class _PengaturanAkunState extends State<PengaturanAkun> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+
   String? _name, _telp, _password;
   bool _isObscure = true;
 
@@ -71,6 +72,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
           // TODO: implement listener
         },
         buildWhen: (context, state) {
+          print('STATE AKUN = ${state.profileStatus}');
           if (state.profileStatus == ProfileStatus.loaded) {
             _name = state.user.name!;
             _password = state.user.password ?? '-';
@@ -89,7 +91,8 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          } else if (state.profileStatus == ProfileStatus.loaded) {
+          } else if (state.profileStatus == ProfileStatus.loaded &&
+              _name != null) {
             return SafeArea(
               child: Stack(
                 children: [

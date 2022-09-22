@@ -4,6 +4,7 @@ import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bukafranchise/utils/constant.dart';
+import 'package:skeletons/skeletons.dart';
 
 class HeaderUserWidget extends StatefulWidget {
   const HeaderUserWidget({super.key});
@@ -29,6 +30,9 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {},
       builder: (context, state) {
+        if (state.profileStatus == ProfileStatus.loading) {
+          return const loadingNameUser();
+        }
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -56,6 +60,45 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
           ],
         );
       },
+    );
+  }
+}
+
+class loadingNameUser extends StatelessWidget {
+  const loadingNameUser({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 37,
+              width: 120,
+              child: SkeletonParagraph(
+                style: SkeletonParagraphStyle(
+                    lines: 2,
+                    spacing: 6,
+                    lineStyle: SkeletonLineStyle(
+                      height: 6,
+                      borderRadius: BorderRadius.circular(8),
+                      maxLength: MediaQuery.of(context).size.width / 3,
+                    )),
+              ),
+            ),
+          ],
+        ),
+        const SkeletonAvatar(
+          style: SkeletonAvatarStyle(
+              shape: BoxShape.circle, width: 50, height: 50),
+        ),
+      ],
     );
   }
 }

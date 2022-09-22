@@ -100,10 +100,10 @@ class AuthRepository {
     String? categoryBrand,
   }) async {
     try {
-      var dataBrand = '';
+      var myData = '';
 
       if (role == 'seller') {
-        dataBrand = jsonEncode({
+        myData = jsonEncode({
           "name": name,
           "email": email,
           "password": password,
@@ -116,7 +116,7 @@ class AuthRepository {
           }
         });
       } else {
-        dataBrand = jsonEncode({
+        myData = jsonEncode({
           "name": name,
           "email": email,
           "password": password,
@@ -126,7 +126,7 @@ class AuthRepository {
 
       return await dio
           .post("$baseUrl/auth/register",
-              data: dataBrand,
+              data: myData,
               options: Options(
                   followRedirects: false,
                   validateStatus: (status) => true,

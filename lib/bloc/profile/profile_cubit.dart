@@ -12,10 +12,12 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   Future<void> getProfile({required var id}) async {
     emit(state.copyWith(profileStatus: ProfileStatus.loading));
-
     try {
-      final User user = await userRepository.getUser(id: id);
-      emit(state.copyWith(profileStatus: ProfileStatus.loaded, user: user));
+      await userRepository.getUser(id: id).then((value) {
+        emit(state.copyWith(profileStatus: ProfileStatus.loaded, user: value));
+      }).catchError((_) {
+        emit(state.copyWith(profileStatus: ProfileStatus.error));
+      });
     } catch (e) {
       emit(state.copyWith(
         profileStatus: ProfileStatus.error,

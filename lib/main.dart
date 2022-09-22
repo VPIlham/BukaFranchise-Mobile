@@ -1,4 +1,5 @@
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
+import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/bloc/register/register_cubit.dart';
@@ -7,6 +8,7 @@ import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/register.dart';
 import 'package:bukafranchise/pages/app_page.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
+import 'package:bukafranchise/repositories/brand_repository.dart';
 import 'package:bukafranchise/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,6 +38,9 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<UserRepository>(
           create: (context) => UserRepository(),
         ),
+        RepositoryProvider<BrandRepository>(
+          create: (context) => BrandRepository(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -57,6 +62,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<ProfileCubit>(
             create: (context) => ProfileCubit(
               userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<BrandCubit>(
+            create: (context) => BrandCubit(
+              brandRepository: context.read<BrandRepository>(),
             ),
           ),
         ],
