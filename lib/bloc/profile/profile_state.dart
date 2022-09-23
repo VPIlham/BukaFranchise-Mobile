@@ -1,6 +1,6 @@
 part of 'profile_cubit.dart';
 
-enum ProfileStatus { initial, loading, loaded, error }
+enum ProfileStatus { initial, loading, submitting, loaded, formSuccess, error }
 
 class ProfileState extends Equatable {
   final ProfileStatus profileStatus;

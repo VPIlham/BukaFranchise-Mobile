@@ -22,7 +22,7 @@ class BrandRepository {
   getBrandById({required id}) async {
     try {
       return await dio.get(
-          "$baseUrl/brands?sort=createdAt&direction=desc&populate=Upload",
+          "$baseUrl/brands/$id?sort=createdAt&direction=desc&populate=Upload",
           options: myOption);
     } catch (e) {
       print('ERROR = $e');

@@ -1,3 +1,4 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/constant.dart';
@@ -19,6 +20,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
 
   String? _name, _telp, _password;
   bool _isObscure = true;
+  var image = null;
 
   var nameC = TextEditingController();
   var telpC = TextEditingController();
@@ -43,7 +45,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
     context.read<ProfileCubit>().getProfile(id: id);
   }
 
-  void _submit() {
+  void _submit() async {
     setState(() {
       _autovalidateMode = AutovalidateMode.always;
     });
@@ -51,9 +53,16 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
     final form = _formKey.currentState;
     if (form == null || !form.validate()) return;
 
+    final id = await getUserId();
+
     form.save();
 
-    // context.read<SigninCubit>().signin(email: _email!, password: _password!);
+    context.read<ProfileCubit>().updateProfile(
+          id: id,
+          name: _name,
+          phoneNumber: _telp,
+          image: image,
+        );
   }
 
   @override
@@ -70,13 +79,37 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
           // TODO: implement listener
+          if (state.profileStatus == ProfileStatus.formSuccess) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.topSlide,
+              title: 'Sukses',
+              desc: 'Edit Profile berhasil dirubah!',
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
+          }
+          if (state.profileStatus == ProfileStatus.error) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.topSlide,
+              title: 'Gagal',
+              desc: 'Edit Profile Gagal!',
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
+          }
         },
         buildWhen: (context, state) {
           print('STATE AKUN = ${state.profileStatus}');
           if (state.profileStatus == ProfileStatus.loaded) {
             _name = state.user.name!;
-            _password = state.user.password ?? '-';
-            _telp = state.user.phoneNumber ?? '-';
+            _password = state.user.password ?? '';
+            _telp = state.user.phoneNumber ?? '';
 
             nameC = TextEditingController(text: _name);
             telpC = TextEditingController(text: _telp.toString());
@@ -156,53 +189,53 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              TextFormField(
-                                obscureText: _isObscure,
-                                controller: passwordC,
-                                keyboardType: TextInputType.visiblePassword,
-                                style: regularTextStyle,
-                                decoration: InputDecoration(
-                                  disabledBorder: InputBorder.none,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  hintText: 'Ubah password',
-                                  filled: true,
-                                  fillColor: inputColorGray,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _isObscure
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _isObscure = !_isObscure;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'Password wajib diisi!';
-                                  }
+                              // TextFormField(
+                              //   obscureText: _isObscure,
+                              //   controller: passwordC,
+                              //   keyboardType: TextInputType.visiblePassword,
+                              //   style: regularTextStyle,
+                              //   decoration: InputDecoration(
+                              //     disabledBorder: InputBorder.none,
+                              //     border: OutlineInputBorder(
+                              //       borderRadius: BorderRadius.circular(10.0),
+                              //       borderSide: const BorderSide(
+                              //         width: 0,
+                              //         style: BorderStyle.none,
+                              //       ),
+                              //     ),
+                              //     hintText: 'Ubah password',
+                              //     filled: true,
+                              //     fillColor: inputColorGray,
+                              //     suffixIcon: IconButton(
+                              //       icon: Icon(
+                              //         _isObscure
+                              //             ? Icons.visibility
+                              //             : Icons.visibility_off,
+                              //       ),
+                              //       onPressed: () {
+                              //         setState(() {
+                              //           _isObscure = !_isObscure;
+                              //         });
+                              //       },
+                              //     ),
+                              //   ),
+                              //   validator: (String? value) {
+                              //     if (value == null || value.trim().isEmpty) {
+                              //       return 'Password wajib diisi!';
+                              //     }
 
-                                  if (value.trim().length < 6) {
-                                    return 'Password harus lebih dari 6 karakter!';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (String? value) {
-                                  _password = value;
-                                },
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              //     if (value.trim().length < 6) {
+                              //       return 'Password harus lebih dari 6 karakter!';
+                              //     }
+                              //     return null;
+                              //   },
+                              //   onSaved: (String? value) {
+                              //     _password = value;
+                              //   },
+                              // ),
+                              // const SizedBox(
+                              //   height: 20,
+                              // ),
                               TextFormField(
                                 keyboardType: TextInputType.name,
                                 style: regularTextStyle,
@@ -236,17 +269,26 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                 height: 33,
                               ),
                               InkWell(
-                                onTap: _submit,
+                                onTap: state.profileStatus ==
+                                        ProfileStatus.submitting
+                                    ? null
+                                    : _submit,
                                 child: Container(
                                   width: double.infinity,
                                   height: 60,
                                   decoration: BoxDecoration(
-                                    color: mainColor,
+                                    color: state.profileStatus ==
+                                            ProfileStatus.submitting
+                                        ? Colors.grey
+                                        : mainColor,
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: Center(
                                       child: Text(
-                                    'Ubah Profile',
+                                    state.profileStatus ==
+                                            ProfileStatus.submitting
+                                        ? 'Loading...'
+                                        : 'Ubah Profile',
                                     style: labelTextStyle.copyWith(
                                         color: Colors.white, letterSpacing: 1),
                                   )),

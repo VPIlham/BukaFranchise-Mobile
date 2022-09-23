@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:bukafranchise/models/user.dart';
@@ -36,6 +37,35 @@ class UserRepository {
       return result;
     } on SocketException {
       throw Exception("Connection Problem");
+    }
+  }
+
+  updateProfile({required id, name, phoneNumber, image}) async {
+    try {
+      var myData;
+      if (image == null) {
+        myData = FormData.fromMap({
+          "data": jsonEncode({
+            "name": name,
+            "phoneNumber": phoneNumber,
+          })
+        });
+      } else {
+        String fileName = image.path.split('/').last;
+        myData = FormData.fromMap({
+          "image": await MultipartFile.fromFile(image.path, filename: fileName),
+          "data": jsonEncode({
+            "name": name,
+            "phoneNumber": phoneNumber,
+          })
+        });
+      }
+      return await dio.put("$baseUrl/users/$id",
+          data: myData,
+          options: myOption
+              .copyWith(headers: {'Content-Type': 'multipart/form-data'}));
+    } catch (e) {
+      print('ERROR = $e');
     }
   }
 }

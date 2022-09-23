@@ -24,4 +24,32 @@ class ProfileCubit extends Cubit<ProfileState> {
       ));
     }
   }
+
+  Future<void> updateProfile({id, name, phoneNumber, image}) async {
+    emit(state.copyWith(profileStatus: ProfileStatus.submitting));
+    try {
+      final result = await userRepository.updateProfile(
+        id: id,
+        name: name,
+        phoneNumber: phoneNumber,
+        image: image,
+      );
+
+      if (result.statusCode == 200) {
+        emit(state.copyWith(
+          profileStatus: ProfileStatus.formSuccess,
+        ));
+      } else {
+        emit(state.copyWith(
+          profileStatus: ProfileStatus.error,
+        ));
+      }
+      print('RESULT $result');
+    } catch (e) {
+      print('ERROR DI CATCH');
+      emit(state.copyWith(
+        profileStatus: ProfileStatus.error,
+      ));
+    }
+  }
 }
