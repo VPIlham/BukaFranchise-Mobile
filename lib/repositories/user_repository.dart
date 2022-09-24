@@ -43,6 +43,7 @@ class UserRepository {
   updateProfile({required id, name, phoneNumber, image}) async {
     try {
       var myData;
+      print('IMAGE REPO = $image');
       if (image == null) {
         myData = FormData.fromMap({
           "data": jsonEncode({
@@ -52,6 +53,7 @@ class UserRepository {
         });
       } else {
         String fileName = image.path.split('/').last;
+        print('NAMA FILE = $fileName');
         myData = FormData.fromMap({
           "image": await MultipartFile.fromFile(image.path, filename: fileName),
           "data": jsonEncode({

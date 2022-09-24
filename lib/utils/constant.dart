@@ -1,7 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String baseUrl = "https://franchise-be.herokuapp.com/api";
+// const String baseUrl = "https://franchise-be.herokuapp.com/api";
+const String baseUrl = "https://bukafranchise-api.onrender.com/api";
 
 final formatRupiah =
     NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0);

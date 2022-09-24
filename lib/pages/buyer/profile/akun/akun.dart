@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:async';
+
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -6,6 +9,7 @@ import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 class PengaturanAkun extends StatefulWidget {
   const PengaturanAkun({super.key});
@@ -20,17 +24,46 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
 
   String? _name, _telp, _password;
   bool _isObscure = true;
-  var image = null;
+
+  late File image;
 
   var nameC = TextEditingController();
   var telpC = TextEditingController();
   var passwordC = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  void clickImg() async {
+    final XFile? imgPicker = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+
+    if (imgPicker != null) {
+      setState(() {
+        image = File(imgPicker.path);
+        print('MY IMAGE $image');
+      });
+    }
+  }
+
+  Future<void> getLostData() async {
+    final LostDataResponse response = await _picker.retrieveLostData();
+    if (response.isEmpty) {
+      return;
+    }
+    if (response.files != null) {
+      //
+    } else {}
+  }
 
   @override
   void dispose() {
     nameC.dispose();
     telpC.dispose();
     passwordC.dispose();
+    getLostData();
     super.dispose();
   }
 
@@ -138,10 +171,17 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Image.asset(
-                              Assets.logoUser,
-                              width: 135,
-                              height: 121,
+                            InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              onTap: clickImg,
+                              child: Image.asset(
+                                Assets.logoUser,
+                                width: 135,
+                                height: 121,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ],
                         ),

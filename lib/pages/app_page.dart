@@ -2,6 +2,7 @@
 
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/pages/buyer/profile/akun/akun.dart';
+import 'package:bukafranchise/pages/buyer/profile/profile.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/seller/widget/BottomNavbarSeller.dart';
