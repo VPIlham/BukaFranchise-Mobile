@@ -6,6 +6,7 @@ import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +27,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
   bool _isObscure = true;
 
   late File image;
+  bool isSelected = false;
 
   var nameC = TextEditingController();
   var telpC = TextEditingController();
@@ -43,8 +45,9 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
     if (imgPicker != null) {
       setState(() {
         image = File(imgPicker.path);
-        print('MY IMAGE $image');
+        isSelected = true;
       });
+      print('MY IMAGE $image');
     }
   }
 
@@ -153,6 +156,8 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
         },
         builder: (context, state) {
           print('STATE PROFILE = $state');
+          final imgServer = "$URL_WEB${state.user.image}";
+          print(imgServer);
           if (state.profileStatus == ProfileStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -176,12 +181,62 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               onTap: clickImg,
-                              child: Image.asset(
-                                Assets.logoUser,
-                                width: 135,
-                                height: 121,
-                                fit: BoxFit.cover,
-                              ),
+                              child: state.user.image != null
+                                  ? isSelected
+                                      ? CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: Image.file(
+                                              image,
+                                              width: 135,
+                                              height: 121,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: CachedNetworkImage(
+                                              placeholder: (context, url) =>
+                                                  const CircularProgressIndicator(),
+                                              imageUrl: imgServer,
+                                              errorWidget:
+                                                  (context, url, error) =>
+                                                      Icon(Icons.error),
+                                            ),
+                                          ),
+                                        )
+                                  : isSelected
+                                      ? CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: Image.file(
+                                              image,
+                                              width: 135,
+                                              height: 121,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: Image.asset(
+                                              Assets.logoUser,
+                                              width: 135,
+                                              height: 121,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
                             ),
                           ],
                         ),

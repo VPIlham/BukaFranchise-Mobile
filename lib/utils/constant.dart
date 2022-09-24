@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 // const String baseUrl = "https://franchise-be.herokuapp.com/api";
 const String baseUrl = "https://bukafranchise-api.onrender.com/api";
+const String URL_WEB = "https://bukafranchise-api.onrender.com/";
 
 final formatRupiah =
     NumberFormat.simpleCurrency(locale: 'id_ID', decimalDigits: 0);

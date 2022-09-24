@@ -16,25 +16,21 @@ class ProfileCubit extends Cubit<ProfileState> {
     try {
       await userRepository.getUser(id: id).then((value) {
         emit(state.copyWith(profileStatus: ProfileStatus.loaded, user: value));
-      }).catchError((_) {
-        emit(state.copyWith(profileStatus: ProfileStatus.error));
       });
     } catch (e) {
+      print('ERROR = $e');
       emit(state.copyWith(
         profileStatus: ProfileStatus.error,
       ));
     }
   }
 
-  Future<void> updateProfile({required id, name, phoneNumber, image}) async {
+  Future<void> updateProfile(
+      {required id, name, phoneNumber, image, imageId}) async {
     emit(state.copyWith(profileStatus: ProfileStatus.submitting));
     try {
       final result = await userRepository.updateProfile(
-        id: id,
-        name: name,
-        phoneNumber: phoneNumber,
-        image: image,
-      );
+          id: id, name: name, phoneNumber: phoneNumber, image: image);
 
       if (result.statusCode == 200) {
         final authRepository = AuthRepository();

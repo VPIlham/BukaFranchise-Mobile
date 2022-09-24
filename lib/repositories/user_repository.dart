@@ -30,7 +30,7 @@ class UserRepository {
             email: data['email'],
             role: data['role'],
             phoneNumber: data['phoneNumber'],
-            image: data['imageId'],
+            image: data['Upload']['path'],
           );
         } else {
           return data;
@@ -67,12 +67,13 @@ class UserRepository {
             "phoneNumber": phoneNumber,
           })
         });
-        print('MY IMAGE = ${MediaType('image', p.extension(image.path))}');
       }
       return await dio.put("$baseUrl/users/$id",
           data: myData,
-          options: myOption
-              .copyWith(headers: {'Content-Type': 'multipart/form-data'}));
+          options: myOption.copyWith(headers: {
+            'Content-Type': 'multipart/form-data',
+            'Connection': 'keep-alive',
+          }));
     } catch (e) {
       print('ERROR = $e');
     }
