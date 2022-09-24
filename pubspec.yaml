@@ -45,6 +45,7 @@ dependencies:
   google_fonts: ^3.0.1
   image_picker: ^0.8.5+3
   intl: ^0.17.0
+  path: ^1.8.2
   shared_preferences: ^2.0.15
   skeletons: ^0.0.3
   validators: ^3.0.0

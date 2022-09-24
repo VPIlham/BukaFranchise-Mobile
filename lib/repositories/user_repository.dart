@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:bukafranchise/models/user.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
+import 'package:path/path.dart' as p;
 
 class UserRepository {
   var dio = Dio();
@@ -42,7 +44,8 @@ class UserRepository {
 
   updateProfile({required id, name, phoneNumber, image}) async {
     try {
-      var myData;
+      FormData myData;
+
       print('IMAGE REPO = $image');
       if (image == null) {
         myData = FormData.fromMap({
@@ -54,13 +57,17 @@ class UserRepository {
       } else {
         String fileName = image.path.split('/').last;
         print('NAMA FILE = $fileName');
+
         myData = FormData.fromMap({
-          "image": await MultipartFile.fromFile(image.path, filename: fileName),
+          "image": await MultipartFile.fromFile(image.path,
+              filename: fileName,
+              contentType: MediaType('image', p.extension(image.path))),
           "data": jsonEncode({
             "name": name,
             "phoneNumber": phoneNumber,
           })
         });
+        print('MY IMAGE = ${MediaType('image', p.extension(image.path))}');
       }
       return await dio.put("$baseUrl/users/$id",
           data: myData,
