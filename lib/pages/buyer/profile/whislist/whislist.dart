@@ -69,8 +69,9 @@ class _WhistlistPageState extends State<WhistlistPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) =>
-                                      const DetailBrandPage()));
+                                  builder: (builder) => const DetailBrandPage(
+                                        id: 1,
+                                      )));
                         },
                         borderRadius:
                             const BorderRadius.all(Radius.circular(12)),

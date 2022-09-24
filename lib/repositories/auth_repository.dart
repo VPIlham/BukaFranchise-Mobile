@@ -43,11 +43,17 @@ class AuthRepository {
     prefs.setString('email', value.toString());
   }
 
+  void setToken(value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('token', value.toString());
+  }
+
   void logOut() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('userId');
     await prefs.remove('role');
     await prefs.remove('name');
+    await prefs.remove('token');
     await prefs.remove('email');
     _controller.add(AuthenticationStatus.unauthenticated);
   }
@@ -74,6 +80,7 @@ class AuthRepository {
           setName(data['name']);
           setRole(data['role']);
           setEmail(data['email']);
+          setToken(response.data['jwt']);
 
           //PENGHUBUNG KE BLOC
           _controller.add(AuthenticationStatus.authenticated);

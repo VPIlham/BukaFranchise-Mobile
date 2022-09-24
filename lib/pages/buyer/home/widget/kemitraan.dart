@@ -63,7 +63,10 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const DetailBrandPage()),
+                          builder: (context) => const DetailBrandPage(
+                            id: 1,
+                          ),
+                        ),
                       );
                     },
                     child: Column(

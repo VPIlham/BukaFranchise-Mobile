@@ -2,21 +2,36 @@
 
 import 'dart:math';
 
+import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
+import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DetailBrandPage extends StatefulWidget {
-  const DetailBrandPage({super.key});
+  final int id;
+  const DetailBrandPage({super.key, required this.id});
 
   @override
   State<DetailBrandPage> createState() => _DetailBrandPageState();
 }
 
 class _DetailBrandPageState extends State<DetailBrandPage> {
+  @override
+  void initState() {
+    getDetailBrand();
+    super.initState();
+  }
+
+  void getDetailBrand() {
+    context.read<BrandCubit>().getBrandId(id: widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,116 +46,138 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                   onPressed: () {}, icon: SvgPicture.asset(Assets.icHeart)),
             )
           ]),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CardBrandWidget(
-                brandName: "Kopi Kenangan",
-                category: "Industri Makanan dan Minuman",
-                image:
-                    "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
-                price: "Rp 20.000.000",
-                startOperation: "April 17, 2017",
-                totalEmployees: "120",
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Profil Brand",
-                style: labelTextStyle,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              ExpandableText(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Scelerisque ante neque hac bibendum quis nunc molestie interdum nunc. In amet euismod sit erat ac risus laoreet condimentum euismod. Nunc bibendum pellentesque commodo massa quisque suspendisse duis id. Gravida cras quam auctor augue tellus ac.',
-                style: regularTextStyle,
-                expandText: "Selengkapnya",
-                maxLines: 5,
-                textAlign: TextAlign.justify,
-                collapseText: "Lebih sedikit",
-                linkColor: mainColor,
-              ),
-              const SizedBox(
-                height: 24,
-              ),
-              Text(
-                "Daftar Paket",
-                style: labelTextStyle,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              ListView.builder(
-                shrinkWrap: true,
-                primary: false,
-                itemCount: 5,
-                itemBuilder: (context, index) => InkWell(
-                  onTap: () {},
-                  borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  enableFeedback: false,
-                  child: Card(
-                    elevation: 0,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
+      body: BlocConsumer<BrandCubit, BrandState>(
+        listener: (context, state) {
+          // TODO: implement listener
+        },
+        builder: (context, state) {
+          if (state.brandStatus == BrandStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state.brandStatus == BrandStatus.success) {
+            print('STATE NYA =  ${state.brand}');
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CardBrandWidget(
+                      brandName: state.brand['name'],
+                      category: state.brand['category'],
+                      image:
+                          "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
+                      price: '',
+                      startOperation:
+                          Date.formatTglIndo(state.brand['startOperation']),
+                      totalEmployees: state.brand['totalEmployees'].toString(),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 12, right: 12, top: 12, bottom: 12),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(12)),
-                            child: Image.network(
-                              "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
-                              fit: BoxFit.cover,
-                              height: 50,
-                              width: 50,
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      "Profil Brand",
+                      style: labelTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    ExpandableText(
+                      state.brand['description'] ?? 'Deskripsi tidak tersedia',
+                      style: regularTextStyle,
+                      expandText: "Selengkapnya",
+                      maxLines: 5,
+                      textAlign: TextAlign.justify,
+                      collapseText: "Lebih sedikit",
+                      linkColor: mainColor,
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    Text(
+                      "Daftar Paket",
+                      style: labelTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: 5,
+                      itemBuilder: (context, index) => InkWell(
+                        onTap: () {},
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        enableFeedback: false,
+                        child: Card(
+                          elevation: 0,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(12),
                             ),
                           ),
-                          const SizedBox(
-                            width: 16,
-                          ),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                left: 12, right: 12, top: 12, bottom: 12),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Text(
-                                  "Paket 2 (Kios + Starter Bahan Pertama)",
-                                  style: labelTextStyle.copyWith(fontSize: 14),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 2,
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
+                                  child: Image.network(
+                                    "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
+                                    fit: BoxFit.cover,
+                                    height: 50,
+                                    width: 50,
+                                  ),
                                 ),
                                 const SizedBox(
-                                  height: 8,
+                                  width: 16,
                                 ),
-                                Text(
-                                  "Rp 20.000.000",
-                                  style: regularTextStyle,
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "Paket 2 (Kios + Starter Bahan Pertama)",
+                                        style: labelTextStyle.copyWith(
+                                            fontSize: 14),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 2,
+                                      ),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      Text(
+                                        "Rp 20.000.000",
+                                        style: regularTextStyle,
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                const SizedBox(
+                                  height: 36,
+                                )
                               ],
                             ),
                           ),
-                          const SizedBox(
-                            height: 36,
-                          )
-                        ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                 ),
               ),
-            ],
-          ),
-        ),
+            );
+          }
+
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
@@ -214,19 +251,6 @@ class CardBrandWidget extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 4,
-                ),
-                SizedBox(
-                  width: MediaQuery.of(context).size.width /
-                      3, //this is the total width of your screen
-                  child: Text(
-                    "Rp 20.000.000",
-                    maxLines: 2,
-                    style: regularTextStyle.copyWith(fontSize: 16),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-                const SizedBox(
                   height: 16,
                 ),
                 Row(
@@ -244,7 +268,7 @@ class CardBrandWidget extends StatelessWidget {
                       width: MediaQuery.of(context).size.width /
                           3, //this is the total width of your screen
                       child: Text(
-                        "April 17, 2017",
+                        startOperation,
                         maxLines: 2,
                         style: regularTextStyle.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
@@ -271,7 +295,7 @@ class CardBrandWidget extends StatelessWidget {
                       width: MediaQuery.of(context).size.width /
                           3, //this is the total width of your screen
                       child: Text(
-                        "120 Karyawan",
+                        totalEmployees,
                         maxLines: 2,
                         style: regularTextStyle.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),
@@ -298,7 +322,7 @@ class CardBrandWidget extends StatelessWidget {
                       width: MediaQuery.of(context).size.width /
                           3, //this is the total width of your screen
                       child: Text(
-                        "Industri Makanan dan Minuman",
+                        category,
                         maxLines: 5,
                         style: regularTextStyle.copyWith(
                             fontWeight: FontWeight.w500, fontSize: 12),

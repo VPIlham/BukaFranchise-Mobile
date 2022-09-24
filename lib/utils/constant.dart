@@ -12,6 +12,12 @@ getUserId() async {
   return userId;
 }
 
+getToken() async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  final token = prefs.getString('token');
+  return token;
+}
+
 getNameUser() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   final name = prefs.getString('name');

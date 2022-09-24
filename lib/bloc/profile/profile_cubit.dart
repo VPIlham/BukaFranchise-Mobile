@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:bukafranchise/models/user.dart';
+import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/repositories/user_repository.dart';
 import 'package:equatable/equatable.dart';
 
@@ -36,6 +37,8 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
 
       if (result.statusCode == 200) {
+        final authRepository = AuthRepository();
+        authRepository.setName(name);
         emit(state.copyWith(
           profileStatus: ProfileStatus.formSuccess,
         ));

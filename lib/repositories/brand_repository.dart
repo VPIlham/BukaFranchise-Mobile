@@ -21,8 +21,7 @@ class BrandRepository {
 
   getBrandById({required id}) async {
     try {
-      return await dio.get(
-          "$baseUrl/brands/$id?sort=createdAt&direction=desc&populate=Upload",
+      return await dio.get("$baseUrl/brands/$id?populate=User,Item",
           options: myOption);
     } catch (e) {
       print('ERROR = $e');

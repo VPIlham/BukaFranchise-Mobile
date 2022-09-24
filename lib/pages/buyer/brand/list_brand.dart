@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
+import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
@@ -100,8 +101,9 @@ class _ListBrandPageState extends State<ListBrandPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (builder) =>
-                                          const DetailBrandPage()));
+                                      builder: (builder) => DetailBrandPage(
+                                            id: state.brands[index]['id'],
+                                          )));
                             },
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(12)),

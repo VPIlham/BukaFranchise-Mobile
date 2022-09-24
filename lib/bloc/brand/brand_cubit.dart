@@ -1,8 +1,6 @@
 import 'package:bloc/bloc.dart';
+import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/repositories/brand_repository.dart';
-import 'package:equatable/equatable.dart';
-
-part 'brand_state.dart';
 
 class BrandCubit extends Cubit<BrandState> {
   final BrandRepository brandRepository;
@@ -59,32 +57,23 @@ class BrandCubit extends Cubit<BrandState> {
   //   }
   // }
 
-  // Future<void> getBrandId({required String uid, required String docId}) async {
-  //   try {
-  //     await brandRepository
-  //         .getBrandById(uid: uid, docId: docId)
-  //         .then((value) async {
-  //       emit(
-  //         state.copyWith(
-  //           brandStatus: BrandStatus.loading,
-  //           brands: Brand(
-  //               uid: value!['doc_id'],
-  //               name: value['name'],
-  //               category: value['category'],
-  //               status: value['status'],
-  //               unit: value['unit'],
-  //               price: value['price']),
-  //         ),
-  //       );
-  //     });
-
-  //     emit(state.copyWith(brandStatus: BrandStatus.initial));
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //       brandStatus: BrandStatus.error,
-  //     ));
-  //   }
-  // }
+  Future<void> getBrandId({required int id}) async {
+    try {
+      emit(state.copyWith(brandStatus: BrandStatus.loading, brands: null));
+      await brandRepository.getBrandById(id: id).then((value) async {
+        emit(
+          state.copyWith(
+            brandStatus: BrandStatus.success,
+            brand: value.data['data'],
+          ),
+        );
+      });
+    } catch (e) {
+      emit(state.copyWith(
+        brandStatus: BrandStatus.error,
+      ));
+    }
+  }
 
   // Future<void> deleteBrand({required String uid, required String docId}) async {
   //   emit(
