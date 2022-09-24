@@ -26,7 +26,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
   String? _name, _telp, _password;
   bool _isObscure = true;
 
-  late File image;
+  File? image;
   bool isSelected = false;
 
   var nameC = TextEditingController();
@@ -181,33 +181,32 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                 borderRadius: BorderRadius.circular(50),
                               ),
                               onTap: clickImg,
-                              child: state.user.image != null
+                              child: state.user.image != ''
                                   ? isSelected
                                       ? CircleAvatar(
                                           radius: 70,
-                                          foregroundColor: Colors.transparent,
-                                          backgroundColor: Colors.transparent,
-                                          child: ClipOval(
-                                            child: Image.file(
-                                              image,
-                                              width: 135,
-                                              height: 121,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
+                                          backgroundImage: FileImage(image!),
                                         )
                                       : CircleAvatar(
                                           radius: 70,
                                           foregroundColor: Colors.transparent,
-                                          child: ClipOval(
-                                            child: CachedNetworkImage(
-                                              placeholder: (context, url) =>
-                                                  const CircularProgressIndicator(),
-                                              imageUrl: imgServer,
-                                              errorWidget:
-                                                  (context, url, error) =>
-                                                      Icon(Icons.error),
+                                          child: CachedNetworkImage(
+                                            placeholder: (context, url) =>
+                                                const CircularProgressIndicator(),
+                                            imageUrl: imgServer,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
                                             ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
                                           ),
                                         )
                                   : isSelected
@@ -217,7 +216,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                           backgroundColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Image.file(
-                                              image,
+                                              image!,
                                               width: 135,
                                               height: 121,
                                               fit: BoxFit.cover,

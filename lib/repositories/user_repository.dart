@@ -30,7 +30,7 @@ class UserRepository {
             email: data['email'],
             role: data['role'],
             phoneNumber: data['phoneNumber'],
-            image: data['Upload']['path'],
+            image: data['Upload']?['path'] ?? '',
           );
         } else {
           return data;
@@ -46,7 +46,7 @@ class UserRepository {
     try {
       FormData myData;
 
-      print('IMAGE REPO = $image');
+      print('IMAGE REPO = ${image}');
       if (image == null) {
         myData = FormData.fromMap({
           "data": jsonEncode({
@@ -59,21 +59,27 @@ class UserRepository {
         print('NAMA FILE = $fileName');
 
         myData = FormData.fromMap({
-          "image": await MultipartFile.fromFile(image.path,
-              filename: fileName,
-              contentType: MediaType('image', p.extension(image.path))),
+          "image": await MultipartFile.fromFile(
+            image.path,
+            filename: fileName,
+            contentType: MediaType(
+              'image',
+              p.extension(image.path),
+            ),
+          ),
           "data": jsonEncode({
             "name": name,
             "phoneNumber": phoneNumber,
           })
         });
       }
-      return await dio.put("$baseUrl/users/$id",
-          data: myData,
-          options: myOption.copyWith(headers: {
-            'Content-Type': 'multipart/form-data',
-            'Connection': 'keep-alive',
-          }));
+      return await dio.put(
+        "$baseUrl/users/$id",
+        data: myData,
+        options: myOption.copyWith(headers: {
+          'Content-Type': 'multipart/form-data',
+        }),
+      );
     } catch (e) {
       print('ERROR = $e');
     }
