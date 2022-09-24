@@ -25,13 +25,14 @@ class _AppPageState extends State<AppPage> {
     _redirect();
   }
 
+  //case ketika keluar app mau masuk home
   void _redirect() async {
     final userId = await getUserId();
     final role = await getRoleUser();
     if (userId != null) {
       if (role == 'buyer') {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ProfilePage()));
+            MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => const BottomNavbarSellerPage()));
@@ -46,6 +47,7 @@ class _AppPageState extends State<AppPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<AuthenticationBloc, AuthenticationState>(
       listener: (context, state) {
+        //case ketika login mau masuk home
         if (state.status == AuthenticationStatus.unauthenticated) {
           Navigator.pushReplacementNamed(context, LoginPage.routeName);
         } else if (state.status == AuthenticationStatus.authenticated) {

@@ -1,6 +1,7 @@
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bukafranchise/utils/constant.dart';
@@ -33,6 +34,7 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
         if (state.profileStatus == ProfileStatus.loading) {
           return const loadingNameUser();
         }
+        final imgServer = "$URL_WEB${state.user.image}";
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -49,12 +51,21 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
                 ),
               ],
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(50),
-              child: Image.asset(
-                Assets.logoAvatar,
-                width: 47,
-                height: 47,
+            CircleAvatar(
+              radius: 25,
+              foregroundColor: Colors.transparent,
+              child: CachedNetworkImage(
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(),
+                imageUrl: imgServer,
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover),
+                  ),
+                ),
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
           ],

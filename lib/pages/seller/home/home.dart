@@ -29,7 +29,7 @@ class _HomePageState extends State<HomePage> {
                     // ignore: prefer_const_literals_to_create_immutables
                     children: [
                       //Header
-                      const HeaderUser(name: 'Ilham Nur Hakim', img: 'img'),
+                      const HeaderUser(),
                       const SizedBox(
                         height: 25,
                       ),
