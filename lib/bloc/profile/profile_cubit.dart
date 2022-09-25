@@ -25,11 +25,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> updateProfile(
-      {required id, name, phoneNumber, image, imageId}) async {
+      {required id, name, phoneNumber, image, norek, bank}) async {
     emit(state.copyWith(profileStatus: ProfileStatus.submitting));
     try {
       final result = await userRepository.updateProfile(
-          id: id, name: name, phoneNumber: phoneNumber, image: image);
+          id: id,
+          name: name,
+          phoneNumber: phoneNumber,
+          image: image,
+          norek: norek,
+          bank: bank);
 
       if (result.statusCode == 200) {
         final authRepository = AuthRepository();

@@ -9,6 +9,7 @@ import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -50,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
         },
         builder: (context, state) {
           final imgServer = "$URL_WEB${state.user.image}";
+
           return ListView(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             shrinkWrap: true,
@@ -60,24 +62,37 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    // CircleAvatar(
-                    //   radius: 40,
-                    //   foregroundColor: Colors.transparent,
-                    //   child: CachedNetworkImage(
-                    //     placeholder: (context, url) =>
-                    //         const CircularProgressIndicator(),
-                    //     imageUrl: imgServer,
-                    //     imageBuilder: (context, imageProvider) => Container(
-                    //       decoration: BoxDecoration(
-                    //         shape: BoxShape.circle,
-                    //         image: DecorationImage(
-                    //             image: imageProvider, fit: BoxFit.cover),
-                    //       ),
-                    //     ),
-                    //     errorWidget: (context, url, error) =>
-                    //         const Icon(Icons.error),
-                    //   ),
-                    // ),
+                    CircleAvatar(
+                      radius: 40,
+                      foregroundColor: Colors.transparent,
+                      child: imgServer == URL_WEB
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(Assets.logoAvatar),
+                                    fit: BoxFit.cover),
+                              ),
+                            )
+                          : CachedNetworkImage(
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              imageUrl: imgServer,
+                              imageBuilder: (context, imageProvider) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                );
+                              },
+                              errorWidget: (context, url, error) {
+                                return const Icon(Icons.error);
+                              },
+                            ),
+                    ),
                     const SizedBox(
                       height: 10,
                     ),

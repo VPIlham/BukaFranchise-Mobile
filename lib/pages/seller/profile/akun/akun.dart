@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,7 +24,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
   String? _name, _telp, _password, _rekening, _bank;
   bool _isObscure = true;
 
-  final roleBank = ['BCA', 'BRI'];
+  final roleBank = ['BCA', 'BRI', 'MANDIRI', 'BSI', 'BNI', 'BTN'];
 
   late var nameC = TextEditingController();
   late var telpC = TextEditingController();
@@ -55,11 +57,10 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
         image = File(imgPicker.path);
         isSelected = true;
       });
-      print('MY IMAGE $image');
     }
   }
 
-  void _submit() {
+  void _submit() async {
     setState(() {
       _autovalidateMode = AutovalidateMode.always;
     });
@@ -69,7 +70,18 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
 
     form.save();
 
-    // context.read<SigninCubit>().signin(email: _email!, password: _password!);
+    final id = await getUserId();
+
+    print('norek = ${_rekening}');
+    print('bank = ${_bank}');
+
+    context.read<ProfileCubit>().updateProfile(
+        id: id,
+        name: _name,
+        phoneNumber: _telp,
+        image: image,
+        bank: _bank,
+        norek: _rekening);
   }
 
   @override
@@ -96,7 +108,31 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state.profileStatus == ProfileStatus.formSuccess) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.topSlide,
+              title: 'Sukses',
+              desc: 'Edit Profile berhasil dirubah!',
+              btnOkOnPress: () {
+                _getProfile();
+                Navigator.pop(context);
+              },
+            ).show();
+          }
+          if (state.profileStatus == ProfileStatus.error) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.topSlide,
+              title: 'Gagal',
+              desc: 'Edit Profile Gagal!',
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
+          }
         },
         buildWhen: (context, state) {
           print('STATE AKUN = ${state.profileStatus}');
@@ -105,7 +141,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
               _name = state.user.name!;
               _password = state.user.password ?? '';
               _telp = state.user.phoneNumber ?? '';
-              // _bank = state.user.bank;
+              _bank = state.user.bank ?? '';
               _rekening = state.user.norek ?? '';
             });
 
@@ -125,8 +161,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
             );
           } else if (state.profileStatus == ProfileStatus.loaded &&
               _name != null) {
-            print('NAMA = $_name');
-            print('Id = ${state.user.id}');
+            final imgServer = "$URL_WEB${state.user.image}";
 
             return SafeArea(
               child: Stack(
@@ -140,10 +175,66 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                             const SizedBox(
                               height: 10,
                             ),
-                            Image.asset(
-                              Assets.logoUser,
-                              width: 135,
-                              height: 121,
+                            InkWell(
+                              customBorder: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(50),
+                              ),
+                              onTap: clickImg,
+                              child: state.user.image != ''
+                                  ? isSelected
+                                      ? CircleAvatar(
+                                          radius: 70,
+                                          backgroundImage: FileImage(image!),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          child: CachedNetworkImage(
+                                            placeholder: (context, url) =>
+                                                const CircularProgressIndicator(),
+                                            imageUrl: imgServer,
+                                            imageBuilder:
+                                                (context, imageProvider) =>
+                                                    Container(
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                    image: imageProvider,
+                                                    fit: BoxFit.cover),
+                                              ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                          ),
+                                        )
+                                  : isSelected
+                                      ? CircleAvatar(
+                                          radius: 70,
+                                          foregroundColor: Colors.transparent,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: Image.file(
+                                              image!,
+                                              width: 135,
+                                              height: 121,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        )
+                                      : CircleAvatar(
+                                          radius: 40,
+                                          foregroundColor: Colors.transparent,
+                                          backgroundColor: Colors.transparent,
+                                          child: ClipOval(
+                                            child: Image.asset(
+                                              Assets.logoAvatar,
+                                              width: 135,
+                                              height: 121,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
+                                        ),
                             ),
                           ],
                         ),
@@ -191,51 +282,6 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                               const SizedBox(
                                 height: 20,
                               ),
-                              TextFormField(
-                                obscureText: _isObscure,
-                                controller: passwordC,
-                                keyboardType: TextInputType.visiblePassword,
-                                style: regularTextStyle,
-                                decoration: InputDecoration(
-                                  disabledBorder: InputBorder.none,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    borderSide: const BorderSide(
-                                      width: 0,
-                                      style: BorderStyle.none,
-                                    ),
-                                  ),
-                                  hintText: 'Ubah password',
-                                  filled: true,
-                                  contentPadding: const EdgeInsets.all(18),
-                                  fillColor: inputColorGray,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(
-                                      _isObscure
-                                          ? Icons.visibility
-                                          : Icons.visibility_off,
-                                    ),
-                                    onPressed: () {
-                                      setState(() {
-                                        _isObscure = !_isObscure;
-                                      });
-                                    },
-                                  ),
-                                ),
-                                validator: (String? value) {
-                                  if (value == null || value.trim().isEmpty) {
-                                    return 'Password wajib diisi!';
-                                  }
-
-                                  if (value.trim().length < 6) {
-                                    return 'Password harus lebih dari 6 karakter!';
-                                  }
-                                  return null;
-                                },
-                                onSaved: (String? value) {
-                                  _password = value;
-                                },
-                              ),
                               const SizedBox(
                                 height: 20,
                               ),
@@ -274,7 +320,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                               TextFormField(
                                 keyboardType: TextInputType.number,
                                 style: regularTextStyle,
-                                controller: telpC,
+                                controller: rekeningC,
                                 decoration: InputDecoration(
                                   disabledBorder: InputBorder.none,
                                   border: OutlineInputBorder(

@@ -1,6 +1,8 @@
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
+import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -34,7 +36,7 @@ class _HeaderUserState extends State<HeaderUser> {
         if (state.profileStatus == ProfileStatus.loading) {
           return const loadingNameUser();
         }
-        // final imgServer = "$URL_WEB${state.user.image}";
+        final imgServer = "$URL_WEB${state.user.image}";
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -51,23 +53,36 @@ class _HeaderUserState extends State<HeaderUser> {
                 ),
               ],
             ),
-            // CircleAvatar(
-            //   radius: 25,
-            //   foregroundColor: Colors.transparent,
-            //   child: CachedNetworkImage(
-            //     placeholder: (context, url) =>
-            //         const CircularProgressIndicator(),
-            //     imageUrl: imgServer,
-            //     imageBuilder: (context, imageProvider) => Container(
-            //       decoration: BoxDecoration(
-            //         shape: BoxShape.circle,
-            //         image: DecorationImage(
-            //             image: imageProvider, fit: BoxFit.cover),
-            //       ),
-            //     ),
-            //     errorWidget: (context, url, error) => const Icon(Icons.error),
-            //   ),
-            // ),
+            CircleAvatar(
+              radius: 25,
+              foregroundColor: Colors.transparent,
+              child: imgServer == URL_WEB
+                  ? Container(
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                            image: AssetImage(Assets.logoAvatar),
+                            fit: BoxFit.cover),
+                      ),
+                    )
+                  : CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      imageUrl: imgServer,
+                      imageBuilder: (context, imageProvider) {
+                        return Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: imageProvider, fit: BoxFit.cover),
+                          ),
+                        );
+                      },
+                      errorWidget: (context, url, error) {
+                        return const Icon(Icons.error);
+                      },
+                    ),
+            ),
           ],
         );
       },

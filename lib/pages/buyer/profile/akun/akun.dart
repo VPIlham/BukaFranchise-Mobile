@@ -114,7 +114,6 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
       ),
       body: BlocConsumer<ProfileCubit, ProfileState>(
         listener: (context, state) {
-          // TODO: implement listener
           if (state.profileStatus == ProfileStatus.formSuccess) {
             AwesomeDialog(
               context: context,
@@ -123,6 +122,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
               title: 'Sukses',
               desc: 'Edit Profile berhasil dirubah!',
               btnOkOnPress: () {
+                _getProfile();
                 Navigator.pop(context);
               },
             ).show();
@@ -229,7 +229,7 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                           backgroundColor: Colors.transparent,
                                           child: ClipOval(
                                             child: Image.asset(
-                                              Assets.logoUser,
+                                              Assets.logoAvatar,
                                               width: 135,
                                               height: 121,
                                               fit: BoxFit.cover,

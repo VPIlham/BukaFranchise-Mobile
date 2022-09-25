@@ -33,50 +33,58 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
       builder: (context, state) {
         if (state.profileStatus == ProfileStatus.loading) {
           return const loadingNameUser();
-        }
-        final imgServer = "$URL_WEB${state.user.image}";
-
-        return Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Selamat datang,',
-                  style: regularTextStyle,
-                ),
-                Text(
-                  state.user.name!.toTitleCase(),
-                  style: titleTextStyle.copyWith(color: mainColor),
-                ),
-              ],
-            ),
-            CircleAvatar(
-              radius: 25,
-              foregroundColor: Colors.transparent,
-              child: (state.profileStatus == ProfileStatus.loaded)
-                  ? CachedNetworkImage(
-                      placeholder: (context, url) =>
-                          const CircularProgressIndicator(),
-                      imageUrl: imgServer,
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
+        } else if (state.profileStatus == ProfileStatus.loaded) {
+          final imgServer = "$URL_WEB${state.user.image}";
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Selamat datang,',
+                    style: regularTextStyle,
+                  ),
+                  Text(
+                    state.user.name!.toTitleCase(),
+                    style: titleTextStyle.copyWith(color: mainColor),
+                  ),
+                ],
+              ),
+              CircleAvatar(
+                radius: 25,
+                foregroundColor: Colors.transparent,
+                child: imgServer == URL_WEB
+                    ? Container(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           image: DecorationImage(
-                              image: imageProvider, fit: BoxFit.cover),
+                              image: AssetImage(Assets.logoAvatar),
+                              fit: BoxFit.cover),
                         ),
+                      )
+                    : CachedNetworkImage(
+                        placeholder: (context, url) =>
+                            const CircularProgressIndicator(),
+                        imageUrl: imgServer,
+                        imageBuilder: (context, imageProvider) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          );
+                        },
+                        errorWidget: (context, url, error) {
+                          return const Icon(Icons.error);
+                        },
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    )
-                  : Image.asset(
-                      Assets.logoUser,
-                      fit: BoxFit.cover,
-                    ),
-            ),
-          ],
-        );
+              ),
+            ],
+          );
+        }
+        return const loadingNameUser();
       },
     );
   }

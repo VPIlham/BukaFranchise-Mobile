@@ -27,7 +27,8 @@ class UserRepository {
         if (response.statusCode == 200) {
           //kalau dia seller maka simpan brandId kalo buyer akan null
           SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('brandId', data['Brand']['id'].toString());
+          prefs.setString('brandId',
+              data['Brand'] == null ? '' : data['Brand']['id'].toString());
 
           return User(
               id: data['id'],
@@ -38,7 +39,7 @@ class UserRepository {
               image: data['Upload']?['path'] ?? '',
               bank: data['bank_name'] ?? '',
               norek: data['bank_account'] ?? '',
-              balance: int.parse(data['balance']) ?? 0);
+              balance: int.parse(data['balance']));
         } else {
           return data;
         }
@@ -49,21 +50,21 @@ class UserRepository {
     }
   }
 
-  updateProfile({required id, name, phoneNumber, image}) async {
+  updateProfile({required id, name, phoneNumber, image, norek, bank}) async {
     try {
       FormData myData;
 
-      print('IMAGE REPO = $image');
       if (image == null) {
         myData = FormData.fromMap({
           "data": jsonEncode({
             "name": name,
             "phoneNumber": phoneNumber,
+            "bank_account": norek,
+            "bank_name": bank,
           })
         });
       } else {
         String fileName = image.path.split('/').last;
-        print('NAMA FILE = $fileName');
 
         myData = FormData.fromMap({
           "image": await MultipartFile.fromFile(
@@ -77,6 +78,8 @@ class UserRepository {
           "data": jsonEncode({
             "name": name,
             "phoneNumber": phoneNumber,
+            "bank_account": norek,
+            "bank_name": bank,
           })
         });
       }
