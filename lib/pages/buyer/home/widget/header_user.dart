@@ -35,6 +35,7 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
           return const loadingNameUser();
         }
         final imgServer = "$URL_WEB${state.user.image}";
+
         return Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -54,19 +55,25 @@ class _HeaderUserWidgetState extends State<HeaderUserWidget> {
             CircleAvatar(
               radius: 25,
               foregroundColor: Colors.transparent,
-              child: CachedNetworkImage(
-                placeholder: (context, url) =>
-                    const CircularProgressIndicator(),
-                imageUrl: imgServer,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                        image: imageProvider, fit: BoxFit.cover),
-                  ),
-                ),
-                errorWidget: (context, url, error) => const Icon(Icons.error),
-              ),
+              child: (state.profileStatus == ProfileStatus.loaded)
+                  ? CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          const CircularProgressIndicator(),
+                      imageUrl: imgServer,
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              image: imageProvider, fit: BoxFit.cover),
+                        ),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
+                    )
+                  : Image.asset(
+                      Assets.logoUser,
+                      fit: BoxFit.cover,
+                    ),
             ),
           ],
         );

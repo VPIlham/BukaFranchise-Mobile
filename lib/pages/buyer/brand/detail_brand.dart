@@ -4,14 +4,18 @@ import 'dart:math';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
+import 'package:bukafranchise/models/brand_item.dart';
+import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:skeletons/skeletons.dart';
 
 class DetailBrandPage extends StatefulWidget {
   final int id;
@@ -22,6 +26,8 @@ class DetailBrandPage extends StatefulWidget {
 }
 
 class _DetailBrandPageState extends State<DetailBrandPage> {
+  bool isLiked = false;
+
   @override
   void initState() {
     getDetailBrand();
@@ -43,142 +49,181 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
             Padding(
               padding: const EdgeInsets.only(right: 24),
               child: IconButton(
-                  onPressed: () {}, icon: SvgPicture.asset(Assets.icHeart)),
+                onPressed: () {},
+                icon: isLiked
+                    ? SvgPicture.asset(Assets.icHeartActive)
+                    : SvgPicture.asset(Assets.icHeart),
+              ),
             )
           ]),
-      body: BlocConsumer<BrandCubit, BrandState>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
-        builder: (context, state) {
-          if (state.brandStatus == BrandStatus.loading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          } else if (state.brandStatus == BrandStatus.success) {
-            print('STATE NYA =  ${state.brand}');
-            return SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CardBrandWidget(
-                      brandName: state.brand['name'],
-                      category: state.brand['category'],
-                      image:
-                          "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
-                      price: '',
-                      startOperation:
-                          Date.formatTglIndo(state.brand['startOperation']),
-                      totalEmployees: state.brand['totalEmployees'].toString(),
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      "Profil Brand",
-                      style: labelTextStyle,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ExpandableText(
-                      state.brand['description'] ?? 'Deskripsi tidak tersedia',
-                      style: regularTextStyle,
-                      expandText: "Selengkapnya",
-                      maxLines: 5,
-                      textAlign: TextAlign.justify,
-                      collapseText: "Lebih sedikit",
-                      linkColor: mainColor,
-                    ),
-                    const SizedBox(
-                      height: 24,
-                    ),
-                    Text(
-                      "Daftar Paket",
-                      style: labelTextStyle,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      itemCount: 5,
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {},
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(12)),
-                        enableFeedback: false,
-                        child: Card(
-                          elevation: 0,
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(12),
-                            ),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                left: 12, right: 12, top: 12, bottom: 12),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                ClipRRect(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(12)),
-                                  child: Image.network(
-                                    "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
-                                    fit: BoxFit.cover,
-                                    height: 50,
-                                    width: 50,
-                                  ),
-                                ),
-                                const SizedBox(
-                                  width: 16,
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Paket 2 (Kios + Starter Bahan Pertama)",
-                                        style: labelTextStyle.copyWith(
-                                            fontSize: 14),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                      const SizedBox(
-                                        height: 8,
-                                      ),
-                                      Text(
-                                        "Rp 20.000.000",
-                                        style: regularTextStyle,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(
-                                  height: 36,
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }
-
+      body: BlocConsumer<BrandCubit, BrandState>(listener: (context, state) {
+        // TODO: implement listener
+        print("STATE BRAND PAGE = ${state.brand}");
+        if (state.brandStatus == BrandStatus.success) {
+          setState(() {
+            isLiked = state.brand["currentUserLiked"];
+          });
+        }
+      }, builder: (context, state) {
+        if (state.brandStatus == BrandStatus.loading) {
           return const Center(
-            child: CircularProgressIndicator(),
+            child: SkeletonDetailBrand(),
           );
-        },
-      ),
+        }
+        print('STATE NYA =  ${state.brand["Upload"]}');
+        print('STATE NYA =  ${state.brand["Items"].length}');
+
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CardBrandWidget(
+                  brandName: state.brand['name'],
+                  category: state.brand['category'],
+                  image: "$URL_WEB${state.brand["Upload"]?["path"]}",
+                  price: '',
+                  startOperation:
+                      Date.formatTglIndo(state.brand['startOperation']),
+                  totalEmployees: state.brand['totalEmployees'].toString(),
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  "Profil Brand",
+                  style: labelTextStyle,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                ExpandableText(
+                  state.brand['description'] ?? 'Deskripsi tidak tersedia',
+                  style: regularTextStyle,
+                  expandText: "Selengkapnya",
+                  maxLines: 5,
+                  textAlign: TextAlign.justify,
+                  collapseText: "Lebih sedikit",
+                  linkColor: mainColor,
+                ),
+                const SizedBox(
+                  height: 24,
+                ),
+                Text(
+                  "Daftar Paket",
+                  style: labelTextStyle,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                (state.brand["Items"].length > 0)
+                    ? ListView.builder(
+                        shrinkWrap: true,
+                        primary: false,
+                        itemCount: state.brand["Items"].length,
+                        itemBuilder: (context, index) {
+                          var name = state.brand["Items"][index]["name"];
+                          var price = state.brand["Items"][index]["price"];
+                          var imgUrl = state.brand["Items"][index]["Upload"] !=
+                                  null
+                              ? "$URL_WEB${state.brand["Items"][index]?["Upload"]["path"]}"
+                              : null;
+                          return InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (builder) => DetailBrandItemPage(
+                                    item: BrandItem.fromJson(
+                                        state.brand["Items"][index]),
+                                  ),
+                                ),
+                              );
+                            },
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            enableFeedback: false,
+                            child: Card(
+                              elevation: 0,
+                              shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(12),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                    left: 12, right: 12, top: 12, bottom: 12),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(12)),
+                                      child: CachedNetworkImage(
+                                        placeholder: (context, url) =>
+                                            const CircularProgressIndicator(),
+                                        imageUrl: imgUrl!,
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          height: 50,
+                                          width: 50,
+                                          decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                          Assets.imgBrandPlaceholder,
+                                          height: 50,
+                                          width: 50,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      width: 16,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            name,
+                                            style: labelTextStyle.copyWith(
+                                                fontSize: 14),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 2,
+                                          ),
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          Text(
+                                            price,
+                                            style: regularTextStyle,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    const SizedBox(
+                                      height: 36,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        })
+                    : const Text("Paket kemitraan belum tersedia")
+              ],
+            ),
+          ),
+        );
+      }),
     );
   }
 }
@@ -219,19 +264,29 @@ class CardBrandWidget extends StatelessWidget {
             Expanded(
               child: ClipRRect(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
-                child: image != null
-                    ? Image.network(
-                        image,
-                        height: 130,
-                        width: 117,
-                        fit: BoxFit.cover,
-                      )
-                    : Image.asset(
-                        Assets.imgBrandPlaceholder,
-                        height: 130,
-                        width: 117,
-                        fit: BoxFit.cover,
-                      ),
+                child: CachedNetworkImage(
+                  placeholder: (context, url) => Image.asset(
+                    Assets.imgBrandPlaceholder,
+                    height: 130,
+                    width: 117,
+                    fit: BoxFit.cover,
+                  ),
+                  imageUrl: image,
+                  imageBuilder: (context, imageProvider) => Container(
+                    height: 130,
+                    width: 117,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: imageProvider, fit: BoxFit.cover),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => Image.asset(
+                    Assets.imgBrandPlaceholder,
+                    height: 130,
+                    width: 117,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
             const SizedBox(
@@ -336,6 +391,172 @@ class CardBrandWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class SkeletonDetailBrand extends StatelessWidget {
+  const SkeletonDetailBrand({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SkeletonLine(
+                style: SkeletonLineStyle(
+                    height: 150, borderRadius: BorderRadius.circular(12)),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              SkeletonLine(
+                style: SkeletonLineStyle(
+                    height: 12,
+                    width: 94,
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              SkeletonParagraph(
+                style: SkeletonParagraphStyle(
+                  lines: 5,
+                  padding: const EdgeInsets.all(0),
+                  spacing: 6,
+                  lineStyle: SkeletonLineStyle(
+                    height: 10,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              SkeletonLine(
+                style: SkeletonLineStyle(
+                    height: 12,
+                    width: 112,
+                    borderRadius: BorderRadius.circular(8)),
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              Card(
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 12, right: 12, top: 12, bottom: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SkeletonLine(
+                        style: SkeletonLineStyle(
+                          height: 50,
+                          width: 50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 12,
+                                  width: 160,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 12,
+                                  width: 112,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 36,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Card(
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(12),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      left: 12, right: 12, top: 12, bottom: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SkeletonLine(
+                        style: SkeletonLineStyle(
+                          height: 50,
+                          width: 50,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 12,
+                                  width: 160,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            SkeletonLine(
+                              style: SkeletonLineStyle(
+                                  height: 12,
+                                  width: 112,
+                                  borderRadius: BorderRadius.circular(8)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 36,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
