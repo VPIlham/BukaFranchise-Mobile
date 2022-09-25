@@ -18,7 +18,6 @@ class ProfileCubit extends Cubit<ProfileState> {
         emit(state.copyWith(profileStatus: ProfileStatus.loaded, user: value));
       });
     } catch (e) {
-      print('ERROR = $e');
       emit(state.copyWith(
         profileStatus: ProfileStatus.error,
       ));

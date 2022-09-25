@@ -6,6 +6,7 @@ import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 import 'package:http_parser/http_parser.dart';
 import 'package:path/path.dart' as p;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
   var dio = Dio();
@@ -20,10 +21,14 @@ class UserRepository {
       final result = await dio
           .get("$baseUrl/users/$id?populate=Brand.Item,Upload",
               options: myOption)
-          .then((response) {
+          .then((response) async {
         print("==== GET USER ==== \n ${response.data}");
         var data = response.data['data'];
         if (response.statusCode == 200) {
+          //kalau dia seller maka simpan brandId kalo buyer akan null
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('brandId', data['Brand']['id'].toString());
+
           return User(
             id: data['id'],
             name: data['name'],
@@ -46,7 +51,7 @@ class UserRepository {
     try {
       FormData myData;
 
-      print('IMAGE REPO = ${image}');
+      print('IMAGE REPO = $image');
       if (image == null) {
         myData = FormData.fromMap({
           "data": jsonEncode({

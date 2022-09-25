@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:bukafranchise/models/brand.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
 
@@ -15,20 +18,37 @@ class BrandRepository {
           "$baseUrl/brands?sort=createdAt&direction=desc&populate=Upload",
           options: myOption);
     } catch (e) {
-      print('ERROR = $e');
+      print('ERROR ALL BRAND = $e');
     }
   }
 
-  getBrandById({required id}) async {
+  getBrandById({id}) async {
     try {
-      return await dio.get("$baseUrl/brands/$id?populate=User,Item",
-          options: myOption);
+      return await dio
+          .get("$baseUrl/brands/$id?populate=User,Item", options: myOption)
+          .then((response) {
+        print("==== GET BRAND ==== \n ${response.data}");
+        var data = response.data['data'];
+        if (response.statusCode == 200) {
+          return Brand(
+            id: data['id'],
+            name: data['name'],
+            description: data['description'],
+            totalEmployees: data['totalEmployees'],
+            startOperation: data['startOperation'],
+            category: data['category'],
+            image: data['imageId'],
+          );
+        } else {
+          return data;
+        }
+      });
     } catch (e) {
-      print('ERROR = $e');
+      print('ERROR BRAND ID = $e');
     }
   }
 
-  Future<void> updateBrand({
+  updateBrand({
     int? id,
     String? name,
     String? description,
@@ -37,6 +57,23 @@ class BrandRepository {
     String? category,
     String? image,
   }) async {
-    try {} catch (e) {}
+    try {
+      FormData myData;
+      myData = FormData.fromMap({
+        "data": jsonEncode({
+          "name": name,
+          "description": description,
+          "totalEmployees": totalEmployees,
+          "startOperation": startOperation,
+          "category": category,
+        })
+      });
+      return await dio.put("$baseUrl/brands/$id",
+          data: myData,
+          options: myOption
+              .copyWith(headers: {'Content-Type': 'multipart/form-data'}));
+    } catch (e) {
+      print('ERROR = $e');
+    }
   }
 }

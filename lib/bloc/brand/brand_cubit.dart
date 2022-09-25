@@ -30,32 +30,41 @@ class BrandCubit extends Cubit<BrandState> {
     }
   }
 
-  // Future<void> updateBrand({
-  //   required String uid,
-  //   required String docId,
-  //   required String name,
-  //   required String category,
-  //   required int price,
-  //   required String unit,
-  //   required String status,
-  // }) async {
-  //   emit(state.copyWith(brandStatus: BrandStatus.submitting));
-  //   try {
-  //     await brandRepository.updateBrand(
-  //         name: name,
-  //         category: category,
-  //         price: price,
-  //         unit: unit,
-  //         status: status,
-  //         docId: docId,
-  //         uid: uid);
-  //     emit(state.copyWith(brandStatus: BrandStatus.formSuccess));
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //       brandStatus: BrandStatus.error,
-  //     ));
-  //   }
-  // }
+  Future<void> updateBrand({
+    required id,
+    name,
+    description,
+    totalEmployees,
+    startOperation,
+    category,
+  }) async {
+    emit(state.copyWith(brandStatus: BrandStatus.submitting));
+    try {
+      final result = await brandRepository.updateBrand(
+          id: id,
+          name: name,
+          description: description,
+          totalEmployees: totalEmployees,
+          startOperation: startOperation,
+          category: category);
+
+      if (result.statusCode == 200) {
+        emit(state.copyWith(
+          brandStatus: BrandStatus.formSuccess,
+        ));
+      } else {
+        emit(state.copyWith(
+          brandStatus: BrandStatus.error,
+        ));
+      }
+      print('RESULT $result');
+    } catch (e) {
+      print('ERROR DI CATCH');
+      emit(state.copyWith(
+        brandStatus: BrandStatus.error,
+      ));
+    }
+  }
 
   Future<void> getBrandId({required int id}) async {
     try {

@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
-import 'package:bukafranchise/pages/buyer/profile/akun/akun.dart';
 import 'package:bukafranchise/pages/buyer/profile/profile.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/login.dart';
@@ -53,8 +52,8 @@ class _AppPageState extends State<AppPage> {
         } else if (state.status == AuthenticationStatus.authenticated) {
           final role = state.user.role;
           if (role == 'buyer') {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const BottomNavbarPage()));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => BottomNavbarPage()));
           } else {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (context) => const BottomNavbarSellerPage()));

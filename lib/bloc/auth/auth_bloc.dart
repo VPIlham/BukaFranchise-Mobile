@@ -74,7 +74,7 @@ class AuthenticationBloc
           'GET USER ID = $userId \n Name = $name \n Role = $role \n Email = $email');
       return User(id: int.parse(userId), name: name, role: role, email: email);
     } catch (err) {
-      print('ERROR = $err');
+      print('ERROR GET USER = $err');
     }
   }
 }

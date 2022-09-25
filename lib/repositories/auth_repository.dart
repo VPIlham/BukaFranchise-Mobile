@@ -55,6 +55,7 @@ class AuthRepository {
     await prefs.remove('name');
     await prefs.remove('token');
     await prefs.remove('email');
+    await prefs.remove('brandId');
     _controller.add(AuthenticationStatus.unauthenticated);
   }
 
@@ -92,7 +93,7 @@ class AuthRepository {
       });
     } catch (err) {
       _controller.add(AuthenticationStatus.error);
-      print('ERROR = $err');
+      print('ERROR LOGIN = $err');
     }
   }
 
