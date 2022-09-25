@@ -25,13 +25,15 @@ class UserRepository {
         var data = response.data['data'];
         if (response.statusCode == 200) {
           return User(
-            id: data['id'],
-            name: data['name'],
-            email: data['email'],
-            role: data['role'],
-            phoneNumber: data['phoneNumber'],
-            image: data['Upload']?['path'] ?? '',
-          );
+              id: data['id'],
+              name: data['name'],
+              email: data['email'],
+              role: data['role'],
+              phoneNumber: data['phoneNumber'],
+              image: data['Upload']?['path'] ?? '',
+              bank: data['bank_name'] ?? '',
+              norek: data['bank_account'] ?? '',
+              balance: int.parse(data['balance']) ?? 0);
         } else {
           return data;
         }

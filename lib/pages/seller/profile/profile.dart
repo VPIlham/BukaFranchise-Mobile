@@ -61,24 +61,24 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(
                       height: 20,
                     ),
-                    CircleAvatar(
-                      radius: 40,
-                      foregroundColor: Colors.transparent,
-                      child: CachedNetworkImage(
-                        placeholder: (context, url) =>
-                            const CircularProgressIndicator(),
-                        imageUrl: imgServer,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: imageProvider, fit: BoxFit.cover),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                      ),
-                    ),
+                    // CircleAvatar(
+                    //   radius: 40,
+                    //   foregroundColor: Colors.transparent,
+                    //   child: CachedNetworkImage(
+                    //     placeholder: (context, url) =>
+                    //         const CircularProgressIndicator(),
+                    //     imageUrl: imgServer,
+                    //     imageBuilder: (context, imageProvider) => Container(
+                    //       decoration: BoxDecoration(
+                    //         shape: BoxShape.circle,
+                    //         image: DecorationImage(
+                    //             image: imageProvider, fit: BoxFit.cover),
+                    //       ),
+                    //     ),
+                    //     errorWidget: (context, url, error) =>
+                    //         const Icon(Icons.error),
+                    //   ),
+                    // ),
                     const SizedBox(
                       height: 10,
                     ),

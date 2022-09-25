@@ -7,8 +7,11 @@ class User extends Equatable {
   final String? password;
   final String? phoneNumber;
   final String? image;
+  final String? norek;
+  final String? bank;
   final String? role;
   final int? totalEmployee;
+  final int? balance;
   final String? nameBrand;
   final String? startOperation;
   final String? categoryBrand;
@@ -20,8 +23,11 @@ class User extends Equatable {
     this.password,
     this.phoneNumber,
     this.image,
+    this.norek,
+    this.bank,
     this.role,
     this.totalEmployee,
+    this.balance,
     this.nameBrand,
     this.startOperation,
     this.categoryBrand,
@@ -36,8 +42,11 @@ class User extends Equatable {
       password,
       phoneNumber,
       image,
+      norek,
+      bank,
       role,
       totalEmployee,
+      balance,
       nameBrand,
       startOperation,
       categoryBrand,
@@ -51,8 +60,11 @@ class User extends Equatable {
     String? password,
     String? phoneNumber,
     String? image,
+    String? norek,
+    String? bank,
     String? role,
     int? totalEmployee,
+    int? balance,
     String? nameBrand,
     String? startOperation,
     String? categoryBrand,
@@ -64,8 +76,11 @@ class User extends Equatable {
       password: password ?? this.password,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       image: image ?? this.image,
+      norek: norek ?? this.norek,
+      bank: bank ?? this.bank,
       role: role ?? this.role,
       totalEmployee: totalEmployee ?? this.totalEmployee,
+      balance: balance ?? this.balance,
       nameBrand: nameBrand ?? this.nameBrand,
       startOperation: startOperation ?? this.startOperation,
       categoryBrand: categoryBrand ?? this.categoryBrand,
@@ -74,7 +89,7 @@ class User extends Equatable {
 
   @override
   String toString() {
-    return 'User(id: $id, name: $name, email: $email, password: $password, phoneNumber: $phoneNumber, image: $image, role: $role, totalEmployee: $totalEmployee, nameBrand: $nameBrand, startOperation: $startOperation, categoryBrand: $categoryBrand)';
+    return 'User(id: $id, name: $name, email: $email, password: $password, phoneNumber: $phoneNumber, image: $image, norek: $norek, bank: $bank, role: $role, totalEmployee: $totalEmployee, balance: $balance, nameBrand: $nameBrand, startOperation: $startOperation, categoryBrand: $categoryBrand)';
   }
 
   factory User.initialUser() {
@@ -90,6 +105,9 @@ class User extends Equatable {
       nameBrand: '',
       startOperation: '',
       categoryBrand: '',
+      norek: '',
+      bank: '',
+      balance: 0,
     );
   }
 }

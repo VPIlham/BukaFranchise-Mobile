@@ -21,7 +21,7 @@ class _ProdukWidgetState extends State<ProdukWidget> {
           children: [
             Text(
               'Produk Saya',
-              style: titleTextStyle,
+              style: titleTextStyle.copyWith(letterSpacing: 1),
             ),
             Text(
               'Lihat semua',
