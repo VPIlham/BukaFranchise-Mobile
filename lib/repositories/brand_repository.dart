@@ -1,8 +1,9 @@
 import 'dart:convert';
 
-import 'package:bukafranchise/models/brand.dart';
-import 'package:bukafranchise/utils/constant.dart';
 import 'package:dio/dio.dart';
+import 'package:path/path.dart' as p;
+import 'package:bukafranchise/utils/constant.dart';
+import 'package:http_parser/http_parser.dart';
 
 class BrandRepository {
   var dio = Dio();
@@ -18,60 +19,53 @@ class BrandRepository {
           "$baseUrl/brands?sort=createdAt&direction=desc&populate=Upload",
           options: myOption);
     } catch (e) {
-      print('ERROR ALL BRAND = $e');
+      print('ERROR = $e');
     }
   }
 
-  getBrandById({id}) async {
+  getBrandById({required id}) async {
     try {
-      return await dio
-          .get("$baseUrl/brands/$id?populate=User,Item", options: myOption)
-          .then((response) {
-        print("==== GET BRAND ==== \n ${response.data}");
-        var data = response.data['data'];
-        if (response.statusCode == 200) {
-          return Brand(
-            id: data['id'],
-            name: data['name'],
-            description: data['description'],
-            totalEmployees: data['totalEmployees'],
-            startOperation: data['startOperation'],
-            category: data['category'],
-            image: data['imageId'],
-          );
-        } else {
-          return data;
-        }
-      });
+      final token = await getToken();
+      return await dio.get(
+        "$baseUrl/brands/$id?populate=User,Item.Upload,Upload",
+        options: myOption.copyWith(headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        }),
+      );
     } catch (e) {
-      print('ERROR BRAND ID = $e');
+      print('ERROR = $e');
     }
   }
 
-  updateBrand({
-    int? id,
-    String? name,
-    String? description,
-    int? totalEmployees,
-    String? startOperation,
-    String? category,
-    String? image,
-  }) async {
+  updateBrand({required id, data, image}) async {
     try {
       FormData myData;
-      myData = FormData.fromMap({
-        "data": jsonEncode({
-          "name": name,
-          "description": description,
-          "totalEmployees": totalEmployees,
-          "startOperation": startOperation,
-          "category": category,
-        })
-      });
-      return await dio.put("$baseUrl/brands/$id",
-          data: myData,
-          options: myOption
-              .copyWith(headers: {'Content-Type': 'multipart/form-data'}));
+
+      if (image == null) {
+        myData = FormData.fromMap({"data": jsonEncode(data)});
+      } else {
+        String fileName = image.path.split('/').last;
+
+        myData = FormData.fromMap({
+          "image": await MultipartFile.fromFile(
+            image.path,
+            filename: fileName,
+            contentType: MediaType(
+              'image',
+              p.extension(image.path),
+            ),
+          ),
+          "data": jsonEncode(data)
+        });
+      }
+      return await dio.put(
+        "$baseUrl/brands/$id",
+        data: myData,
+        options: myOption.copyWith(headers: {
+          'Content-Type': 'multipart/form-data',
+        }),
+      );
     } catch (e) {
       print('ERROR = $e');
     }

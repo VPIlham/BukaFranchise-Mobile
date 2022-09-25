@@ -30,23 +30,11 @@ class BrandCubit extends Cubit<BrandState> {
     }
   }
 
-  Future<void> updateBrand({
-    required id,
-    name,
-    description,
-    totalEmployees,
-    startOperation,
-    category,
-  }) async {
+  Future<void> updateBrand({required id, var data, image}) async {
     emit(state.copyWith(brandStatus: BrandStatus.submitting));
     try {
-      final result = await brandRepository.updateBrand(
-          id: id,
-          name: name,
-          description: description,
-          totalEmployees: totalEmployees,
-          startOperation: startOperation,
-          category: category);
+      final result =
+          await brandRepository.updateBrand(id: id, data: data, image: image);
 
       if (result.statusCode == 200) {
         emit(state.copyWith(
@@ -68,7 +56,7 @@ class BrandCubit extends Cubit<BrandState> {
 
   Future<void> getBrandId({required int id}) async {
     try {
-      emit(state.copyWith(brandStatus: BrandStatus.loading, brands: null));
+      emit(state.copyWith(brandStatus: BrandStatus.loading, brand: null));
       await brandRepository.getBrandById(id: id).then((value) async {
         emit(
           state.copyWith(

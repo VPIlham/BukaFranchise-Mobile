@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -27,6 +29,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
       _category,
       valKategori;
 
+  File? _image;
+
   final roleKategori = [
     'Industri Makanan & Minuman',
     'Industri Ritel',
@@ -34,11 +38,11 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
     'Industri Pendidikan Non Formal'
   ];
 
-  final nameC = TextEditingController();
-  final deskripsiC = TextEditingController();
-  final totalC = TextEditingController();
-  final tanggalC = TextEditingController();
-  final kategoriC = TextEditingController();
+  late var nameC = TextEditingController();
+  late var deskripsiC = TextEditingController();
+  late var totalC = TextEditingController();
+  late var tanggalC = TextEditingController();
+  late var kategoriC = TextEditingController();
 
   @override
   void dispose() {
@@ -60,7 +64,6 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
 
   void _getBrand() async {
     id = await getBrandId();
-
     context.read<BrandCubit>().getBrandId(id: int.parse(id));
   }
 
@@ -74,15 +77,16 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
 
     form.save();
 
-    context.read<BrandCubit>().updateBrand(
-          id: id,
-          name: _name,
-          description: _description,
-          totalEmployees: _totalEmployees,
-          startOperation: _startOperation,
-          category: _category,
-          // image: image,
-        );
+    Map data = {
+      "name": _name,
+      "description": _description,
+      "totalEmployees": _totalEmployees,
+      "startOperation": _startOperation,
+      "category": valKategori,
+    };
+
+    print("DATA UPDATE = $data");
+    context.read<BrandCubit>().updateBrand(id: id, data: data, image: _image);
   }
 
   @override
@@ -98,10 +102,29 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
       ),
       body: BlocConsumer<BrandCubit, BrandState>(
         listener: (context, state) {
-          // TODO: implement listener
+          if (state.brandStatus == BrandStatus.success) {
+            var startOperation = DateTime.parse(state.brand["startOperation"]);
+            String formattedDate =
+                DateFormat('yyyy-MM-dd').format(startOperation);
+
+            nameC = TextEditingController(text: state.brand["name"]);
+            deskripsiC =
+                TextEditingController(text: state.brand["description"]);
+            tanggalC = TextEditingController(text: formattedDate);
+            totalC = TextEditingController(
+                text: state.brand["totalEmployees"].toString());
+            setState(() {
+              valKategori = state.brand["category"];
+            });
+          }
         },
         builder: (context, state) {
-          print('STATE BRAND =  $state');
+          print('STATE =  $state');
+          if (state.brandStatus == BrandStatus.loading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return SafeArea(
             child: Stack(
               children: [
@@ -261,18 +284,21 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                   onTap: () async {
                                     DateTime? pickedDate = await showDatePicker(
                                         context: context,
-                                        initialDate: DateTime.now(),
+                                        initialDate:
+                                            DateTime.parse(tanggalC.text),
                                         firstDate: DateTime(1950),
                                         //DateTime.now() - not to allow to choose before today.
-                                        lastDate: DateTime(2100));
+                                        lastDate: DateTime.now());
 
                                     if (pickedDate != null) {
+                                      print('PICKED DATE = $pickedDate');
                                       String formattedDate =
                                           DateFormat('yyyy-MM-dd')
                                               .format(pickedDate);
                                       setState(() {
                                         tanggalC.text =
                                             formattedDate; //set output date to TextField value.
+                                        _startOperation = formattedDate;
                                       });
                                     } else {}
                                   },
@@ -300,7 +326,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                 ),
                                 validator: (value) {
                                   if (value == null || value == '') {
-                                    return 'Status Pesanan Wajib diisi!';
+                                    return 'Kategori Wajib diisi!';
                                   }
                                   return null;
                                 },
