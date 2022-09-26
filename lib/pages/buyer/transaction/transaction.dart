@@ -2,6 +2,7 @@ import 'package:bukafranchise/pages/buyer/transaction/detail_pesanan.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:skeletons/skeletons.dart';
 
 class TransactionPage extends StatefulWidget {
   const TransactionPage({super.key});
@@ -31,6 +32,7 @@ class _TransactionPageState extends State<TransactionPage> {
             ),
             ListView(
               children: [
+                // LoadingTransaction(),
                 InkWell(
                   onTap: () {
                     Navigator.push(
@@ -191,6 +193,65 @@ class _TransactionPageState extends State<TransactionPage> {
               ],
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class LoadingTransaction extends StatelessWidget {
+  const LoadingTransaction({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 400,
+      width: double.infinity,
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: 3,
+        shrinkWrap: true,
+        itemBuilder: (context, index) => Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+            height: 110,
+            width: double.infinity,
+            padding: const EdgeInsets.all(8.0),
+            decoration: const BoxDecoration(color: Colors.white),
+            child: SkeletonItem(
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      const SkeletonAvatar(
+                        style: SkeletonAvatarStyle(
+                            shape: BoxShape.rectangle, width: 90, height: 90),
+                      ),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: SkeletonParagraph(
+                          style: SkeletonParagraphStyle(
+                              lines: 3,
+                              spacing: 6,
+                              lineStyle: SkeletonLineStyle(
+                                randomLength: true,
+                                height: 10,
+                                borderRadius: BorderRadius.circular(8),
+                                minLength:
+                                    MediaQuery.of(context).size.width / 6,
+                                maxLength:
+                                    MediaQuery.of(context).size.width / 1,
+                              )),
+                        ),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

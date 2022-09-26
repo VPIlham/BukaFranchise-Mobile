@@ -1,5 +1,6 @@
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
+import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/bloc/register/register_cubit.dart';
@@ -67,6 +68,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<BrandCubit>(
             create: (context) => BrandCubit(
               brandRepository: context.read<BrandRepository>(),
+            ),
+          ),
+          BlocProvider<DashboardCubit>(
+            create: (context) => DashboardCubit(
+              userRepository: context.read<UserRepository>(),
             ),
           ),
         ],

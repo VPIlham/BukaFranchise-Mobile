@@ -1,9 +1,9 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
-import 'package:bukafranchise/pages/buyer/profile/profile.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/login.dart';
+import 'package:bukafranchise/pages/seller/transaction/transaction.dart';
 import 'package:bukafranchise/pages/seller/widget/BottomNavbarSeller.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/utils/constant.dart';
@@ -33,8 +33,8 @@ class _AppPageState extends State<AppPage> {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
       } else {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (context) => const BottomNavbarSellerPage()));
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const TransactionPage()));
       }
     } else {
       Navigator.of(context).pushReplacement(
@@ -56,7 +56,7 @@ class _AppPageState extends State<AppPage> {
                 MaterialPageRoute(builder: (context) => BottomNavbarPage()));
           } else {
             Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (context) => const BottomNavbarSellerPage()));
+                builder: (context) => const TransactionPage()));
           }
         }
       },

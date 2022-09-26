@@ -94,4 +94,13 @@ class UserRepository {
       print('ERROR = $e');
     }
   }
+
+  getSummary() async {
+    try {
+      final id = await getUserId();
+      return await dio.get("$baseUrl/summary/$id", options: myOption);
+    } catch (e) {
+      print('ERROR SUMMARY = $e');
+    }
+  }
 }
