@@ -6,10 +6,12 @@ import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class PengaturanBrand extends StatefulWidget {
@@ -30,7 +32,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
       _category,
       valKategori;
 
-  File? _image;
+  File? image;
+  bool isSelected = false;
 
   final roleKategori = [
     'Industri Makanan & Minuman',
@@ -44,6 +47,24 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
   late var totalC = TextEditingController();
   late var tanggalC = TextEditingController();
   late var kategoriC = TextEditingController();
+
+  final ImagePicker _picker = ImagePicker();
+
+  void clickImg() async {
+    final XFile? imgPicker = await _picker.pickImage(
+      source: ImageSource.gallery,
+      maxWidth: 1800,
+      maxHeight: 1800,
+    );
+
+    if (imgPicker != null) {
+      setState(() {
+        image = File(imgPicker.path);
+        isSelected = true;
+      });
+      print('MY IMAGE $image');
+    }
+  }
 
   @override
   void dispose() {
@@ -87,7 +108,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
     };
 
     print("DATA UPDATE = $data");
-    context.read<BrandCubit>().updateBrand(id: id, data: data, image: _image);
+    context.read<BrandCubit>().updateBrand(id: id, data: data, image: image);
   }
 
   @override
@@ -147,6 +168,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
         },
         builder: (context, state) {
           print('STATE =  $state');
+          // print("TES = ${state.brand}");
+          final imgServer = "$URL_WEB${state.brand["Upload"]?["path"]}";
           if (state.brandStatus == BrandStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -164,10 +187,65 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                           const SizedBox(
                             height: 10,
                           ),
-                          Image.asset(
-                            Assets.logoUser,
-                            width: 135,
-                            height: 121,
+                          InkWell(
+                            customBorder: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            onTap: clickImg,
+                            child: state.brand["Upload"] != null
+                                ? isSelected
+                                    ? CircleAvatar(
+                                        radius: 70,
+                                        backgroundImage: FileImage(image!),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 70,
+                                        foregroundColor: Colors.transparent,
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          imageUrl: imgServer,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              const Icon(Icons.error),
+                                        ),
+                                      )
+                                : isSelected
+                                    ? CircleAvatar(
+                                        radius: 70,
+                                        foregroundColor: Colors.transparent,
+                                        backgroundColor: Colors.transparent,
+                                        child: ClipOval(
+                                          child: Image.file(
+                                            image!,
+                                            width: 135,
+                                            height: 121,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      )
+                                    : CircleAvatar(
+                                        radius: 70,
+                                        foregroundColor: Colors.transparent,
+                                        backgroundColor: Colors.transparent,
+                                        child: ClipOval(
+                                          child: Image.asset(
+                                            Assets.logoAvatar,
+                                            width: 135,
+                                            height: 121,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
                           ),
                         ],
                       ),
@@ -385,10 +463,14 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
                                       children: <Widget>[
+                                        const SizedBox(
+                                          width: 26,
+                                        ),
                                         SvgPicture.asset(Assets.icUpdate),
+                                        const SizedBox(
+                                          width: 50,
+                                        ),
                                         Text(
                                           'Ubah Brand',
                                           style: labelTextStyle.copyWith(
