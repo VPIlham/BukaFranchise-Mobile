@@ -168,8 +168,10 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
         },
         builder: (context, state) {
           print('STATE =  $state');
-          // print("TES = ${state.brand}");
-          final imgServer = "$URL_WEB${state.brand["Upload"]?["path"]}";
+          print("TES = ${state.brand}");
+          var imgServer = (state.brand != '')
+              ? "$URL_WEB${state.brand?["Upload"]?["path"]}"
+              : '';
           if (state.brandStatus == BrandStatus.loading) {
             return const Center(
               child: CircularProgressIndicator(),
@@ -192,7 +194,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                               borderRadius: BorderRadius.circular(50),
                             ),
                             onTap: clickImg,
-                            child: state.brand["Upload"] != null
+                            child: state.brand != '' &&
+                                    state.brand["Upload"] != null
                                 ? isSelected
                                     ? CircleAvatar(
                                         radius: 70,
