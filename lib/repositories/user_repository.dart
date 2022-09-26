@@ -103,4 +103,14 @@ class UserRepository {
       print('ERROR SUMMARY = $e');
     }
   }
+
+  getAllWishlist() async {
+    try {
+      final id = await getUserId();
+      return await dio.get("$baseUrl/wishlist?populate=Brand.Upload",
+          options: myOption);
+    } catch (e) {
+      print('ERROR Wishlist = $e');
+    }
+  }
 }

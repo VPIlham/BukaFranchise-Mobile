@@ -4,6 +4,7 @@ import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/bloc/register/register_cubit.dart';
+import 'package:bukafranchise/bloc/wishlist/wishlist_cubit.dart';
 import 'package:bukafranchise/pages/buyer/home/home.dart';
 import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/register.dart';
@@ -72,6 +73,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<DashboardCubit>(
             create: (context) => DashboardCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<WishlistCubit>(
+            create: (context) => WishlistCubit(
               userRepository: context.read<UserRepository>(),
             ),
           ),
