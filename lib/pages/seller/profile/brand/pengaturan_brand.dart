@@ -300,7 +300,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                             // Deskripsi
                             TextFormField(
                               keyboardType: TextInputType.multiline,
-                              maxLines: 3,
+                              maxLines: 8,
                               style: regularTextStyle,
                               controller: deskripsiC,
                               decoration: InputDecoration(
@@ -466,13 +466,14 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                       borderRadius: BorderRadius.circular(16),
                                     ),
                                     child: Row(
-                                      children: <Widget>[
-                                        const SizedBox(
-                                          width: 26,
-                                        ),
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
                                         SvgPicture.asset(Assets.icUpdate),
                                         const SizedBox(
-                                          width: 50,
+                                          width: 15,
                                         ),
                                         Text(
                                           'Ubah Brand',
@@ -485,6 +486,9 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                   ),
                                 ),
                               ],
+                            ),
+                            const SizedBox(
+                              height: 20,
                             ),
                           ],
                         ),
