@@ -45,9 +45,7 @@ class BrandCubit extends Cubit<BrandState> {
           brandStatus: BrandStatus.error,
         ));
       }
-      print('RESULT $result');
     } catch (e) {
-      print('ERROR DI CATCH');
       emit(state.copyWith(
         brandStatus: BrandStatus.error,
       ));

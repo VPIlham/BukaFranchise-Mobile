@@ -29,7 +29,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
       _description,
       _totalEmployees,
       _startOperation,
-      _category,
+      _siup,
       valKategori;
 
   File? image;
@@ -43,6 +43,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
   ];
 
   late var nameC = TextEditingController();
+  late var siupC = TextEditingController();
   late var deskripsiC = TextEditingController();
   late var totalC = TextEditingController();
   late var tanggalC = TextEditingController();
@@ -73,6 +74,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
     totalC.dispose();
     tanggalC.dispose();
     kategoriC.dispose();
+    siupC.dispose();
     super.dispose();
   }
 
@@ -105,6 +107,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
       "totalEmployees": _totalEmployees,
       "startOperation": _startOperation,
       "category": valKategori,
+      "legal_number": _siup
     };
 
     print("DATA UPDATE = $data");
@@ -133,6 +136,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
             deskripsiC =
                 TextEditingController(text: state.brand["description"]);
             tanggalC = TextEditingController(text: formattedDate);
+            siupC = TextEditingController(
+                text: state.brand['User']['legal_number']);
             totalC = TextEditingController(
                 text: state.brand["totalEmployees"].toString());
             setState(() {
@@ -167,8 +172,6 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
           }
         },
         builder: (context, state) {
-          print('STATE =  $state');
-          print("TES = ${state.brand}");
           var imgServer = (state.brand != '')
               ? "$URL_WEB${state.brand?["Upload"]?["path"]}"
               : '';
@@ -292,6 +295,39 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                               },
                               onSaved: (String? value) {
                                 _name = value;
+                              },
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            TextFormField(
+                              keyboardType: TextInputType.number,
+                              style: regularTextStyle,
+                              controller: siupC,
+                              decoration: InputDecoration(
+                                disabledBorder: InputBorder.none,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: const BorderSide(
+                                    width: 0,
+                                    style: BorderStyle.none,
+                                  ),
+                                ),
+                                hintText:
+                                    'Masukan Nomor Surat Izin Usaha Perdagangan',
+                                filled: true,
+                                contentPadding: const EdgeInsets.all(18),
+                                fillColor: inputColorGray,
+                              ),
+                              validator: (String? value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return 'Surat Izin Usaha Perdagangan wajib diisi!';
+                                }
+
+                                return null;
+                              },
+                              onSaved: (String? value) {
+                                _siup = value;
                               },
                             ),
                             const SizedBox(
@@ -444,7 +480,8 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                                     child: Text(value),
                                   );
                                 }).toList(),
-                                onChanged: (value) {
+                                onChanged: (value) {},
+                                onSaved: (value) {
                                   setState(() {
                                     valKategori = value.toString();
                                   });
