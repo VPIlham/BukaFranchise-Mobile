@@ -97,7 +97,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       height: 10,
                     ),
                     Text(
-                      'John',
+                      state.user.name.toString().toTitleCase(),
                       style: labelTextStyle,
                     ),
                   ],
