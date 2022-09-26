@@ -317,7 +317,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               child: DropdownButtonFormField(
                                 isExpanded: true,
-                                hint: const Text("Role"),
+                                hint: const Text("Daftar Sebagai"),
                                 value: _role,
                                 decoration: const InputDecoration(
                                   enabledBorder: InputBorder.none,

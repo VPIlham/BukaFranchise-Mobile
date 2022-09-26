@@ -9,6 +9,7 @@ import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
+import 'package:bukafranchise/utils/helpers.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:expandable_text/expandable_text.dart';
@@ -203,7 +204,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                                             height: 8,
                                           ),
                                           Text(
-                                            price,
+                                            "Rp. ${kmbGenerator(int.parse(price ?? "0"))}",
                                             style: regularTextStyle,
                                           ),
                                         ],
