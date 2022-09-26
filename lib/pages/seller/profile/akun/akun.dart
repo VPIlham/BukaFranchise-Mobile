@@ -268,9 +268,6 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                             const SizedBox(
                               height: 20,
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
                             TextFormField(
                               keyboardType: TextInputType.name,
                               style: regularTextStyle,
