@@ -27,6 +27,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   Future<void> updateProfile(
       {required id, name, phoneNumber, image, norek, bank}) async {
     emit(state.copyWith(profileStatus: ProfileStatus.submitting));
+    print('UPDATE PROFILE CUBIT STATUS = ${state.profileStatus}');
     try {
       final result = await userRepository.updateProfile(
           id: id,
@@ -47,7 +48,6 @@ class ProfileCubit extends Cubit<ProfileState> {
           profileStatus: ProfileStatus.error,
         ));
       }
-      print('RESULT $result');
     } catch (e) {
       print('ERROR DI CATCH');
       emit(state.copyWith(
