@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -117,6 +118,31 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
               valKategori = state.brand["category"];
               _startOperation = formattedDate;
             });
+          }
+          if (state.brandStatus == BrandStatus.formSuccess) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.topSlide,
+              title: 'Sukses',
+              desc: 'Edit Brand berhasil dirubah!',
+              btnOkOnPress: () {
+                _getBrand();
+                Navigator.pop(context);
+              },
+            ).show();
+          }
+          if (state.brandStatus == BrandStatus.error) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.error,
+              animType: AnimType.topSlide,
+              title: 'Gagal',
+              desc: 'Edit Brand Gagal!',
+              btnOkOnPress: () {
+                Navigator.pop(context);
+              },
+            ).show();
           }
         },
         builder: (context, state) {
