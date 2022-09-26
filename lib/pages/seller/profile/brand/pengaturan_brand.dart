@@ -115,6 +115,7 @@ class _PengaturanBrandState extends State<PengaturanBrand> {
                 text: state.brand["totalEmployees"].toString());
             setState(() {
               valKategori = state.brand["category"];
+              _startOperation = formattedDate;
             });
           }
         },
