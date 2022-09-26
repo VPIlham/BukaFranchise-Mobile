@@ -29,9 +29,9 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
   ];
 
   final List<Map> banks = [
-    {"id": 1, "label": "BNI", "value": "bni", "image": Assets.logoBNI},
-    {"id": 2, "label": "BRI", "value": "bri", "image": Assets.logoBRI},
-    {"id": 3, "label": "BCA", "value": "bca", "image": Assets.logoBCA},
+    {"id": 1, "label": "VA BNI", "value": "bni", "image": Assets.logoBNI},
+    {"id": 2, "label": "VA BRI", "value": "bri", "image": Assets.logoBRI},
+    {"id": 3, "label": "VA BCA", "value": "bca", "image": Assets.logoBCA},
   ];
 
   String? _paymentType;
@@ -101,12 +101,6 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                     enabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.all(18),
                   ),
-                  validator: (value) {
-                    if (value == null || value == '') {
-                      return 'Role wajib diisi!';
-                    }
-                    return null;
-                  },
                   items: paymentTypes.map((type) {
                     return DropdownMenuItem(
                       value: type["value"],
@@ -167,7 +161,15 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
               ),
               const SizedBox(
                 height: 24,
-              )
+              ),
+              BottomSheetDetailBrandItem(
+                isFilled: _currentBankId != null && _paymentType != null
+                    ? true
+                    : false,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
             ],
           ),
         ),
@@ -265,6 +267,93 @@ class CardBrandItemWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class BottomSheetDetailBrandItem extends StatelessWidget {
+  const BottomSheetDetailBrandItem(
+      {Key? key,
+      this.paymentType,
+      this.price,
+      this.fee,
+      this.totalPrice,
+      this.isFilled})
+      : super(key: key);
+
+  final String? paymentType;
+  final int? price, fee, totalPrice;
+  final bool? isFilled;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Harga",
+                  style: regularTextStyle.copyWith(fontSize: 12),
+                ),
+                Text(
+                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
+                  style: labelTextStyle,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Biaya Sistem",
+                  style: regularTextStyle.copyWith(fontSize: 12),
+                ),
+                Text(
+                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
+                  style: labelTextStyle,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Total Harga",
+                  style: regularTextStyle.copyWith(fontSize: 12),
+                ),
+                Text(
+                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
+                  style: labelTextStyle,
+                ),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        InkWell(
+          onTap: () {},
+          child: Container(
+            height: 50,
+            decoration: BoxDecoration(
+              color: isFilled == true ? mainColor : textDateGray,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Center(
+                child: Text(
+              'Bayar Sekarang',
+              style: labelTextStyle.copyWith(
+                  color: Colors.white, letterSpacing: 1, fontSize: 14),
+            )),
+          ),
+        ),
+      ],
     );
   }
 }
