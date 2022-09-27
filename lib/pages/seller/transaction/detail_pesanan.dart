@@ -43,7 +43,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
       appBar: DefaultAppBar.build(
         context: context,
         title: Text(
-          "Detil",
+          "Detil Pesanan",
           style: titleTextStyle,
         ),
       ),
@@ -139,6 +139,66 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               ),
             ),
             const SizedBox(
+              height: 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Pesanan",
+                      style: labelTextStyle.copyWith(fontSize: 20),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Nama",
+                      style: regularTextStyle.copyWith(fontSize: 12),
+                    ),
+                    Text(
+                      "Ilham Nur Hakim",
+                      style: labelTextStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Email",
+                      style: regularTextStyle.copyWith(fontSize: 12),
+                    ),
+                    Text(
+                      "Ilhamnurhakim@gmail.com",
+                      style: labelTextStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Nomor Telp.",
+                      style: regularTextStyle.copyWith(fontSize: 12),
+                    ),
+                    Text(
+                      "089123123123",
+                      style: labelTextStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            const SizedBox(
               height: 24,
             ),
             Container(
@@ -211,7 +271,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               ),
             ),
             const SizedBox(
-              height: 100,
+              height: 80,
             ),
             InkWell(
               onTap: () {},

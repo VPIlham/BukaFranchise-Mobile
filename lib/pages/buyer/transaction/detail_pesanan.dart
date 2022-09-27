@@ -47,9 +47,21 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     ),
                   ],
                 ),
-                Text(
-                  'Pembayaran Cicilan',
-                  style: regularTextStyle,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      'BANK BNI',
+                      style: regularTextStyle,
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Text(
+                      'Pembayaran Cicilan',
+                      style: regularTextStyle,
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -106,6 +118,81 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             const SizedBox(
               height: 24,
             ),
+
+            Container(
+              width: double.infinity,
+              height: 60,
+              decoration: BoxDecoration(
+                color: const Color(0xF9F7FBff),
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 5),
+                child: Row(
+                  children: [
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Image.network(
+                              'https://source.unsplash.com/random/200x200',
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Bank BJB',
+                          style: labelTextStyle.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                        Text(
+                          '123 456 7890',
+                          style: labelTextStyle.copyWith(
+                            color: Colors.black,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      width: 70,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Text(
+                            textAlign: TextAlign.right,
+                            'Salin',
+                            style: labelTextStyle.copyWith(
+                              fontSize: 12,
+                              color: greenColor,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(
+              height: 24,
+            ),
             Text(
               'Status Pengajuan',
               style: titleTextStyle.copyWith(
@@ -135,23 +222,23 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             const SizedBox(
               height: 24,
             ),
-            SvgPicture.asset(
-              Assets.icFail,
-              width: 234,
-              height: 38,
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            Text(
-              'Pengajuan dibatalkan',
-              style: regularTextStyle,
-            ),
-            Text(
-              'Terakhir diperbarui: 21:30:23 WIB, 23 Maret 2022',
-              style:
-                  regularTextStyle.copyWith(fontSize: 10, color: textDateGray),
-            ),
+            // SvgPicture.asset(
+            //   Assets.icFail,
+            //   width: 234,
+            //   height: 38,
+            // ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // Text(
+            //   'Pengajuan dibatalkan',
+            //   style: regularTextStyle,
+            // ),
+            // Text(
+            //   'Terakhir diperbarui: 21:30:23 WIB, 23 Maret 2022',
+            //   style:
+            //       regularTextStyle.copyWith(fontSize: 10, color: textDateGray),
+            // ),
             const SizedBox(
               height: 24,
             ),
@@ -172,26 +259,26 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             //   style: regularTextStyle.copyWith(
             //       fontSize: 10, color: textDateGray),
             // ),
-            // const SizedBox(
-            //   height: 24,
-            // ),
-            SvgPicture.asset(
-              Assets.icSuccess,
-              width: 234,
-              height: 38,
-            ),
             const SizedBox(
-              height: 5,
+              height: 24,
             ),
-            Text(
-              'Pengajuan berhasil',
-              style: regularTextStyle,
-            ),
-            Text(
-              'Terakhir diperbarui: 21:30:23 WIB, 23 Maret 2022',
-              style:
-                  regularTextStyle.copyWith(fontSize: 10, color: textDateGray),
-            ),
+            // SvgPicture.asset(
+            //   Assets.icSuccess,
+            //   width: 234,
+            //   height: 38,
+            // ),
+            // const SizedBox(
+            //   height: 5,
+            // ),
+            // Text(
+            //   'Pengajuan berhasil',
+            //   style: regularTextStyle,
+            // ),
+            // Text(
+            //   'Terakhir diperbarui: 21:30:23 WIB, 23 Maret 2022',
+            //   style:
+            //       regularTextStyle.copyWith(fontSize: 10, color: textDateGray),
+            // ),
           ],
         ),
       ),

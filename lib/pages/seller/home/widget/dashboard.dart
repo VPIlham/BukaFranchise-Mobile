@@ -1,4 +1,5 @@
 import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
+import 'package:bukafranchise/pages/seller/transaction/pencairan.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:flutter/material.dart';
@@ -41,37 +42,45 @@ class _DashboardWidgetState extends State<DashboardWidget> {
             scrollDirection: Axis.horizontal,
             physics: const BouncingScrollPhysics(),
             children: [
-              Container(
-                height: 80,
-                width: 140,
-                decoration: BoxDecoration(
-                    color: mainColor.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(8)),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Total Pemasukan',
-                      style: regularTextStyle.copyWith(
-                        color: mainColor,
-                        fontSize: 12,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 6,
-                    ),
-                    FittedBox(
-                      child: Text(
-                        formatRupiah.format(state.dashboard['totalIncome']),
-                        style: labelTextStyle.copyWith(
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (builder) => const Pencairan()));
+                },
+                child: Container(
+                  height: 80,
+                  width: 140,
+                  decoration: BoxDecoration(
+                      color: mainColor.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(8)),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Total Pemasukan',
+                        style: regularTextStyle.copyWith(
                           color: mainColor,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        height: 6,
+                      ),
+                      FittedBox(
+                        child: Text(
+                          formatRupiah.format(state.dashboard['totalIncome']),
+                          style: labelTextStyle.copyWith(
+                            color: mainColor,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               const SizedBox(
