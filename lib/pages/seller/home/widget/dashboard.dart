@@ -1,5 +1,6 @@
 import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
+import 'package:bukafranchise/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -30,7 +31,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
         print('STATE DASHBOARD = $state');
 
         if (state.dashboardStatus == DashboardStatus.loading) {
-          return LoadingSummary();
+          return const LoadingSummary();
         }
 
         return SizedBox(
@@ -60,12 +61,14 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                     const SizedBox(
                       height: 6,
                     ),
-                    Text(
-                      state.dashboard.totalIncome.toString(),
-                      style: labelTextStyle.copyWith(
-                        color: mainColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w800,
+                    FittedBox(
+                      child: Text(
+                        formatRupiah.format(state.dashboard['totalIncome']),
+                        style: labelTextStyle.copyWith(
+                          color: mainColor,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                        ),
                       ),
                     ),
                   ],
@@ -95,7 +98,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       height: 6,
                     ),
                     Text(
-                      state.dashboard.totalProducts.toString(),
+                      state.dashboard['totalProducts'].toString(),
                       style: labelTextStyle.copyWith(
                         color: mainColor,
                         fontSize: 15,
@@ -129,7 +132,7 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       height: 6,
                     ),
                     Text(
-                      state.dashboard.totalOrders.toString(),
+                      state.dashboard['totalOrders'].toString(),
                       style: labelTextStyle.copyWith(
                         color: mainColor,
                         fontSize: 15,

@@ -4,7 +4,7 @@ enum DashboardStatus { initial, loading, success, error }
 
 class DashboardState extends Equatable {
   final DashboardStatus dashboardStatus;
-  final Dashboard dashboard;
+  final dashboard;
 
   const DashboardState({
     required this.dashboardStatus,
@@ -12,9 +12,9 @@ class DashboardState extends Equatable {
   });
 
   factory DashboardState.initial() {
-    return DashboardState(
+    return const DashboardState(
       dashboardStatus: DashboardStatus.initial,
-      dashboard: Dashboard.initialDashboard(),
+      dashboard: '',
     );
   }
 
@@ -27,7 +27,7 @@ class DashboardState extends Equatable {
 
   DashboardState copyWith({
     DashboardStatus? dashboardStatus,
-    Dashboard? dashboard,
+    dynamic? dashboard,
   }) {
     return DashboardState(
       dashboardStatus: dashboardStatus ?? this.dashboardStatus,

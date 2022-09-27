@@ -48,11 +48,11 @@ class _ProdukWidgetState extends State<ProdukWidget> {
                   'Produk Saya',
                   style: titleTextStyle.copyWith(letterSpacing: 1),
                 ),
-                Text(
-                  'Lihat semua',
-                  style:
-                      regularTextStyle.copyWith(color: mainColor, fontSize: 12),
-                ),
+                // Text(
+                //   'Lihat semua',
+                //   style:
+                //       regularTextStyle.copyWith(color: mainColor, fontSize: 12),
+                // ),
               ],
             ),
             const SizedBox(
