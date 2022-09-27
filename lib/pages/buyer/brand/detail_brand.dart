@@ -2,6 +2,7 @@
 
 import 'dart:math';
 
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/bloc/wishlist/wishlist_cubit.dart';
@@ -56,15 +57,39 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
           context: context,
           title: const Text(""),
           actions: [
-            BlocBuilder<BrandCubit, BrandState>(
+            BlocConsumer<BrandCubit, BrandState>(
+              listener: (context, state) {
+                if (state.brandStatus == BrandStatus.successLiked) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.success,
+                    animType: AnimType.topSlide,
+                    title: 'Sukses',
+                    desc: 'Terdaftar di daftar keinginan',
+                  ).show();
+                }
+
+                if (state.brandStatus == BrandStatus.successRemoveLiked) {
+                  AwesomeDialog(
+                    context: context,
+                    dialogType: DialogType.success,
+                    animType: AnimType.topSlide,
+                    title: 'Sukses',
+                    desc: 'Terhapus di daftar keinginan',
+                  ).show();
+                }
+              },
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 24),
                   child: GestureDetector(
                     onTap: () {
-                      if (state.isLiked == false) {
+                      if (state.isLiked == false &&
+                          state.brandStatus != BrandStatus.loadingWishlist) {
                         postLike();
-                      } else {
+                      }
+                      if (state.isLiked == true &&
+                          state.brandStatus != BrandStatus.loadingWishlist) {
                         removeLike();
                       }
                     },
@@ -94,7 +119,9 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                 CardBrandWidget(
                   brandName: state.brand['name'],
                   category: state.brand['category'],
-                  image: "$URL_WEB${state.brand["Upload"]?["path"]}",
+                  image: state.brand["Upload"] != null
+                      ? "$URL_WEB${state.brand['Upload']?['path']}"
+                      : '',
                   price: '',
                   startOperation:
                       Date.formatTglIndo(state.brand['startOperation']),
@@ -140,7 +167,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                           var imgUrl = state.brand["Items"][index]["Upload"] !=
                                   null
                               ? "$URL_WEB${state.brand["Items"][index]?["Upload"]["path"]}"
-                              : null;
+                              : '';
                           return InkWell(
                             onTap: () {
                               Navigator.push(
@@ -175,7 +202,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
                                       child: CachedNetworkImage(
                                         placeholder: (context, url) =>
                                             const CircularProgressIndicator(),
-                                        imageUrl: imgUrl!,
+                                        imageUrl: imgUrl,
                                         imageBuilder:
                                             (context, imageProvider) =>
                                                 Container(

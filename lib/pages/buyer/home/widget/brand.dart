@@ -4,6 +4,8 @@ import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/pages/buyer/brand/list_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/utils/constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,9 +101,30 @@ class _BrandWidgetState extends State<BrandWidget> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(15),
-                          child: Image.network(
-                            'https://source.unsplash.com/random/200x200?sig=$index',
-                            height: 45,
+                          child: CachedNetworkImage(
+                            placeholder: (context, url) => Image.asset(
+                              Assets.imgBrandPlaceholder,
+                              height: 45,
+                              width: 45,
+                              fit: BoxFit.cover,
+                            ),
+                            imageUrl: state.brands[index]['Upload'] != null
+                                ? "$URL_WEB${state.brands[index]['Upload']['path']}"
+                                : '',
+                            imageBuilder: (context, imageProvider) => Container(
+                              height: 45,
+                              width: 45,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) => Image.asset(
+                              Assets.imgBrandPlaceholder,
+                              height: 45,
+                              width: 45,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                         const SizedBox(

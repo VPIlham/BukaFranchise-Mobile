@@ -136,41 +136,41 @@ class _WhistlistPageState extends State<WhistlistPage> {
                                                             Radius.circular(
                                                                 12)),
                                                     child: CachedNetworkImage(
-                                                      placeholder:
-                                                          (context, url) =>
-                                                              Image.asset(
-                                                        Assets
-                                                            .imgBrandPlaceholder,
-                                                        height: 117,
-                                                        width: 136,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                      imageUrl:
-                                                          imageBrand ?? '',
-                                                      imageBuilder: (context,
-                                                              imageProvider) =>
-                                                          Container(
-                                                        height: 117,
-                                                        width: 136,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          image: DecorationImage(
-                                                              image:
-                                                                  imageProvider,
-                                                              fit:
-                                                                  BoxFit.cover),
-                                                        ),
-                                                      ),
-                                                      errorWidget: (context,
-                                                              url, error) =>
-                                                          Image.asset(
-                                                        Assets
-                                                            .imgBrandPlaceholder,
-                                                        height: 117,
-                                                        width: 136,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
+                                                        placeholder: (context,
+                                                                url) =>
+                                                            Image.asset(
+                                                              Assets
+                                                                  .imgBrandPlaceholder,
+                                                              height: 117,
+                                                              width: 136,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                        imageUrl:
+                                                            imageBrand ?? '',
+                                                        imageBuilder: (context,
+                                                                imageProvider) =>
+                                                            Container(
+                                                              height: 117,
+                                                              width: 136,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                image: DecorationImage(
+                                                                    image:
+                                                                        imageProvider,
+                                                                    fit: BoxFit
+                                                                        .cover),
+                                                              ),
+                                                            ),
+                                                        errorWidget: (context,
+                                                            url, error) {
+                                                          return Image.asset(
+                                                            Assets
+                                                                .imgBrandPlaceholder,
+                                                            height: 117,
+                                                            width: 136,
+                                                            fit: BoxFit.cover,
+                                                          );
+                                                        }),
                                                   ),
                                                   Positioned(
                                                     right: 0,

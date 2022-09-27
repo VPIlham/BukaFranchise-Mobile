@@ -94,27 +94,36 @@ class BrandCubit extends Cubit<BrandState> {
   // }
 
   Future<void> postWishlist({required id}) async {
-    print("CLICKKKS");
+    emit(state.copyWith(brandStatus: BrandStatus.loadingWishlist));
     try {
       await brandRepository.postWishlist(id: id).then((value) {
         print("RESPONSE POST WISHLIST = $value");
         if (value.statusCode == 200) {
           emit(state.copyWith(
               brandStatus: BrandStatus.successLiked, isLiked: true));
+        } else {
+          emit(state.copyWith(brandStatus: BrandStatus.errorWishlist));
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      emit(state.copyWith(brandStatus: BrandStatus.errorWishlist));
+    }
   }
 
   Future<void> removeWishlist({required id}) async {
+    emit(state.copyWith(brandStatus: BrandStatus.loadingWishlist));
     try {
       await brandRepository.removeWishlist(id: id).then((value) {
         print("RESPONSE POST WISHLIST = $value");
         if (value.statusCode == 200) {
           emit(state.copyWith(
               brandStatus: BrandStatus.successRemoveLiked, isLiked: false));
+        } else {
+          emit(state.copyWith(brandStatus: BrandStatus.errorWishlist));
         }
       });
-    } catch (e) {}
+    } catch (e) {
+      emit(state.copyWith(brandStatus: BrandStatus.errorWishlist));
+    }
   }
 }

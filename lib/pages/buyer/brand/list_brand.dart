@@ -4,7 +4,10 @@ import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/theme/style.dart';
+import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -131,10 +134,38 @@ class _ListBrandPageState extends State<ListBrandPage> {
                                       ClipRRect(
                                         borderRadius: const BorderRadius.all(
                                             Radius.circular(12)),
-                                        child: Image.network(
-                                          "https://picsum.photos/seed/${Random().nextInt(256)}/400/400",
-                                          fit: BoxFit.cover,
-                                        ),
+                                        child: CachedNetworkImage(
+                                            placeholder: (context, url) =>
+                                                Image.asset(
+                                                  Assets.imgBrandPlaceholder,
+                                                  height: 117,
+                                                  width: 136,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                            imageUrl: state.brands[index]
+                                                        ['Upload'] !=
+                                                    null
+                                                ? "$URL_WEB${state.brands[index]['Upload']['path']}"
+                                                : '',
+                                            imageBuilder: (context,
+                                                    imageProvider) =>
+                                                Container(
+                                                  height: 117,
+                                                  width: 136,
+                                                  decoration: BoxDecoration(
+                                                    image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                            errorWidget: (context, url, error) {
+                                              return Image.asset(
+                                                Assets.imgBrandPlaceholder,
+                                                height: 117,
+                                                width: 136,
+                                                fit: BoxFit.cover,
+                                              );
+                                            }),
                                       ),
                                       const SizedBox(
                                         height: 10,

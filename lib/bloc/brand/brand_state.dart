@@ -8,7 +8,9 @@ enum BrandStatus {
   formSuccess,
   error,
   successLiked,
-  successRemoveLiked
+  successRemoveLiked,
+  loadingWishlist,
+  errorWishlist
 }
 
 class BrandState extends Equatable {
