@@ -61,7 +61,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
                         child: Image.asset(
-                          '${Assets.imagePath}gb.png',
+                          Assets.exampleGB,
                           height: 110,
                           width: 115,
                           fit: BoxFit.cover,

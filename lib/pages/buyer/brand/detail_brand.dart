@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
+import 'package:bukafranchise/bloc/wishlist/wishlist_cubit.dart';
 import 'package:bukafranchise/models/brand_item.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -39,6 +40,14 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
     context.read<BrandCubit>().getBrandId(id: widget.id);
   }
 
+  void postLike() {
+    context.read<BrandCubit>().postWishlist(id: widget.id);
+  }
+
+  void removeLike() {
+    context.read<BrandCubit>().removeWishlist(id: widget.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,32 +56,34 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
           context: context,
           title: const Text(""),
           actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 24),
-              child: IconButton(
-                onPressed: () {},
-                icon: isLiked
-                    ? SvgPicture.asset(Assets.icHeartActive)
-                    : SvgPicture.asset(Assets.icHeart),
-              ),
+            BlocBuilder<BrandCubit, BrandState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 24),
+                  child: GestureDetector(
+                    onTap: () {
+                      if (state.isLiked == false) {
+                        postLike();
+                      } else {
+                        removeLike();
+                      }
+                    },
+                    child: state.isLiked
+                        ? SvgPicture.asset(Assets.icHeartActive)
+                        : SvgPicture.asset(Assets.icHeart),
+                  ),
+                );
+              },
             )
           ]),
       body: BlocConsumer<BrandCubit, BrandState>(listener: (context, state) {
-        // TODO: implement listener
         print("STATE BRAND PAGE = ${state.brand}");
-        if (state.brandStatus == BrandStatus.success) {
-          setState(() {
-            isLiked = state.brand["currentUserLiked"];
-          });
-        }
       }, builder: (context, state) {
         if (state.brandStatus == BrandStatus.loading) {
           return const Center(
             child: SkeletonDetailBrand(),
           );
         }
-        print('STATE NYA =  ${state.brand["Upload"]}');
-        print('STATE NYA =  ${state.brand["Items"].length}');
 
         return SingleChildScrollView(
           child: Padding(

@@ -70,4 +70,38 @@ class BrandRepository {
       print('ERROR = $e');
     }
   }
+
+  postWishlist({required id}) async {
+    try {
+      final token = await getToken();
+      return await dio.post(
+        "$baseUrl/wishlist/$id/post",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          },
+        ),
+      );
+    } catch (e) {
+      print('ERROR Wishlist = $e');
+    }
+  }
+
+  removeWishlist({required id}) async {
+    try {
+      final token = await getToken();
+      return await dio.delete(
+        "$baseUrl/wishlist/$id/remove",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          },
+        ),
+      );
+    } catch (e) {
+      print('ERROR Wishlist = $e');
+    }
+  }
 }

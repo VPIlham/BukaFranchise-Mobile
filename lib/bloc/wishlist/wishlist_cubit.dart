@@ -13,6 +13,7 @@ class WishlistCubit extends Cubit<WishlistState> {
     emit(state.copyWith(wishlistStatus: WishlistStatus.loading));
     try {
       await userRepository.getAllWishlist().then((value) {
+        print("RESPONSE WISHLIST = $value");
         if (value.statusCode == 200) {
           final data = value.data['data'];
           emit(state.copyWith(

@@ -34,8 +34,35 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
     {"id": 3, "label": "VA BCA", "value": "bca", "image": Assets.logoBCA},
   ];
 
-  String? _paymentType;
+  String? _paymentType, _currentBankValue;
   int? _currentBankId;
+
+  void onChangePaymentType({dynamic value, int? price = 0}) {
+    print("Bank VALUE = $_currentBankValue");
+    switch (value) {
+      case "dp":
+        double priceCalculated = price! * 0.25;
+        print("Value@@@ = ${priceCalculated.toInt()}");
+        setState(() {
+          _paymentType = value;
+        });
+        break;
+      case "cicilan":
+        double priceCalculated = price! / 36;
+        print("Value@@@ = ${priceCalculated.toInt()}");
+        setState(() {
+          _paymentType = value;
+        });
+        break;
+      case "cash":
+        print("Value@@@ = $price");
+        setState(() {
+          _paymentType = value;
+        });
+        break;
+      default:
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,9 +136,9 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                   }).toList(),
                   onChanged: (value) {
                     if (value != null) {
-                      setState(() {
-                        _paymentType = value.toString();
-                      });
+                      onChangePaymentType(
+                          price: int.parse(widget.item.price ?? "0"),
+                          value: value);
                     }
                   },
                 ),
@@ -130,6 +157,7 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                     onChanged: (value) {
                       setState(() {
                         _currentBankId = banks[index]["id"];
+                        _currentBankValue = banks[index]["value"];
                       });
                     },
                     additionalLeading: Container(
@@ -151,7 +179,7 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                         borderRadius: BorderRadius.circular(5),
                         child: Image.asset(
                           "${banks[index]["image"]}",
-                          fit: BoxFit.cover,
+                          fit: BoxFit.fill,
                         ),
                       ),
                     ),

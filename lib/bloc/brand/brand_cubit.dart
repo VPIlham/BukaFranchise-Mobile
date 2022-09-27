@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/repositories/brand_repository.dart';
+import 'package:bukafranchise/repositories/user_repository.dart';
 
 class BrandCubit extends Cubit<BrandState> {
   final BrandRepository brandRepository;
@@ -53,15 +54,20 @@ class BrandCubit extends Cubit<BrandState> {
   }
 
   Future<void> getBrandId({required int id}) async {
+    emit(state.copyWith(brandStatus: BrandStatus.loading, isLiked: false));
     try {
-      emit(state.copyWith(brandStatus: BrandStatus.loading, brand: null));
       await brandRepository.getBrandById(id: id).then((value) async {
-        emit(
-          state.copyWith(
-            brandStatus: BrandStatus.success,
-            brand: value.data['data'],
-          ),
-        );
+        if (value.statusCode == 200) {
+          final data = value.data['data'];
+          emit(state.copyWith(
+              brandStatus: BrandStatus.success,
+              brand: data,
+              isLiked: data?["currentUserLiked"] ?? false));
+        } else {
+          emit(state.copyWith(brandStatus: BrandStatus.error));
+        }
+      }).catchError((_) {
+        emit(state.copyWith(brandStatus: BrandStatus.error));
       });
     } catch (e) {
       emit(state.copyWith(
@@ -86,4 +92,29 @@ class BrandCubit extends Cubit<BrandState> {
   //     ));
   //   }
   // }
+
+  Future<void> postWishlist({required id}) async {
+    print("CLICKKKS");
+    try {
+      await brandRepository.postWishlist(id: id).then((value) {
+        print("RESPONSE POST WISHLIST = $value");
+        if (value.statusCode == 200) {
+          emit(state.copyWith(
+              brandStatus: BrandStatus.successLiked, isLiked: true));
+        }
+      });
+    } catch (e) {}
+  }
+
+  Future<void> removeWishlist({required id}) async {
+    try {
+      await brandRepository.removeWishlist(id: id).then((value) {
+        print("RESPONSE POST WISHLIST = $value");
+        if (value.statusCode == 200) {
+          emit(state.copyWith(
+              brandStatus: BrandStatus.successRemoveLiked, isLiked: false));
+        }
+      });
+    } catch (e) {}
+  }
 }

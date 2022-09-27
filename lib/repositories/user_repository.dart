@@ -106,9 +106,16 @@ class UserRepository {
 
   getAllWishlist() async {
     try {
-      final id = await getUserId();
-      return await dio.get("$baseUrl/wishlist?populate=Brand.Upload",
-          options: myOption);
+      final token = await getToken();
+      return await dio.get(
+        "$baseUrl/wishlist?populate=Brand.Upload",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          },
+        ),
+      );
     } catch (e) {
       print('ERROR Wishlist = $e');
     }
