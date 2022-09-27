@@ -3,6 +3,7 @@ class Assets {
   static const String imagePath = "assets/img/";
   static const String _imagePath = "assets/img/";
   static const String _iconPath = "assets/icons/";
+  static const String _illustrationPath = "assets/illustrations/";
 
   // IMAGES
   static const String logo = "${_imagePath}logo.png";
@@ -16,6 +17,8 @@ class Assets {
   static const String logoBCA = "${_imagePath}bca_logo.png";
   static const String logoBNI = "${_imagePath}bni_logo.png";
   static const String logoBRI = "${_imagePath}bri_logo.png";
+  static const String imgBanner1 = "${_imagePath}banner-1.png";
+  static const String imgBanner2 = "${_imagePath}banner-2.png";
 
   // ICONS
   static const String icLainya = "${_iconPath}lainya.svg";
@@ -42,4 +45,8 @@ class Assets {
   static const String icProcess = "${_iconPath}process.svg";
   static const String icShop = "${_iconPath}shop.svg";
   static const String icUpdate = "${_iconPath}update.svg";
+
+  // Illustrations
+  static const String illWishlistEmpty =
+      "${_illustrationPath}wishlist_empty.svg";
 }
