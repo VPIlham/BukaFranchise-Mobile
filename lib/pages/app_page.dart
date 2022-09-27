@@ -8,6 +8,7 @@ import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class AppPage extends StatefulWidget {
   const AppPage({super.key});
