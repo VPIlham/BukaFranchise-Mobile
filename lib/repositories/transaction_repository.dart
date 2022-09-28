@@ -21,9 +21,16 @@ class TransactionRepository {
   getListorderById() async {
     try {
       final userId = await getUserId();
-      return await dio.get(
-          "$baseUrl/orders?populate=Item.Brand,User&filters[Item][UserId]=$userId",
-          options: myOption);
+      final role = await getRoleUser();
+      if (role == 'seller') {
+        return await dio.get(
+            "$baseUrl/orders?populate=Item.Brand,User&filters[Item][UserId]=$userId",
+            options: myOption);
+      } else {
+        return await dio.get(
+            "$baseUrl/orders?populate=Item.Brand,User&filters[User][id]=$userId",
+            options: myOption);
+      }
     } catch (e) {
       print('GET LIST TRX = $e');
     }

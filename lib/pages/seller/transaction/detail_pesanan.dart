@@ -1,11 +1,13 @@
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailPesananPage extends StatefulWidget {
-  const DetailPesananPage({super.key});
+  final data;
+  const DetailPesananPage({super.key, this.data});
 
   @override
   State<DetailPesananPage> createState() => _DetailPesananPageState();
@@ -17,7 +19,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
   String? _pay, valPay, _status, valStatus;
 
   final rolePay = ['Cash', 'DP', 'Cicilan'];
-  final roleStatus = ['Pengajuan diproses', 'Terdaftar', 'Dibatalkan'];
+  final roleStatus = ['Pengajuan Diproses', 'Terdaftar', 'Dibatalkan'];
 
   @override
   void dispose() {
@@ -39,6 +41,20 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
   @override
   Widget build(BuildContext context) {
+    // CASE STATUS PAYMENT
+    if (widget.data['statusPayment'] == 'cash') {
+      valPay = "Cash";
+    } else if (widget.data['statusPayment'] == 'cicilan') {
+      valPay = "Cicilan";
+    } else if (widget.data['statusPayment'] == 'dp') {
+      valPay = "DP";
+    }
+
+    //CASE STATUS
+    // setState(() {
+    //   valStatus = widget.data['status'];
+    // });
+
     return Scaffold(
       appBar: DefaultAppBar.build(
         context: context,
@@ -53,19 +69,23 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              widget.data['trxId'],
+              style: titleTextStyle.copyWith(
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(
+              height: 15,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   children: [
                     Text(
-                      '#22231341',
-                      style: titleTextStyle.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                    Text(
-                      'April 17, 2017',
+                      Date.formatTglIndo(widget.data['createdAt']),
                       style: regularTextStyle.copyWith(
                         fontSize: 14,
                       ),
@@ -81,7 +101,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   ),
                   child: Center(
                     child: Text(
-                      'Pengajuan diproses',
+                      widget.data['status'],
                       style: labelTextStyle.copyWith(
                           color: Colors.white, letterSpacing: 1, fontSize: 10),
                     ),
@@ -112,11 +132,12 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Paket 1 Geprek Bensu',
+                          widget.data['Item']['name'],
                           style: titleTextStyle.copyWith(fontSize: 16),
                         ),
                         Text(
-                          'Rp22.000.000',
+                          formatRupiah
+                              .format(int.parse(widget.data['Item']['price'])),
                           style: regularTextStyle.copyWith(fontSize: 16),
                         ),
                         Row(
@@ -126,8 +147,11 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                               height: 12,
                               width: 9,
                             ),
+                            const SizedBox(
+                              width: 3,
+                            ),
                             Text(
-                              ' Industri Makanan & Minuman',
+                              widget.data['Item']['Brand']['category'],
                               style: regularTextStyle.copyWith(fontSize: 10),
                             ),
                           ],
@@ -139,7 +163,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               ),
             ),
             const SizedBox(
-              height: 10,
+              height: 20,
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +189,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       style: regularTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      "Ilham Nur Hakim",
+                      widget.data['User']['name'],
                       style: labelTextStyle.copyWith(fontSize: 14),
                     ),
                   ],
@@ -178,7 +202,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       style: regularTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      "Ilhamnurhakim@gmail.com",
+                      widget.data['User']['email'],
                       style: labelTextStyle.copyWith(fontSize: 14),
                     ),
                   ],
@@ -191,7 +215,20 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       style: regularTextStyle.copyWith(fontSize: 12),
                     ),
                     Text(
-                      "089123123123",
+                      widget.data['User']['phoneNumber'] ?? '-',
+                      style: labelTextStyle.copyWith(fontSize: 14),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Pembayaran",
+                      style: regularTextStyle.copyWith(fontSize: 12),
+                    ),
+                    Text(
+                      'Pembayaran ${widget.data['statusPayment'].toString().toTitleCase()}',
                       style: labelTextStyle.copyWith(fontSize: 14),
                     ),
                   ],
@@ -200,39 +237,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             ),
             const SizedBox(
               height: 24,
-            ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: inputColorGray,
-              ),
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                hint: const Text("Pembayaran"),
-                value: valPay,
-                decoration: const InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.all(18),
-                ),
-                validator: (value) {
-                  if (value == null || value == '') {
-                    return 'Pembayaran Wajib diisi!';
-                  }
-                  return null;
-                },
-                items: rolePay.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valPay = value.toString();
-                  });
-                },
-              ),
             ),
             const SizedBox(
               height: 24,
@@ -263,15 +267,14 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     child: Text(value),
                   );
                 }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    valStatus = value.toString();
-                  });
+                onChanged: (value) {},
+                onSaved: (value) {
+                  valStatus = value;
                 },
               ),
             ),
             const SizedBox(
-              height: 80,
+              height: 60,
             ),
             InkWell(
               onTap: () {},
