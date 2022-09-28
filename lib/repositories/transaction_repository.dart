@@ -17,4 +17,15 @@ class TransactionRepository {
       print('ERROR CREATE TRX = $e');
     }
   }
+
+  getListorderById() async {
+    try {
+      final userId = await getUserId();
+      return await dio.get(
+          "$baseUrl/orders?populate=Item.Brand,User&filters[Item][UserId]=$userId",
+          options: myOption);
+    } catch (e) {
+      print('GET LIST TRX = $e');
+    }
+  }
 }

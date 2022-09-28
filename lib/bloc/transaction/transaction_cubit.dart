@@ -27,4 +27,22 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(state.copyWith(transactionStatus: TransactionStatus.error));
     }
   }
+
+  Future<void> getListorderById() async {
+    emit(state.copyWith(transactionStatus: TransactionStatus.loading));
+    try {
+      await transactionRepository.getListorderById().then((value) {
+        if (value.statusCode == 200) {
+          final data = value.data['data'];
+          emit(state.copyWith(
+              transactionStatus: TransactionStatus.success,
+              transactions: data));
+        } else {
+          emit(state.copyWith(transactionStatus: TransactionStatus.error));
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(transactionStatus: TransactionStatus.error));
+    }
+  }
 }
