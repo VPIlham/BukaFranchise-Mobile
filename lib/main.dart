@@ -5,6 +5,7 @@ import 'package:bukafranchise/bloc/login/login_cubit.dart';
 import 'package:bukafranchise/bloc/product/product_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/bloc/register/register_cubit.dart';
+import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/bloc/wishlist/wishlist_cubit.dart';
 import 'package:bukafranchise/pages/buyer/home/home.dart';
 import 'package:bukafranchise/pages/login.dart';
@@ -13,6 +14,7 @@ import 'package:bukafranchise/pages/app_page.dart';
 import 'package:bukafranchise/repositories/auth_repository.dart';
 import 'package:bukafranchise/repositories/brand_repository.dart';
 import 'package:bukafranchise/repositories/product_repository.dart';
+import 'package:bukafranchise/repositories/transaction_repository.dart';
 import 'package:bukafranchise/repositories/user_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,6 +52,9 @@ class MyApp extends StatelessWidget {
         ),
         RepositoryProvider<ProductRepository>(
           create: (context) => ProductRepository(),
+        ),
+        RepositoryProvider<TransactionRepository>(
+          create: (context) => TransactionRepository(),
         ),
       ],
       child: MultiBlocProvider(
@@ -92,6 +97,11 @@ class MyApp extends StatelessWidget {
           BlocProvider<ProductCubit>(
             create: (context) => ProductCubit(
               productRepository: context.read<ProductRepository>(),
+            ),
+          ),
+          BlocProvider<TransactionCubit>(
+            create: (context) => TransactionCubit(
+              transactionRepository: context.read<TransactionRepository>(),
             ),
           ),
         ],

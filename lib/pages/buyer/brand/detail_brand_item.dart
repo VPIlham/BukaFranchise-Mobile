@@ -1,3 +1,4 @@
+import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/models/brand_item.dart';
 import 'package:bukafranchise/pages/buyer/widget/custom_radio_button.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -10,6 +11,7 @@ import 'package:expandable_text/expandable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailBrandItemPage extends StatefulWidget {
@@ -37,20 +39,23 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
   String? _paymentType, _currentBankValue;
   int? _currentBankId;
 
+  num priceCalculated = 0;
+
   void onChangePaymentType({dynamic value, int? price = 0}) {
     print("Bank VALUE = $_currentBankValue");
+    print("MY CLICK = $value");
     switch (value) {
       case "dp":
-        double priceCalculated = price! * 0.25;
-        print("Value@@@ = ${priceCalculated.toInt()}");
         setState(() {
+          priceCalculated = (price! * 0.25);
           _paymentType = value;
         });
+        print("Value@@@ = ${priceCalculated.toInt()}");
         break;
       case "cicilan":
-        double priceCalculated = price! / 36;
         print("Value@@@ = ${priceCalculated.toInt()}");
         setState(() {
+          priceCalculated = price! / 36;
           _paymentType = value;
         });
         break;
@@ -58,6 +63,7 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
         print("Value@@@ = $price");
         setState(() {
           _paymentType = value;
+          priceCalculated = price!;
         });
         break;
       default:
@@ -67,6 +73,7 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
   @override
   Widget build(BuildContext context) {
     print("ITEM DETAIL = ${widget.item.upload?.path}");
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: DefaultAppBar.build(
@@ -194,6 +201,11 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                 isFilled: _currentBankId != null && _paymentType != null
                     ? true
                     : false,
+                paymentType: _paymentType.toString(),
+                price: int.parse(widget.item.price!),
+                fee: 50000,
+                totalPrice: priceCalculated,
+                itemId: widget.item.id,
               ),
               const SizedBox(
                 height: 24,
@@ -302,6 +314,7 @@ class CardBrandItemWidget extends StatelessWidget {
 class BottomSheetDetailBrandItem extends StatelessWidget {
   const BottomSheetDetailBrandItem(
       {Key? key,
+      this.itemId,
       this.paymentType,
       this.price,
       this.fee,
@@ -310,8 +323,10 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
       : super(key: key);
 
   final String? paymentType;
-  final int? price, fee, totalPrice;
+  final int? price, fee;
+  final num? totalPrice;
   final bool? isFilled;
+  final int? itemId;
 
   @override
   Widget build(BuildContext context) {
@@ -328,9 +343,37 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
                   "Harga",
                   style: regularTextStyle.copyWith(fontSize: 12),
                 ),
-                Text(
-                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
-                  style: labelTextStyle,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      formatRupiah.format(price),
+                      style: paymentType == 'cicilan'
+                          ? labelTextStyle.copyWith(
+                              decoration: TextDecoration.lineThrough)
+                          : paymentType == 'dp'
+                              ? labelTextStyle.copyWith(
+                                  decoration: TextDecoration.lineThrough)
+                              : labelTextStyle,
+                    ),
+                    paymentType == 'cicilan'
+                        ? Text(
+                            'Cicilan 36bln : ${formatRupiah.format(totalPrice)}/bln',
+                            style: regularTextStyle.copyWith(
+                              color: Colors.green,
+                              fontSize: 10,
+                            ),
+                          )
+                        : paymentType == 'dp'
+                            ? Text(
+                                'Uang Muka 25% : ${formatRupiah.format(totalPrice)}',
+                                style: regularTextStyle.copyWith(
+                                  color: Colors.green,
+                                  fontSize: 10,
+                                ),
+                              )
+                            : const SizedBox()
+                  ],
                 ),
               ],
             ),
@@ -342,7 +385,7 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
                   style: regularTextStyle.copyWith(fontSize: 12),
                 ),
                 Text(
-                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
+                  formatRupiah.format(fee),
                   style: labelTextStyle,
                 ),
               ],
@@ -355,9 +398,11 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
                   style: regularTextStyle.copyWith(fontSize: 12),
                 ),
                 Text(
-                  "Rp. ${kmbGenerator(59385993094, idr: true)}",
+                  totalPrice == 0
+                      ? formatRupiah.format(totalPrice)
+                      : formatRupiah.format(totalPrice! + fee!),
                   style: labelTextStyle,
-                ),
+                )
               ],
             ),
           ],
@@ -365,21 +410,51 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
         const SizedBox(
           height: 24,
         ),
-        InkWell(
-          onTap: () {},
-          child: Container(
-            height: 50,
-            decoration: BoxDecoration(
-              color: isFilled == true ? mainColor : textDateGray,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-                child: Text(
-              'Bayar Sekarang',
-              style: labelTextStyle.copyWith(
-                  color: Colors.white, letterSpacing: 1, fontSize: 14),
-            )),
-          ),
+        BlocConsumer<TransactionCubit, TransactionState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            print('STATE TRANSACTION : $state');
+            return InkWell(
+              onTap: isFilled == false
+                  ? null
+                  : isFilled == true &&
+                          state.transactionStatus ==
+                              TransactionStatus.submitting
+                      ? null
+                      : () async {
+                          final total = totalPrice! + fee!;
+                          final data = {
+                            "userId": await getUserId(),
+                            "itemId": itemId,
+                            "price": total,
+                            "fee": 50000,
+                            "statusPayment": paymentType,
+                            "paymentMethod": "bank_transfer",
+                            "paymentChannel": "bni"
+                          };
+                          // ignore: use_build_context_synchronously
+                          context
+                              .read<TransactionCubit>()
+                              .createTransaction(data: data);
+                          print('data terkirim');
+                        },
+              child: Container(
+                height: 50,
+                decoration: BoxDecoration(
+                  color: isFilled == true ? mainColor : textDateGray,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Center(
+                    child: Text(
+                  state.transactionStatus == TransactionStatus.submitting
+                      ? 'Loading'
+                      : 'Bayar Sekarang',
+                  style: labelTextStyle.copyWith(
+                      color: Colors.white, letterSpacing: 1, fontSize: 14),
+                )),
+              ),
+            );
+          },
         ),
       ],
     );

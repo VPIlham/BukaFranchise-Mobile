@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
+import 'package:bukafranchise/pages/buyer/brand/list_brand.dart';
 import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/pages/login.dart';
 import 'package:bukafranchise/pages/seller/widget/BottomNavbarSeller.dart';
@@ -31,7 +32,7 @@ class _AppPageState extends State<AppPage> {
     if (userId != null) {
       if (role == 'buyer') {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
+            MaterialPageRoute(builder: (context) => const ListBrandPage()));
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => const BottomNavbarSellerPage()));

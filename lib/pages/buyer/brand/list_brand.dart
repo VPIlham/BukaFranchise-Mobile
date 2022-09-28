@@ -92,6 +92,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
                   // TODO: buat widget errornya
                   return const loadingBrand();
                 }
+                print('LIST BRANDS = ${state.brandItems}');
                 return Expanded(
                   child: ListView(
                     primary: false,
@@ -146,10 +147,10 @@ class _ListBrandPageState extends State<ListBrandPage> {
                                                 width: 136,
                                                 fit: BoxFit.cover,
                                               ),
-                                          imageUrl: state.brandItems[index]
+                                          imageUrl: state.brands[index]
                                                       ['Upload'] !=
                                                   null
-                                              ? "$URL_WEB${state.brandItems[index]['Upload']['path']}"
+                                              ? "$URL_WEB${state.brands[index]['Upload']['path']}"
                                               : '',
                                           imageBuilder:
                                               (context, imageProvider) =>
