@@ -35,4 +35,12 @@ class TransactionRepository {
       print('GET LIST TRX = $e');
     }
   }
+
+  getOrderById({required id}) async {
+    try {
+      return await dio.get("$baseUrl/orders/$id?populate=*", options: myOption);
+    } catch (e) {
+      print('GET LIST TRX = $e');
+    }
+  }
 }
