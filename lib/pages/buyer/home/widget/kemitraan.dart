@@ -1,4 +1,5 @@
 import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
+import 'package:bukafranchise/pages/buyer/brand/list_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:flutter/material.dart';
@@ -24,9 +25,18 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
               'Paket Kemitraan',
               style: titleTextStyle.copyWith(letterSpacing: 1),
             ),
-            Text(
-              'Lihat semua',
-              style: regularTextStyle.copyWith(color: mainColor, fontSize: 12),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (builder) => ListBrandItemPage()),
+                );
+              },
+              child: Text(
+                'Lihat semua',
+                style:
+                    regularTextStyle.copyWith(color: mainColor, fontSize: 12),
+              ),
             ),
           ],
         ),

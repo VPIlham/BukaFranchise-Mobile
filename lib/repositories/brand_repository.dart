@@ -23,6 +23,16 @@ class BrandRepository {
     }
   }
 
+  getAllBrandItems() async {
+    try {
+      return await dio.get(
+          "$baseUrl/items?sort=createdAt&direction=desc&populate=Upload,Brand",
+          options: myOption);
+    } catch (e) {
+      print('ERROR = $e');
+    }
+  }
+
   getBrandById({required id}) async {
     try {
       final token = await getToken();

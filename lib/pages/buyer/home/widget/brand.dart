@@ -40,6 +40,9 @@ class _BrandWidgetState extends State<BrandWidget> {
         if (state.brandStatus == BrandStatus.loading) {
           return const loadingBrandHome();
         }
+        if (state.brandStatus == BrandStatus.error) {
+          return const loadingBrandHome();
+        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

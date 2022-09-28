@@ -2,38 +2,41 @@ import 'dart:math';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
+import 'package:bukafranchise/models/brand_item.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
+import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
+import 'package:bukafranchise/utils/helpers.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
 
-class ListBrandPage extends StatefulWidget {
-  const ListBrandPage({super.key});
+class ListBrandItemPage extends StatefulWidget {
+  const ListBrandItemPage({super.key});
 
   @override
-  State<ListBrandPage> createState() => _ListBrandPageState();
+  State<ListBrandItemPage> createState() => _ListBrandItemPageState();
 }
 
-class _ListBrandPageState extends State<ListBrandPage> {
+class _ListBrandItemPageState extends State<ListBrandItemPage> {
   final searchController = TextEditingController();
 
   @override
   void initState() {
-    getBrand();
+    getBrandItems();
     super.initState();
   }
 
-  void getBrand() {
-    context.read<BrandCubit>().getAllBrand();
+  void getBrandItems() {
+    context.read<BrandCubit>().getAllBrandItems();
   }
 
   Future onRefresh() {
-    return context.read<BrandCubit>().getAllBrand();
+    return context.read<BrandCubit>().getAllBrandItems();
   }
 
   @override
@@ -41,7 +44,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
     return Scaffold(
       appBar: DefaultAppBar.build(
         context: context,
-        title: const Text("Daftar Brand"),
+        title: const Text("Daftar Kemitraan"),
       ),
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -64,7 +67,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
                         style: BorderStyle.none,
                       ),
                     ),
-                    hintText: 'Cari brand',
+                    hintText: 'Cari Kemitraan',
                     filled: true,
                     fillColor: inputColorGray,
                     suffixIcon: IconButton(
@@ -102,10 +105,10 @@ class _ListBrandPageState extends State<ListBrandPage> {
                         child: GridView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: (state.brands.length) ?? 0,
+                          itemCount: state.brandItems.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 5.0 / 6.5,
+                                  childAspectRatio: 5.0 / 7.5,
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
@@ -114,10 +117,10 @@ class _ListBrandPageState extends State<ListBrandPage> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (builder) => DetailBrandPage(
-                                      id: state.brands[index]['id'],
-                                    ),
-                                  ));
+                                      builder: (builder) => DetailBrandItemPage(
+                                            item: BrandItem.fromJson(
+                                                state.brandItems[index]),
+                                          )));
                             },
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(12)),
@@ -146,10 +149,10 @@ class _ListBrandPageState extends State<ListBrandPage> {
                                                 width: 136,
                                                 fit: BoxFit.cover,
                                               ),
-                                          imageUrl: state.brandItems[index]
+                                          imageUrl: state.brands[index]
                                                       ['Upload'] !=
                                                   null
-                                              ? "$URL_WEB${state.brandItems[index]['Upload']['path']}"
+                                              ? "$URL_WEB${state.brands[index]['Upload']['path']}"
                                               : '',
                                           imageBuilder:
                                               (context, imageProvider) =>
@@ -175,12 +178,32 @@ class _ListBrandPageState extends State<ListBrandPage> {
                                       height: 10,
                                     ),
                                     Text(
-                                      state.brands[index]['name'],
+                                      state.brandItems[index]["Brand"]['name'],
+                                      style: regularTextStyle.copyWith(
+                                          fontSize: 12,
+                                          overflow: TextOverflow.ellipsis,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xFF8A8A8A)),
+                                      maxLines: 1,
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      state.brandItems[index]['name'],
                                       style: labelTextStyle.copyWith(
                                           fontSize: 14,
                                           overflow: TextOverflow.ellipsis),
                                       maxLines: 2,
-                                    )
+                                    ),
+                                    const SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      "Rp. ${kmbGenerator(int.parse(state.brandItems[index]["price"] ?? "0"))}",
+                                      style: regularTextStyle,
+                                      maxLines: 2,
+                                    ),
                                   ],
                                 ),
                               ),

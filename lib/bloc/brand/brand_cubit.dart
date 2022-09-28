@@ -126,4 +126,26 @@ class BrandCubit extends Cubit<BrandState> {
       emit(state.copyWith(brandStatus: BrandStatus.errorWishlist));
     }
   }
+
+  Future<void> getAllBrandItems() async {
+    emit(state.copyWith(brandStatus: BrandStatus.loading));
+    try {
+      await brandRepository.getAllBrandItems().then((value) {
+        print("STATUS KODE NYA = ${value}");
+        if (value.statusCode == 200) {
+          final data = value.data['data'];
+          emit(state.copyWith(
+              brandStatus: BrandStatus.success, brandItems: data));
+        } else {
+          emit(state.copyWith(brandStatus: BrandStatus.error));
+        }
+      }).catchError((_) {
+        emit(state.copyWith(brandStatus: BrandStatus.error));
+      });
+    } catch (e) {
+      emit(state.copyWith(
+        brandStatus: BrandStatus.error,
+      ));
+    }
+  }
 }
