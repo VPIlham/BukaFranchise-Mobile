@@ -19,7 +19,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
   String? _pay, valPay, _status, valStatus;
 
   final rolePay = ['Cash', 'DP', 'Cicilan'];
-  final roleStatus = ['Pengajuan Diproses', 'Terdaftar', 'Dibatalkan'];
+  final dataStatus = ['Pengajuan Diproses', 'Terdaftar', 'Dibatalkan'];
 
   @override
   void dispose() {
@@ -51,9 +51,10 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
     }
 
     //CASE STATUS
-    // setState(() {
-    //   valStatus = widget.data['status'];
-    // });
+    final status = widget.data['status'];
+    if (dataStatus.contains(status)) {
+      valStatus = status;
+    }
 
     return Scaffold(
       appBar: DefaultAppBar.build(
@@ -241,58 +242,62 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
             const SizedBox(
               height: 24,
             ),
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: inputColorGray,
-              ),
-              child: DropdownButtonFormField(
-                isExpanded: true,
-                hint: const Text("Status Pesanan"),
-                value: valStatus,
-                decoration: const InputDecoration(
-                  enabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.all(18),
-                ),
-                validator: (value) {
-                  if (value == null || value == '') {
-                    return 'Status Pesanan Wajib diisi!';
-                  }
-                  return null;
-                },
-                items: roleStatus.map((value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text(value),
-                  );
-                }).toList(),
-                onChanged: (value) {},
-                onSaved: (value) {
-                  valStatus = value;
-                },
-              ),
-            ),
+            dataStatus.contains(status)
+                ? Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: inputColorGray,
+                    ),
+                    child: DropdownButtonFormField(
+                      isExpanded: true,
+                      hint: const Text("Status Pesanan"),
+                      value: valStatus,
+                      decoration: const InputDecoration(
+                        enabledBorder: InputBorder.none,
+                        contentPadding: EdgeInsets.all(18),
+                      ),
+                      validator: (value) {
+                        if (value == null || value == '') {
+                          return 'Status Pesanan Wajib diisi!';
+                        }
+                        return null;
+                      },
+                      items: dataStatus.map((value) {
+                        return DropdownMenuItem(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      onChanged: (value) {},
+                      onSaved: (value) {
+                        valStatus = value;
+                      },
+                    ),
+                  )
+                : const SizedBox(),
             const SizedBox(
               height: 60,
             ),
-            InkWell(
-              onTap: () {},
-              child: Container(
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: mainColor,
-                  borderRadius: BorderRadius.circular(16),
-                ),
-                child: Center(
-                    child: Text(
-                  'Simpan',
-                  style: labelTextStyle.copyWith(
-                      color: Colors.white, letterSpacing: 1),
-                )),
-              ),
-            ),
+            dataStatus.contains(status)
+                ? InkWell(
+                    onTap: () {},
+                    child: Container(
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        color: mainColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Center(
+                          child: Text(
+                        'Simpan',
+                        style: labelTextStyle.copyWith(
+                            color: Colors.white, letterSpacing: 1),
+                      )),
+                    ),
+                  )
+                : const SizedBox()
           ],
         ),
       ),
