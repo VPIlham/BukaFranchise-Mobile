@@ -58,7 +58,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Center(
-                  child: Text(
+                  child: SelectableText(
                     state.transaction['trxId'],
                     style: titleTextStyle.copyWith(
                       fontSize: 16,
@@ -88,9 +88,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       children: [
                         //  state.transaction['logs']['va_numbers']
                         Text(
-                          state.transaction['logs']['va_numbers']['bank']
-                              .toString()
-                              .toUpperCase(),
+                          'Bank ${state.transaction['logs']['va_numbers'][0]['bank'].toString().toUpperCase()}',
                           style: regularTextStyle,
                         ),
                         const SizedBox(
@@ -132,8 +130,9 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                               style: titleTextStyle.copyWith(fontSize: 16),
                             ),
                             Text(
-                              formatRupiah.format(int.parse(
-                                  state.transaction['Item']['price'])),
+                              formatRupiah.format(
+                                  int.parse(state.transaction['price']) +
+                                      int.parse(state.transaction['fee'])),
                               style: regularTextStyle.copyWith(fontSize: 16),
                             ),
                             Row(
@@ -144,7 +143,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                                   width: 9,
                                 ),
                                 Text(
-                                  ' Industri Makanan & Minuman',
+                                  ' ${state.transaction['Item']['Brand']['category']}',
                                   style:
                                       regularTextStyle.copyWith(fontSize: 10),
                                 ),
@@ -162,7 +161,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
                 Container(
                   width: double.infinity,
-                  height: 60,
+                  height: 70,
                   decoration: BoxDecoration(
                     color: const Color(0xF9F7FBff),
                     borderRadius: BorderRadius.circular(16),
@@ -189,26 +188,28 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                             ),
                           ],
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Bank BJB',
-                              style: labelTextStyle.copyWith(
-                                color: Colors.black,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Bank ${state.transaction['logs']['va_numbers'][0]['bank'].toString().toUpperCase()}',
+                                style: regularTextStyle.copyWith(
+                                    color: Colors.black, fontSize: 12),
                               ),
-                            ),
-                            Text(
-                              '123 456 7890',
-                              style: labelTextStyle.copyWith(
-                                color: Colors.black,
+                              SelectableText(
+                                state.transaction['logs']['va_numbers'][0]
+                                    ['va_number'],
+                                style: labelTextStyle.copyWith(
+                                  color: Colors.black,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(
-                          width: 70,
+                          width: 20,
                         ),
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -216,8 +217,10 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                           children: [
                             InkWell(
                               onTap: () async {
-                                await Clipboard.setData(
-                                    ClipboardData(text: "12345123423"));
+                                await Clipboard.setData(ClipboardData(
+                                    text: state.transaction['logs']
+                                            ['va_numbers'][0]['va_number']
+                                        .toString()));
                               },
                               child: Text(
                                 textAlign: TextAlign.right,
@@ -234,7 +237,6 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 24,
                 ),
