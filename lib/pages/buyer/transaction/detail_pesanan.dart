@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailPesananPage extends StatefulWidget {
-  const DetailPesananPage({super.key});
+  final data;
+  const DetailPesananPage({super.key, this.data});
 
   @override
   State<DetailPesananPage> createState() => _DetailPesananPageState();

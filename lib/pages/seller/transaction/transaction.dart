@@ -62,14 +62,13 @@ class _TransactionPageState extends State<TransactionPage> {
           print(state.transactions);
           if (state.transactionStatus == TransactionStatus.loading) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: LoadingTransaction(),
             );
           }
           return SingleChildScrollView(
             child: SafeArea(
               child: Column(
                 children: [
-                  // LoadingTransaction()
                   Column(
                     children: [
                       Container(
