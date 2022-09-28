@@ -32,7 +32,7 @@ class _AppPageState extends State<AppPage> {
     if (userId != null) {
       if (role == 'buyer') {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const ListBrandPage()));
+            MaterialPageRoute(builder: (context) => const BottomNavbarPage()));
       } else {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => const BottomNavbarSellerPage()));
