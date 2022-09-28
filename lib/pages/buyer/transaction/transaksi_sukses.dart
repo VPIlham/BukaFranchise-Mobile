@@ -1,4 +1,5 @@
 import 'package:bukafranchise/pages/buyer/transaction/transaction.dart';
+import 'package:bukafranchise/pages/buyer/widget/bottom_navbar.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
@@ -59,7 +60,9 @@ class TransaksiSukses extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (builder) => const TransactionPage()));
+                              builder: (builder) => const BottomNavbarPage(
+                                    selectedIndex: 1,
+                                  )));
                     },
                     child: Container(
                       width: double.infinity,

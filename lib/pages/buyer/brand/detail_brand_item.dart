@@ -1,5 +1,6 @@
 import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/models/brand_item.dart';
+import 'package:bukafranchise/pages/buyer/transaction/transaksi_sukses.dart';
 import 'package:bukafranchise/pages/buyer/widget/custom_radio_button.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
@@ -411,7 +412,14 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
           height: 24,
         ),
         BlocConsumer<TransactionCubit, TransactionState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state.transactionStatus == TransactionStatus.formSuccess) {
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const TransaksiSukses()));
+            }
+          },
           builder: (context, state) {
             print('STATE TRANSACTION : $state');
             return InkWell(

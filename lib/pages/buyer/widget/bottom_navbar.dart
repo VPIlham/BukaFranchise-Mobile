@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class BottomNavbarPage extends StatefulWidget {
-  const BottomNavbarPage({super.key});
+  final selectedIndex;
+  const BottomNavbarPage({super.key, this.selectedIndex});
 
   @override
   State<BottomNavbarPage> createState() => _BottomNavbarPageState();
@@ -15,6 +16,16 @@ class BottomNavbarPage extends StatefulWidget {
 
 class _BottomNavbarPageState extends State<BottomNavbarPage> {
   int selectedNavbar = 0;
+
+  @override
+  void initState() {
+    if (widget.selectedIndex != null) {
+      setState(() {
+        selectedNavbar = widget.selectedIndex!;
+      });
+    }
+    super.initState();
+  }
 
   void _changeSelectedNavBar(int index) {
     setState(() {

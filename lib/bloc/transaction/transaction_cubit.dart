@@ -14,10 +14,11 @@ class TransactionCubit extends Cubit<TransactionState> {
     emit(state.copyWith(transactionStatus: TransactionStatus.submitting));
     try {
       print('DATA CUBIT = $data');
-      return;
+
       await transactionRepository.createTransaction(data: data).then((value) {
         if (value.statusCode == 200) {
-          emit(state.copyWith(transactionStatus: TransactionStatus.success));
+          emit(
+              state.copyWith(transactionStatus: TransactionStatus.formSuccess));
         } else {
           emit(state.copyWith(transactionStatus: TransactionStatus.error));
         }
