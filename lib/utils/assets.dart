@@ -43,6 +43,7 @@ class Assets {
   static const String icSuccess = "${_iconPath}success.svg";
   static const String icFail = "${_iconPath}fail.svg";
   static const String icProcess = "${_iconPath}process.svg";
+  static const String icPending = "${_iconPath}pending.svg";
   static const String icShop = "${_iconPath}shop.svg";
   static const String icUpdate = "${_iconPath}update.svg";
 

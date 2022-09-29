@@ -56,7 +56,7 @@ extension StringCasingExtension on String {
 class Date {
   static String formatJam(String tanggal) {
     if (tanggal != "") {
-      DateTime dt = DateTime.parse(tanggal);
+      DateTime dt = DateTime.parse(tanggal).toLocal();
       String jam = DateFormat('HH:mm').format(dt);
 
       return '$jam WIB';
