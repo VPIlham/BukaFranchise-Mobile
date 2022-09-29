@@ -13,8 +13,22 @@ class BrandRepository {
       validateStatus: (status) => true,
       headers: {"Content-Type": "application/json"});
 
-  getAllBrand() async {
+  getAllBrand({String? search, int? pageSize = 7}) async {
     try {
+      dio.options.queryParameters.clear();
+
+      if (search != null) {
+        dio.options.queryParameters.addAll({
+          "q": search,
+        });
+      }
+
+      if (pageSize != null) {
+        dio.options.queryParameters.addAll({
+          "pageSize": pageSize,
+        });
+      }
+
       return await dio.get(
           "$baseUrl/brands?sort=createdAt&direction=desc&populate=Upload",
           options: myOption);

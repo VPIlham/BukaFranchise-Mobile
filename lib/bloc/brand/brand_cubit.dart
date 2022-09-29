@@ -10,10 +10,12 @@ class BrandCubit extends Cubit<BrandState> {
     required this.brandRepository,
   }) : super(BrandState.initial());
 
-  Future<void> getAllBrand() async {
+  Future<void> getAllBrand({String? search, int? pageSize}) async {
     emit(state.copyWith(brandStatus: BrandStatus.loading));
     try {
-      await brandRepository.getAllBrand().then((value) {
+      await brandRepository
+          .getAllBrand(search: search, pageSize: pageSize)
+          .then((value) {
         // print("STATUS KODE NYA = ${value.statusCode}");
         if (value.statusCode == 200) {
           final data = value.data['data'];

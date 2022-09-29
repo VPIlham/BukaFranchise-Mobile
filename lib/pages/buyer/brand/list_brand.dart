@@ -28,8 +28,15 @@ class _ListBrandPageState extends State<ListBrandPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    searchController.dispose();
+    super.dispose();
+  }
+
   void getBrand() {
-    context.read<BrandCubit>().getAllBrand();
+    context.read<BrandCubit>().getAllBrand(pageSize: 40);
   }
 
   Future onRefresh() {
@@ -71,7 +78,12 @@ class _ListBrandPageState extends State<ListBrandPage> {
                       icon: const Icon(
                         Icons.search,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        print('Text ${searchController.text}');
+                        context
+                            .read<BrandCubit>()
+                            .getAllBrand(search: searchController.text);
+                      },
                     ),
                   ),
                 ),

@@ -26,7 +26,7 @@ class _BrandWidgetState extends State<BrandWidget> {
   }
 
   void _getBrand() {
-    context.read<BrandCubit>().getAllBrand();
+    context.read<BrandCubit>().getAllBrand(pageSize: 8);
   }
 
   @override
@@ -53,17 +53,24 @@ class _BrandWidgetState extends State<BrandWidget> {
             const SizedBox(
               height: 20,
             ),
-            GridView.count(
-              crossAxisCount: 4,
-              physics: const NeverScrollableScrollPhysics(),
+            GridView.builder(
               shrinkWrap: true,
-              childAspectRatio: 0.98,
-              children: List.generate(8, growable: false, (index) {
+              itemCount: state.brands.length ?? 0,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 4, childAspectRatio: 0.98),
+              itemBuilder: (context, index) {
                 if (index == 7) {
                   return GestureDetector(
                     onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const ListBrandPage()));
+                      Navigator.of(context)
+                          .push(
+                        MaterialPageRoute(
+                            builder: (context) => const ListBrandPage()),
+                      )
+                          .then((value) {
+                        _getBrand();
+                      });
                     },
                     child: Column(
                       children: [
@@ -146,7 +153,7 @@ class _BrandWidgetState extends State<BrandWidget> {
                     ),
                   );
                 }
-              }),
+              },
             ),
           ],
         );
