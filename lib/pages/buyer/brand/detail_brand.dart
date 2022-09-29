@@ -59,6 +59,7 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
           actions: [
             BlocConsumer<BrandCubit, BrandState>(
               listener: (context, state) {
+                print('STATE WISHLIST = $state');
                 if (state.brandStatus == BrandStatus.successLiked) {
                   AwesomeDialog(
                     context: context,
@@ -82,15 +83,15 @@ class _DetailBrandPageState extends State<DetailBrandPage> {
               builder: (context, state) {
                 return Padding(
                   padding: const EdgeInsets.only(right: 24),
-                  child: GestureDetector(
+                  child: InkWell(
                     onTap: () {
-                      if (state.isLiked == false &&
-                          state.brandStatus != BrandStatus.loadingWishlist) {
-                        postLike();
-                      }
-                      if (state.isLiked == true &&
-                          state.brandStatus != BrandStatus.loadingWishlist) {
-                        removeLike();
+                      if (state.brandStatus != BrandStatus.loadingWishlist) {
+                        if (state.isLiked == false) {
+                          postLike();
+                        }
+                        if (state.isLiked == true) {
+                          removeLike();
+                        }
                       }
                     },
                     child: state.isLiked
