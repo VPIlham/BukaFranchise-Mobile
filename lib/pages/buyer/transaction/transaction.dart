@@ -81,7 +81,6 @@ class _TransactionPageState extends State<TransactionPage> {
                                   ),
                                 ),
                                 hintText: 'Cari Pesanan',
-                                hintStyle: regularTextStyle,
                                 filled: true,
                                 fillColor: inputColorGray,
                                 suffixIcon: IconButton(
@@ -203,9 +202,8 @@ class _TransactionPageState extends State<TransactionPage> {
                                                 formatRupiah.format(
                                                     state.transactions[index]
                                                         ['price']),
-                                                style:
-                                                    regularTextStyle.copyWith(
-                                                  fontSize: 10,
+                                                style: labelTextStyle.copyWith(
+                                                  fontSize: 11,
                                                 ),
                                               ),
                                               const SizedBox(
@@ -246,7 +244,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                                       width: 150,
                                                       height: 20,
                                                       decoration: BoxDecoration(
-                                                        color: blueColor,
+                                                        color: orangeColor,
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(16),
@@ -285,6 +283,32 @@ class _TransactionPageState extends State<TransactionPage> {
                                                               .copyWith(
                                                                   color: Colors
                                                                       .white,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ] else if (state.transactions[
+                                                          index]['status'] ==
+                                                      'Kedaluwarsa') ...[
+                                                    Container(
+                                                      width: 100,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(
+                                                        color: textDateGray,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          state.transactions[
+                                                              index]['status'],
+                                                          style: labelTextStyle
+                                                              .copyWith(
+                                                                  color:
+                                                                      greyColor,
                                                                   letterSpacing:
                                                                       1,
                                                                   fontSize: 10),
