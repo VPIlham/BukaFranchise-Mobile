@@ -302,43 +302,115 @@ class _TransactionPageState extends State<TransactionPage> {
                                               const SizedBox(
                                                 height: 10,
                                               ),
-                                              Container(
-                                                width: 150,
-                                                height: 20,
-                                                decoration: BoxDecoration(
-                                                  color: mainColor,
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    state.transactions[index]
-                                                        ['status'],
-                                                    style:
-                                                        labelTextStyle.copyWith(
-                                                            color: Colors.white,
-                                                            letterSpacing: 1,
-                                                            fontSize: 10),
-                                                  ),
-                                                ),
+                                              Column(
+                                                children: [
+                                                  if (state.transactions[index]
+                                                          ['status'] ==
+                                                      'Pengajuan Diproses') ...[
+                                                    Container(
+                                                      width: 150,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(
+                                                        color: mainColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          state.transactions[
+                                                              index]['status'],
+                                                          style: labelTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ] else if (state.transactions[
+                                                          index]['status'] ==
+                                                      'Menunggu Pembayaran') ...[
+                                                    Container(
+                                                      width: 150,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(
+                                                        color: blueColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          state.transactions[
+                                                              index]['status'],
+                                                          style: labelTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ] else if (state.transactions[
+                                                          index]['status'] ==
+                                                      'Dibatalkan') ...[
+                                                    Container(
+                                                      width: 100,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(
+                                                        color: redColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          state.transactions[
+                                                              index]['status'],
+                                                          style: labelTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ] else if (state.transactions[
+                                                          index]['status'] ==
+                                                      'Dibatalkan') ...[
+                                                    Container(
+                                                      width: 100,
+                                                      height: 20,
+                                                      decoration: BoxDecoration(
+                                                        color: greenColor,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(16),
+                                                      ),
+                                                      child: Center(
+                                                        child: Text(
+                                                          state.transactions[
+                                                              index]['status'],
+                                                          style: labelTextStyle
+                                                              .copyWith(
+                                                                  color: Colors
+                                                                      .white,
+                                                                  letterSpacing:
+                                                                      1,
+                                                                  fontSize: 10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ],
                                               ),
-                                              // Container(
-                                              //   width: 100,
-                                              //   height: 20,
-                                              //   decoration: BoxDecoration(
-                                              //     color: redColor,
-                                              //     borderRadius: BorderRadius.circular(16),
-                                              //   ),
-                                              //   child: Center(
-                                              //     child: Text(
-                                              //       'Dibatalkan',
-                                              //       style: labelTextStyle.copyWith(
-                                              //           color: Colors.white,
-                                              //           letterSpacing: 1,
-                                              //           fontSize: 10),
-                                              //     ),
-                                              //   ),
-                                              // ),
                                             ],
                                           ),
                                         ),
