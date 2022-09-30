@@ -51,14 +51,18 @@ class TransactionRepository {
       }
 
       if (role == 'seller') {
-        return await dio.get(
-            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[Item][UserId]=$userId",
-            options: myOption);
+        dio.options.queryParameters.addAll({
+          "filters[Item][UserId]": userId,
+        });
       } else {
-        return await dio.get(
-            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[User][id]=$userId",
-            options: myOption);
+        dio.options.queryParameters.addAll({
+          "filters[User][id]": userId,
+        });
       }
+
+      return await dio.get(
+          "$baseUrl/orders?populate=Item.Brand,Item.Upload,User",
+          options: myOption);
     } catch (e) {
       print('GET LIST TRX = $e');
     }
