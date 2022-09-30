@@ -92,8 +92,8 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           }
         },
         builder: (context, state) {
-          var imgUrl = state.transaction["Item"]["Upload"] != null
-              ? "$URL_WEB${state.transaction["Item"]["Upload"]["path"]}"
+          var imgUrl = widget.data?["Item"]?["Upload"] != null
+              ? "$URL_WEB${widget.data?["Item"]?["Upload"]["path"]}"
               : '';
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -194,11 +194,11 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                               widget.data['Item']['name'],
                               style: titleTextStyle.copyWith(fontSize: 16),
                             ),
-                            Text(
-                              formatRupiah.format(
-                                  int.parse(widget.data['Item']['price'])),
-                              style: regularTextStyle.copyWith(fontSize: 16),
-                            ),
+                            // Text(
+                            //   formatRupiah.format(
+                            //       int.parse(widget.data['Item']['price'])),
+                            //   style: regularTextStyle.copyWith(fontSize: 16),
+                            // ),
                             Row(
                               children: [
                                 SvgPicture.asset(
