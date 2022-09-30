@@ -126,7 +126,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                         color: widget.data['status'] == "Terdaftar"
                             ? greenColor
                             : widget.data['status'] == "Pengajuan Diproses"
-                                ? blueColor
+                                ? mainColor
                                 : widget.data['status'] == "Menunggu Pembayaran"
                                     ? orangeColor
                                     : widget.data['status'] == "Dibatalkan"
