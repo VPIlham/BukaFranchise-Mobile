@@ -5,6 +5,7 @@ import 'package:bukafranchise/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:validators/sanitizers.dart';
 
 class DashboardWidget extends StatefulWidget {
   const DashboardWidget({super.key});
@@ -71,7 +72,8 @@ class _DashboardWidgetState extends State<DashboardWidget> {
                       ),
                       FittedBox(
                         child: Text(
-                          formatRupiah.format(state.dashboard['totalIncome']),
+                          formatRupiah
+                              .format(toInt(state.dashboard['totalIncome'])),
                           style: labelTextStyle.copyWith(
                             color: mainColor,
                             fontSize: 15,

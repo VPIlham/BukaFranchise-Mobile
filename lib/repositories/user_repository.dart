@@ -97,8 +97,16 @@ class UserRepository {
 
   getSummary() async {
     try {
-      final id = await getUserId();
-      return await dio.get("$baseUrl/summary/$id", options: myOption);
+      final token = await getToken();
+      return await dio.get(
+        "$baseUrl/summary/seller",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer $token"
+          },
+        ),
+      );
     } catch (e) {
       print('ERROR SUMMARY = $e');
     }
