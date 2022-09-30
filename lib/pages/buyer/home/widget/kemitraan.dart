@@ -58,7 +58,9 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
                       context,
                       MaterialPageRoute(
                           builder: (builder) => const ListBrandItemPage()),
-                    );
+                    ).then((value) {
+                      _getBrandItems();
+                    });
                   },
                   child: Text(
                     'Lihat semua',
