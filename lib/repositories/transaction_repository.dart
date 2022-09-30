@@ -56,7 +56,7 @@ class TransactionRepository {
             options: myOption);
       } else {
         return await dio.get(
-            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[User][id]=$userId&sort=createdAt&direction=desc",
+            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[User][id]=$userId",
             options: myOption);
       }
     } catch (e) {
