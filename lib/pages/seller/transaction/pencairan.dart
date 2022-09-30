@@ -304,8 +304,7 @@ class _PencairanState extends State<Pencairan> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 30),
                                     child: Text(
-                                      Date.formatTglIndo(
-                                          state.withdraws[index]['createdAt']),
+                                      '${Date.formatTglIndo(state.withdraws[index]['createdAt'])}, ${Date.formatJam(state.withdraws[index]['createdAt'])}',
                                       style: labelTextStyle.copyWith(
                                         color: textDateGray,
                                         fontSize: 10,
@@ -313,6 +312,9 @@ class _PencairanState extends State<Pencairan> {
                                     ),
                                   ),
                                 ],
+                              ),
+                              const SizedBox(
+                                height: 10,
                               ),
                               Row(
                                 children: [
