@@ -96,7 +96,6 @@ class _TransactionPageState extends State<TransactionPage> {
                                   ),
                                 ),
                                 hintText: 'Cari Pesanan',
-                                hintStyle: regularTextStyle,
                                 filled: true,
                                 fillColor: inputColorGray,
                                 suffixIcon: IconButton(
@@ -410,7 +409,7 @@ class _TransactionPageState extends State<TransactionPage> {
                                                     ),
                                                   ] else if (state.transactions[
                                                           index]['status'] ==
-                                                      'Dibatalkan') ...[
+                                                      'Terdaftar') ...[
                                                     Container(
                                                       width: 100,
                                                       height: 20,

@@ -18,10 +18,25 @@ class TransactionRepository {
     }
   }
 
-  getListorderById() async {
+  getListorderById({String? search, int? pageSize = 7}) async {
     try {
       final userId = await getUserId();
       final role = await getRoleUser();
+
+      dio.options.queryParameters.clear();
+
+      if (search != null) {
+        dio.options.queryParameters.addAll({
+          "q": search,
+        });
+      }
+
+      if (pageSize != null) {
+        dio.options.queryParameters.addAll({
+          "pageSize": pageSize,
+        });
+      }
+
       if (role == 'seller') {
         return await dio.get(
             "$baseUrl/orders?populate=Item.Brand,User&filters[Item][UserId]=$userId",

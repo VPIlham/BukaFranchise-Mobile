@@ -1,9 +1,8 @@
-import 'dart:math';
+import 'dart:async';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
 import 'package:bukafranchise/models/brand_item.dart';
-import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
@@ -24,6 +23,8 @@ class ListBrandItemPage extends StatefulWidget {
 
 class _ListBrandItemPageState extends State<ListBrandItemPage> {
   final searchController = TextEditingController();
+  Timer? _debounce;
+  String? search;
 
   @override
   void initState() {
@@ -31,12 +32,32 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    searchController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   void getBrandItems() {
-    context.read<BrandCubit>().getAllBrandItems();
+    context.read<BrandCubit>().getAllBrandItems(pageSize: 40);
   }
 
   Future onRefresh() {
     return context.read<BrandCubit>().getAllBrandItems();
+  }
+
+  _onSearchChanged(String query) {
+    if (search != query) {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        context.read<BrandCubit>().getAllBrandItems(search: query);
+        setState(() {
+          search = query;
+        });
+      });
+    }
   }
 
   @override
@@ -44,7 +65,10 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
     return Scaffold(
       appBar: DefaultAppBar.build(
         context: context,
-        title: const Text("Daftar Kemitraan"),
+        title: Text(
+          "Daftar Kemitraan",
+          style: titleTextStyle,
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: onRefresh,
@@ -58,6 +82,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                   keyboardType: TextInputType.text,
                   style: regularTextStyle,
                   controller: searchController,
+                  onChanged: _onSearchChanged,
                   decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     border: OutlineInputBorder(
@@ -71,10 +96,22 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                     filled: true,
                     fillColor: inputColorGray,
                     suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.search,
+                      icon: Icon(
+                        search == '' || search == null
+                            ? Icons.search
+                            : Icons.close_rounded,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (search != '' || search != null) {
+                          context
+                              .read<BrandCubit>()
+                              .getAllBrandItems(search: '');
+                          setState(() {
+                            search = '';
+                          });
+                          searchController.text = '';
+                        }
+                      },
                     ),
                   ),
                 ),
@@ -183,7 +220,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
                                           fontWeight: FontWeight.w400,
-                                          color: Color(0xFF8A8A8A)),
+                                          color: const Color(0xFF8A8A8A)),
                                       maxLines: 1,
                                     ),
                                     const SizedBox(
