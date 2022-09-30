@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/pages/seller/transaction/detail_pesanan.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -15,26 +17,28 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   String? _filter, valFilter, _sort, valSort;
 
   final roleFilter = [
     'Semua',
+    'Menunggu Pembayaran',
     'Pengajuan Diproses',
     'Terdaftar',
     'Dibatalkan',
-    'Kadaluwarsa',
+    'Kedaluwarsa',
   ];
+
   final roleSort = [
     'Terbaru',
     'Terlama',
   ];
 
   final searchController = TextEditingController();
+  Timer? _debounce;
+  String? search;
 
   void getListTrasaction() {
-    context.read<TransactionCubit>().getListorderById();
+    context.read<TransactionCubit>().getListorderById(pageSize: 40);
   }
 
   @override
@@ -43,8 +47,28 @@ class _TransactionPageState extends State<TransactionPage> {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    searchController.dispose();
+    _debounce?.cancel();
+    super.dispose();
+  }
+
   Future refreshPage() async {
     context.read<TransactionCubit>().getListorderById();
+  }
+
+  _onSearchChanged(String query) {
+    if (search != query) {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        context.read<TransactionCubit>().getListorderById(search: query);
+        setState(() {
+          search = query;
+        });
+      });
+    }
   }
 
   @override
@@ -74,6 +98,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       keyboardType: TextInputType.text,
                       style: regularTextStyle,
                       controller: searchController,
+                      onChanged: _onSearchChanged,
                       decoration: InputDecoration(
                         disabledBorder: InputBorder.none,
                         border: OutlineInputBorder(
@@ -87,10 +112,22 @@ class _TransactionPageState extends State<TransactionPage> {
                         filled: true,
                         fillColor: inputColorGray,
                         suffixIcon: IconButton(
-                          icon: const Icon(
-                            Icons.search,
+                          icon: Icon(
+                            search == '' || search == null
+                                ? Icons.search
+                                : Icons.close_rounded,
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            if (search != '' || search != null) {
+                              context
+                                  .read<TransactionCubit>()
+                                  .getListorderById(search: '');
+                              setState(() {
+                                search = '';
+                              });
+                              searchController.text = '';
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -110,7 +147,7 @@ class _TransactionPageState extends State<TransactionPage> {
                           color: inputColorGray,
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          padding: const EdgeInsets.symmetric(horizontal: 5),
                           child: DropdownButton<String>(
                             hint: Text(
                               "Filter status",
@@ -129,6 +166,34 @@ class _TransactionPageState extends State<TransactionPage> {
                               setState(() {
                                 valFilter = value.toString();
                               });
+
+                              if (valFilter == 'Pengajuan Diproses') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(
+                                        status: 'Pengajuan Diproses');
+                              } else if (valFilter == 'Menunggu Pembayaran') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(
+                                        status: 'Menunggu Pembayaran');
+                              } else if (valFilter == 'Terdaftar') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(status: 'Terdaftar');
+                              } else if (valFilter == 'Dibatalkan') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(status: 'Dibatalkan');
+                              } else if (valFilter == 'Kedaluwarsa') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(status: 'Kedaluwarsa');
+                              } else {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById();
+                              }
                             },
                           ),
                         ),
@@ -158,6 +223,16 @@ class _TransactionPageState extends State<TransactionPage> {
                               setState(() {
                                 valSort = value.toString();
                               });
+
+                              if (valSort == 'Terbaru') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(direction: 'desc');
+                              } else if (valSort == 'Terlama') {
+                                context
+                                    .read<TransactionCubit>()
+                                    .getListorderById(direction: 'asc');
+                              }
                             },
                           ),
                         ),

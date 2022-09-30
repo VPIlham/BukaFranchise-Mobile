@@ -48,11 +48,20 @@ class TransactionCubit extends Cubit<TransactionState> {
     }
   }
 
-  Future<void> getListorderById({String? search, int? pageSize}) async {
+  Future<void> getListorderById(
+      {String? search,
+      int? pageSize,
+      String? direction,
+      String? status}) async {
     emit(state.copyWith(transactionStatus: TransactionStatus.loading));
     try {
       await transactionRepository
-          .getListorderById(search: search, pageSize: pageSize)
+          .getListorderById(
+        search: search,
+        pageSize: pageSize,
+        direction: direction,
+        status: status,
+      )
           .then((value) {
         if (value.statusCode == 200) {
           final data = value.data['data'];

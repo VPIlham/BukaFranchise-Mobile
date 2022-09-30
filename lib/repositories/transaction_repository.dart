@@ -21,6 +21,7 @@ class TransactionRepository {
   getListorderById(
       {String? search,
       int? pageSize = 7,
+      String? status = '',
       String? sort = 'createdAt',
       String? direction = 'desc'}) async {
     try {
@@ -38,6 +39,12 @@ class TransactionRepository {
       if (pageSize != null) {
         dio.options.queryParameters.addAll({
           "pageSize": pageSize,
+        });
+      }
+
+      if (status != null) {
+        dio.options.queryParameters.addAll({
+          "filters[col][status]": status,
         });
       }
 

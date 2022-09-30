@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/pages/buyer/transaction/detail_pesanan.dart';
 import 'package:bukafranchise/theme/style.dart';
-import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -22,11 +20,14 @@ class _TransactionPageState extends State<TransactionPage> {
   String? _filter, valFilter, _sort, valSort;
 
   final roleFilter = [
+    'Semua',
+    'Menunggu Pembayaran',
     'Pengajuan Diproses',
     'Terdaftar',
     'Dibatalkan',
-    'Kadaluwarsa',
+    'Kedaluwarsa',
   ];
+
   final roleSort = [
     'Terbaru',
     'Terlama',
@@ -142,7 +143,7 @@ class _TransactionPageState extends State<TransactionPage> {
                       color: inputColorGray,
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: DropdownButton<String>(
                         hint: Text(
                           "Filter status",
@@ -161,6 +162,29 @@ class _TransactionPageState extends State<TransactionPage> {
                           setState(() {
                             valFilter = value.toString();
                           });
+
+                          if (valFilter == 'Pengajuan Diproses') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(status: 'Pengajuan Diproses');
+                          } else if (valFilter == 'Menunggu Pembayaran') {
+                            context.read<TransactionCubit>().getListorderById(
+                                status: 'Menunggu Pembayaran');
+                          } else if (valFilter == 'Terdaftar') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(status: 'Terdaftar');
+                          } else if (valFilter == 'Dibatalkan') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(status: 'Dibatalkan');
+                          } else if (valFilter == 'Kedaluwarsa') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(status: 'Kedaluwarsa');
+                          } else {
+                            context.read<TransactionCubit>().getListorderById();
+                          }
                         },
                       ),
                     ),
@@ -190,6 +214,16 @@ class _TransactionPageState extends State<TransactionPage> {
                           setState(() {
                             valSort = value.toString();
                           });
+
+                          if (valSort == 'Terbaru') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(direction: 'desc');
+                          } else if (valSort == 'Terlama') {
+                            context
+                                .read<TransactionCubit>()
+                                .getListorderById(direction: 'asc');
+                          }
                         },
                       ),
                     ),
