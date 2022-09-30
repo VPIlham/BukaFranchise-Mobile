@@ -20,6 +20,7 @@ class _TransactionPageState extends State<TransactionPage> {
   String? _filter, valFilter, _sort, valSort;
 
   final roleFilter = [
+    'Semua',
     'Pengajuan Diproses',
     'Terdaftar',
     'Dibatalkan',
@@ -52,7 +53,7 @@ class _TransactionPageState extends State<TransactionPage> {
       appBar: DefaultAppBar.build(
         context: context,
         title: Text(
-          "Pesanan Saya",
+          "Pesanan",
           style: titleTextStyle,
         ),
         leading: const Text(''),

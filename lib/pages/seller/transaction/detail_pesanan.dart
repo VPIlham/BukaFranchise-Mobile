@@ -1,8 +1,11 @@
+import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DetailPesananPage extends StatefulWidget {
@@ -19,7 +22,7 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
   String? _pay, valPay, _status, valStatus;
 
   final rolePay = ['Cash', 'DP', 'Cicilan'];
-  final dataStatus = ['Pengajuan Diproses', 'Terdaftar', 'Dibatalkan'];
+  final dataStatus = ['Terdaftar', 'Dibatalkan'];
 
   @override
   void dispose() {
@@ -36,7 +39,12 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
 
     form.save();
 
-    // context.read<SigninCubit>().signin(email: _email!, password: _password!);
+    print('UBAH STATUS = $valStatus');
+    print('DATA = ${widget.data}');
+
+    context
+        .read<TransactionCubit>()
+        .updateTransaction(data: {"status": valStatus}, id: widget.data["id"]);
   }
 
   @override
@@ -65,241 +73,285 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
         ),
       ),
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              widget.data['trxId'],
-              style: titleTextStyle.copyWith(
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
-                  children: [
-                    Text(
-                      Date.formatTglIndo(widget.data['createdAt']),
-                      style: regularTextStyle.copyWith(
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-                Container(
-                  width: 150,
-                  height: 20,
-                  decoration: BoxDecoration(
-                    color: blueColor,
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  child: Center(
-                    child: Text(
-                      widget.data['status'],
-                      style: labelTextStyle.copyWith(
-                          color: Colors.white, letterSpacing: 1, fontSize: 10),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            SizedBox(
-              child: Row(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(12),
-                    ),
-                    child: Image.network(
-                      "https://picsum.photos/seed/400/400",
-                      fit: BoxFit.cover,
-                      width: 123,
-                      height: 117,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.data['Item']['name'],
-                          style: titleTextStyle.copyWith(fontSize: 16),
-                        ),
-                        Text(
-                          formatRupiah
-                              .format(int.parse(widget.data['Item']['price'])),
-                          style: regularTextStyle.copyWith(fontSize: 16),
-                        ),
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              Assets.icTag,
-                              height: 12,
-                              width: 9,
-                            ),
-                            const SizedBox(
-                              width: 3,
-                            ),
-                            Text(
-                              widget.data['Item']['Brand']['category'],
-                              style: regularTextStyle.copyWith(fontSize: 10),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocConsumer<TransactionCubit, TransactionState>(
+        listener: (context, state) {
+          print("STATE DETAIL PESANAN $state");
+          if (state.transactionStatus == TransactionStatus.formSuccess) {
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.success,
+              animType: AnimType.topSlide,
+              title: 'Sukses',
+              desc: 'Status pesanan berhasil diubah',
+              btnOkOnPress: () {
+                Navigator.pop(context);
+                context.read<TransactionCubit>().getListorderById();
+              },
+            ).show();
+          }
+        },
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  widget.data['trxId'],
+                  style: titleTextStyle.copyWith(
+                    fontSize: 16,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "Pesanan",
-                      style: labelTextStyle.copyWith(fontSize: 20),
+                    Column(
+                      children: [
+                        Text(
+                          Date.formatTglIndo(widget.data['createdAt']),
+                          style: regularTextStyle.copyWith(
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 150,
+                      height: 20,
+                      decoration: BoxDecoration(
+                        color: blueColor,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Center(
+                        child: Text(
+                          widget.data['status'],
+                          style: labelTextStyle.copyWith(
+                              color: Colors.white,
+                              letterSpacing: 1,
+                              fontSize: 10),
+                        ),
+                      ),
                     ),
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(
+                  child: Row(
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(12),
+                        ),
+                        child: Image.network(
+                          "https://picsum.photos/seed/400/400",
+                          fit: BoxFit.cover,
+                          width: 123,
+                          height: 117,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.data['Item']['name'],
+                              style: titleTextStyle.copyWith(fontSize: 16),
+                            ),
+                            Text(
+                              formatRupiah.format(
+                                  int.parse(widget.data['Item']['price'])),
+                              style: regularTextStyle.copyWith(fontSize: 16),
+                            ),
+                            Row(
+                              children: [
+                                SvgPicture.asset(
+                                  Assets.icTag,
+                                  height: 12,
+                                  width: 9,
+                                ),
+                                const SizedBox(
+                                  width: 3,
+                                ),
+                                Text(
+                                  widget.data['Item']['Brand']['category'],
+                                  style:
+                                      regularTextStyle.copyWith(fontSize: 10),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Nama",
-                      style: regularTextStyle.copyWith(fontSize: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "Pesanan",
+                          style: labelTextStyle.copyWith(fontSize: 20),
+                        ),
+                      ],
                     ),
-                    Text(
-                      widget.data['User']['name'],
-                      style: labelTextStyle.copyWith(fontSize: 14),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Nama",
+                          style: regularTextStyle.copyWith(fontSize: 12),
+                        ),
+                        Text(
+                          widget.data['User']['name'],
+                          style: labelTextStyle.copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Email",
+                          style: regularTextStyle.copyWith(fontSize: 12),
+                        ),
+                        Text(
+                          widget.data['User']['email'],
+                          style: labelTextStyle.copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Nomor Telp.",
+                          style: regularTextStyle.copyWith(fontSize: 12),
+                        ),
+                        Text(
+                          widget.data['User']['phoneNumber'] ?? '-',
+                          style: labelTextStyle.copyWith(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 4,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Pembayaran",
+                          style: regularTextStyle.copyWith(fontSize: 12),
+                        ),
+                        Text(
+                          widget.data['statusPayment'] == 'dp'
+                              ? "Uang Muka"
+                              : widget.data['statusPayment'] == 'cash'
+                                  ? "Tunai"
+                                  : "Cicilan",
+                          style: labelTextStyle.copyWith(fontSize: 14),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Email",
-                      style: regularTextStyle.copyWith(fontSize: 12),
-                    ),
-                    Text(
-                      widget.data['User']['email'],
-                      style: labelTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 24,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Nomor Telp.",
-                      style: regularTextStyle.copyWith(fontSize: 12),
-                    ),
-                    Text(
-                      widget.data['User']['phoneNumber'] ?? '-',
-                      style: labelTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ],
+                const SizedBox(
+                  height: 24,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Pembayaran",
-                      style: regularTextStyle.copyWith(fontSize: 12),
-                    ),
-                    Text(
-                      'Pembayaran ${widget.data['statusPayment'].toString().toTitleCase()}',
-                      style: labelTextStyle.copyWith(fontSize: 14),
-                    ),
-                  ],
+                status == "Pengajuan Diproses"
+                    ? Form(
+                        key: _formKey,
+                        autovalidateMode: _autovalidateMode,
+                        child: Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: inputColorGray,
+                          ),
+                          child: DropdownButtonFormField(
+                            isExpanded: true,
+                            hint: const Text("Status Pesanan"),
+                            value: valStatus,
+                            decoration: const InputDecoration(
+                              enabledBorder: InputBorder.none,
+                              contentPadding: EdgeInsets.all(18),
+                            ),
+                            validator: (value) {
+                              if (value == null || value == '') {
+                                return 'Status Pesanan Wajib diisi!';
+                              }
+                              return null;
+                            },
+                            items: dataStatus.map((value) {
+                              return DropdownMenuItem(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (value) {},
+                            onSaved: (value) {
+                              valStatus = value;
+                            },
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
+                const SizedBox(
+                  height: 60,
                 ),
+                status == "Pengajuan Diproses"
+                    ? InkWell(
+                        onTap: _submit,
+                        child: Container(
+                          width: double.infinity,
+                          height: 60,
+                          decoration: BoxDecoration(
+                            color: mainColor,
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          child: Center(
+                              child: Text(
+                            'Simpan',
+                            style: labelTextStyle.copyWith(
+                                color: Colors.white, letterSpacing: 1),
+                          )),
+                        ),
+                      )
+                    : const SizedBox()
               ],
             ),
-            const SizedBox(
-              height: 24,
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            dataStatus.contains(status)
-                ? Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: inputColorGray,
-                    ),
-                    child: DropdownButtonFormField(
-                      isExpanded: true,
-                      hint: const Text("Status Pesanan"),
-                      value: valStatus,
-                      decoration: const InputDecoration(
-                        enabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.all(18),
-                      ),
-                      validator: (value) {
-                        if (value == null || value == '') {
-                          return 'Status Pesanan Wajib diisi!';
-                        }
-                        return null;
-                      },
-                      items: dataStatus.map((value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (value) {},
-                      onSaved: (value) {
-                        valStatus = value;
-                      },
-                    ),
-                  )
-                : const SizedBox(),
-            const SizedBox(
-              height: 60,
-            ),
-            dataStatus.contains(status)
-                ? InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: double.infinity,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        color: mainColor,
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Center(
-                          child: Text(
-                        'Simpan',
-                        style: labelTextStyle.copyWith(
-                            color: Colors.white, letterSpacing: 1),
-                      )),
-                    ),
-                  )
-                : const SizedBox()
-          ],
-        ),
+          );
+        },
       ),
     );
   }

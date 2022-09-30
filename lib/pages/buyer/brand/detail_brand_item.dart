@@ -203,10 +203,11 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                     ? true
                     : false,
                 paymentType: _paymentType.toString(),
-                price: int.parse(widget.item.price!),
+                price: priceCalculated,
                 fee: 50000,
                 totalPrice: priceCalculated,
                 itemId: widget.item.id,
+                paymentBank: _currentBankValue,
               ),
               const SizedBox(
                 height: 24,
@@ -317,14 +318,15 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
       {Key? key,
       this.itemId,
       this.paymentType,
+      this.paymentBank,
       this.price,
       this.fee,
       this.totalPrice,
       this.isFilled})
       : super(key: key);
 
-  final String? paymentType;
-  final int? price, fee;
+  final String? paymentType, paymentBank;
+  final num? price, fee;
   final num? totalPrice;
   final bool? isFilled;
   final int? itemId;
@@ -430,21 +432,20 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
                               TransactionStatus.submitting
                       ? null
                       : () async {
-                          final total = totalPrice! + fee!;
                           final data = {
                             "userId": await getUserId(),
                             "itemId": itemId,
-                            "price": total,
-                            "fee": 50000,
+                            "price": totalPrice?.toInt(),
+                            "fee": fee,
                             "statusPayment": paymentType,
                             "paymentMethod": "bank_transfer",
-                            "paymentChannel": "bni"
+                            "paymentChannel": paymentBank
                           };
                           // ignore: use_build_context_synchronously
                           context
                               .read<TransactionCubit>()
                               .createTransaction(data: data);
-                          print('data terkirim');
+                          print('data terkirim $data');
                         },
               child: Container(
                 height: 50,

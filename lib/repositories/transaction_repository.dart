@@ -39,11 +39,11 @@ class TransactionRepository {
 
       if (role == 'seller') {
         return await dio.get(
-            "$baseUrl/orders?populate=Item.Brand,User&filters[Item][UserId]=$userId",
+            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[Item][UserId]=$userId",
             options: myOption);
       } else {
         return await dio.get(
-            "$baseUrl/orders?populate=Item.Brand,User&filters[User][id]=$userId&sort=createdAt&direction=desc",
+            "$baseUrl/orders?populate=Item.Brand,Item.Upload,User&filters[User][id]=$userId&sort=createdAt&direction=desc",
             options: myOption);
       }
     } catch (e) {
@@ -56,6 +56,16 @@ class TransactionRepository {
       return await dio.get("$baseUrl/orders/$id?populate=*", options: myOption);
     } catch (e) {
       print('GET LIST TRX = $e');
+    }
+  }
+
+  updateTransaction({required data, required id}) async {
+    try {
+      print('My Data = $data');
+      return await dio.put("$baseUrl/orders/$id",
+          data: data, options: myOption);
+    } catch (e) {
+      print('ERROR CREATE TRX = $e');
     }
   }
 }
