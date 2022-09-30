@@ -4,6 +4,7 @@ import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -91,6 +92,9 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
           }
         },
         builder: (context, state) {
+          var imgUrl = state.transaction["Item"]["Upload"] != null
+              ? "$URL_WEB${state.transaction["Item"]["Upload"]["path"]}"
+              : '';
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24),
             child: Column(
@@ -155,14 +159,30 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   child: Row(
                     children: [
                       ClipRRect(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(12),
-                        ),
-                        child: Image.network(
-                          "https://picsum.photos/seed/400/400",
-                          fit: BoxFit.cover,
-                          width: 123,
-                          height: 117,
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                        child: CachedNetworkImage(
+                          placeholder: (context, url) => Image.asset(
+                            Assets.imgBrandPlaceholder,
+                            height: 117,
+                            width: 123,
+                            fit: BoxFit.cover,
+                          ),
+                          imageUrl: imgUrl,
+                          imageBuilder: (context, imageProvider) => Container(
+                            height: 117,
+                            width: 123,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                  image: imageProvider, fit: BoxFit.cover),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => Image.asset(
+                            Assets.imgBrandPlaceholder,
+                            height: 117,
+                            width: 123,
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                       Padding(

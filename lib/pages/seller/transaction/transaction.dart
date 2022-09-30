@@ -3,8 +3,10 @@ import 'dart:async';
 import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
 import 'package:bukafranchise/pages/seller/transaction/detail_pesanan.dart';
 import 'package:bukafranchise/theme/style.dart';
+import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:bukafranchise/widgets/custom_app_bar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
@@ -263,6 +265,11 @@ class _TransactionPageState extends State<TransactionPage> {
                     shrinkWrap: true,
                     primary: false,
                     itemBuilder: (BuildContext context, int index) {
+                      var imgUrl = state.transactions[index]["Item"]
+                                  ["Upload"] !=
+                              null
+                          ? "$URL_WEB${state.transactions[index]["Item"]["Upload"]["path"]}"
+                          : '';
                       return InkWell(
                         onTap: () {
                           Navigator.push(
@@ -317,12 +324,30 @@ class _TransactionPageState extends State<TransactionPage> {
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 30),
                                       child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(15),
-                                        child: Image.network(
-                                          'https://source.unsplash.com/random/200x200',
-                                          height: 50,
-                                          width: 50,
-                                          fit: BoxFit.cover,
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(12)),
+                                        child: CachedNetworkImage(
+                                          placeholder: (context, url) =>
+                                              const CircularProgressIndicator(),
+                                          imageUrl: imgUrl,
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                            height: 50,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                            Assets.imgBrandPlaceholder,
+                                            height: 50,
+                                            width: 50,
+                                            fit: BoxFit.cover,
+                                          ),
                                         ),
                                       ),
                                     ),

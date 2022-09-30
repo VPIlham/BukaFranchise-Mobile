@@ -2,6 +2,7 @@ import 'package:bukafranchise/bloc/product/product_cubit.dart';
 import 'package:bukafranchise/pages/seller/produk/detail_produk.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -65,6 +66,9 @@ class _ProdukWidgetState extends State<ProdukWidget> {
                 scrollDirection: Axis.horizontal,
                 itemCount: (state.products.length) ?? 0,
                 itemBuilder: (context, index) {
+                  var imgUrl = state.products[index]["Upload"] != null
+                      ? "$URL_WEB${state.products[index]["Upload"]["path"]}"
+                      : '';
                   return InkWell(
                     onTap: () {
                       final productId = state.products[index]['id'].toString();
@@ -98,12 +102,29 @@ class _ProdukWidgetState extends State<ProdukWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(15),
-                              child: Image.asset(
-                                '${Assets.imagePath}gb.png',
-                                height: 80,
-                                width: 80,
-                                fit: BoxFit.cover,
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(12)),
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) =>
+                                    const CircularProgressIndicator(),
+                                imageUrl: imgUrl,
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  height: 80,
+                                  width: 80,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) =>
+                                    Image.asset(
+                                  Assets.imgBrandPlaceholder,
+                                  height: 50,
+                                  width: 50,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                             ),
                           ),
