@@ -207,8 +207,10 @@ class _TransactionPageState extends State<TransactionPage> {
               builder: (context, state) {
                 print(state.transactions);
                 if (state.transactionStatus == TransactionStatus.loading) {
-                  return const Center(
-                    child: LoadingTransaction(),
+                  return const Expanded(
+                    child: Center(
+                      child: LoadingTransaction(),
+                    ),
                   );
                 }
 

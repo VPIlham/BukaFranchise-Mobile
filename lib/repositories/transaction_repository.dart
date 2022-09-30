@@ -18,7 +18,11 @@ class TransactionRepository {
     }
   }
 
-  getListorderById({String? search, int? pageSize = 7}) async {
+  getListorderById(
+      {String? search,
+      int? pageSize = 7,
+      String? sort = 'createdAt',
+      String? direction = 'desc'}) async {
     try {
       final userId = await getUserId();
       final role = await getRoleUser();
@@ -27,13 +31,22 @@ class TransactionRepository {
 
       if (search != null) {
         dio.options.queryParameters.addAll({
-          "q": search,
+          "filters[Item][name]": search,
         });
       }
 
       if (pageSize != null) {
         dio.options.queryParameters.addAll({
           "pageSize": pageSize,
+        });
+      }
+
+      if (sort != null) {
+        dio.options.queryParameters.addAll({
+          "sort": sort,
+        });
+        dio.options.queryParameters.addAll({
+          "direction": direction,
         });
       }
 

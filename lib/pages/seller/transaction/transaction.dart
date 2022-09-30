@@ -289,7 +289,9 @@ class _TransactionPageState extends State<TransactionPage> {
                                             Text(
                                               formatRupiah.format(
                                                   state.transactions[index]
-                                                      ['price']),
+                                                          ['price'] +
+                                                      state.transactions[index]
+                                                          ['fee']),
                                               style: regularTextStyle.copyWith(
                                                 fontSize: 10,
                                               ),

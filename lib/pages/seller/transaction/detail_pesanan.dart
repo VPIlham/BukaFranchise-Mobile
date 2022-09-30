@@ -123,14 +123,24 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                       width: 150,
                       height: 20,
                       decoration: BoxDecoration(
-                        color: blueColor,
+                        color: widget.data['status'] == "Terdaftar"
+                            ? greenColor
+                            : widget.data['status'] == "Pengajuan Diproses"
+                                ? blueColor
+                                : widget.data['status'] == "Menunggu Pembayaran"
+                                    ? orangeColor
+                                    : widget.data['status'] == "Dibatalkan"
+                                        ? redColor
+                                        : textDateGray,
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: Center(
                         child: Text(
                           widget.data['status'],
                           style: labelTextStyle.copyWith(
-                              color: Colors.white,
+                              color: widget.data['status'] == "Kedaluwarsa"
+                                  ? greyColor
+                                  : Colors.white,
                               letterSpacing: 1,
                               fontSize: 10),
                         ),
@@ -331,7 +341,12 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                 ),
                 status == "Pengajuan Diproses"
                     ? InkWell(
-                        onTap: _submit,
+                        onTap: () {
+                          if (state.transactionStatus !=
+                              TransactionStatus.submitting) {
+                            _submit();
+                          }
+                        },
                         child: Container(
                           width: double.infinity,
                           height: 60,
@@ -340,11 +355,17 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                             borderRadius: BorderRadius.circular(16),
                           ),
                           child: Center(
-                              child: Text(
-                            'Simpan',
-                            style: labelTextStyle.copyWith(
-                                color: Colors.white, letterSpacing: 1),
-                          )),
+                            child: (state.transactionStatus ==
+                                    TransactionStatus.submitting)
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : Text(
+                                    'Simpan',
+                                    style: labelTextStyle.copyWith(
+                                        color: Colors.white, letterSpacing: 1),
+                                  ),
+                          ),
                         ),
                       )
                     : const SizedBox()
