@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
@@ -21,6 +22,8 @@ class ListBrandPage extends StatefulWidget {
 
 class _ListBrandPageState extends State<ListBrandPage> {
   final searchController = TextEditingController();
+  Timer? _debounce;
+  String? search;
 
   @override
   void initState() {
@@ -32,6 +35,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
   void dispose() {
     // TODO: implement dispose
     searchController.dispose();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -41,6 +45,18 @@ class _ListBrandPageState extends State<ListBrandPage> {
 
   Future onRefresh() {
     return context.read<BrandCubit>().getAllBrand();
+  }
+
+  _onSearchChanged(String query) {
+    if (search != query) {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 500), () {
+        context.read<BrandCubit>().getAllBrand(search: query);
+        setState(() {
+          search = query;
+        });
+      });
+    }
   }
 
   @override
@@ -62,6 +78,7 @@ class _ListBrandPageState extends State<ListBrandPage> {
                   keyboardType: TextInputType.text,
                   style: regularTextStyle,
                   controller: searchController,
+                  onChanged: _onSearchChanged,
                   decoration: InputDecoration(
                     disabledBorder: InputBorder.none,
                     border: OutlineInputBorder(
@@ -75,14 +92,19 @@ class _ListBrandPageState extends State<ListBrandPage> {
                     filled: true,
                     fillColor: inputColorGray,
                     suffixIcon: IconButton(
-                      icon: const Icon(
-                        Icons.search,
+                      icon: Icon(
+                        search == '' || search == null
+                            ? Icons.search
+                            : Icons.close_rounded,
                       ),
                       onPressed: () {
-                        print('Text ${searchController.text}');
-                        context
-                            .read<BrandCubit>()
-                            .getAllBrand(search: searchController.text);
+                        if (search != '' || search != null) {
+                          context.read<BrandCubit>().getAllBrand(search: '');
+                          setState(() {
+                            search = '';
+                          });
+                          searchController.text = '';
+                        }
                       },
                     ),
                   ),
