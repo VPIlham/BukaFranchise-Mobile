@@ -1,6 +1,6 @@
-import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/product/product_cubit.dart';
-import 'package:bukafranchise/pages/buyer/brand/detail_brand.dart';
+import 'package:bukafranchise/models/brand_item.dart';
+import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/pages/buyer/brand/list_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
@@ -38,7 +38,7 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
       },
       builder: (context, state) {
         if (state.productStatus == ProductStatus.loading) {
-          return loadingProductHome();
+          return const loadingProductHome();
         }
 
         return Column(
@@ -103,8 +103,8 @@ class _KemitraanWidgetState extends State<KemitraanWidget> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => const DetailBrandPage(
-                                id: 1,
+                              builder: (context) => DetailBrandItemPage(
+                                item: BrandItem.fromJson(state.products[index]),
                               ),
                             ),
                           );
