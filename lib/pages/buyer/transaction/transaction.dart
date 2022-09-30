@@ -215,7 +215,6 @@ class _TransactionPageState extends State<TransactionPage> {
                     itemCount: state.transactions.length,
                     primary: false,
                     shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
                     itemBuilder: (BuildContext context, int index) {
                       return InkWell(
                         onTap: () {
