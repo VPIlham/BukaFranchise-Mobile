@@ -13,6 +13,30 @@ class ProductRepository {
       validateStatus: (status) => true,
       headers: {"Content-Type": "application/json"});
 
+  getAllProducts({String? search, int? pageSize = 7}) async {
+    try {
+      dio.options.queryParameters.clear();
+
+      if (search != null) {
+        dio.options.queryParameters.addAll({
+          "filters[col][name]": search,
+        });
+      }
+
+      if (pageSize != null) {
+        dio.options.queryParameters.addAll({
+          "pageSize": pageSize,
+        });
+      }
+
+      return await dio.get(
+          "$baseUrl/items?sort=createdAt&direction=desc&populate=Upload,Brand",
+          options: myOption);
+    } catch (e) {
+      print('ERROR = $e');
+    }
+  }
+
   getMyProduct() async {
     try {
       final userId = await getUserId();

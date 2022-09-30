@@ -102,4 +102,28 @@ class ProductCubit extends Cubit<ProductState> {
       emit(state.copyWith(productStatus: ProductStatus.error));
     }
   }
+
+  Future<void> getAllProducts({String? search, int? pageSize}) async {
+    emit(state.copyWith(productStatus: ProductStatus.loading));
+    try {
+      await productRepository
+          .getAllProducts(search: search, pageSize: pageSize)
+          .then((value) {
+        print("STATUS KODE NYA = ${value}");
+        if (value.statusCode == 200) {
+          final data = value.data['data'];
+          emit(state.copyWith(
+              productStatus: ProductStatus.success, products: data));
+        } else {
+          emit(state.copyWith(productStatus: ProductStatus.error));
+        }
+      }).catchError((_) {
+        emit(state.copyWith(productStatus: ProductStatus.error));
+      });
+    } catch (e) {
+      emit(state.copyWith(
+        productStatus: ProductStatus.error,
+      ));
+    }
+  }
 }

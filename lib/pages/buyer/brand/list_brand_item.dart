@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_state.dart';
+import 'package:bukafranchise/bloc/product/product_cubit.dart';
 import 'package:bukafranchise/models/brand_item.dart';
 import 'package:bukafranchise/pages/buyer/brand/detail_brand_item.dart';
 import 'package:bukafranchise/theme/style.dart';
@@ -28,7 +29,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
 
   @override
   void initState() {
-    getBrandItems();
+    getAllProducts();
     super.initState();
   }
 
@@ -40,19 +41,20 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
     super.dispose();
   }
 
-  void getBrandItems() {
-    context.read<BrandCubit>().getAllBrandItems(pageSize: 40);
+  void getAllProducts() {
+    context.read<ProductCubit>().getAllProducts(pageSize: 40);
   }
 
   Future onRefresh() {
-    return context.read<BrandCubit>().getAllBrandItems();
+    print('REFRESH');
+    return context.read<ProductCubit>().getAllProducts();
   }
 
   _onSearchChanged(String query) {
     if (search != query) {
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
-        context.read<BrandCubit>().getAllBrandItems(search: query);
+        context.read<ProductCubit>().getAllProducts(search: query);
         setState(() {
           search = query;
         });
@@ -104,8 +106,8 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                       onPressed: () {
                         if (search != '' || search != null) {
                           context
-                              .read<BrandCubit>()
-                              .getAllBrandItems(search: '');
+                              .read<ProductCubit>()
+                              .getAllProducts(search: '');
                           setState(() {
                             search = '';
                           });
@@ -120,29 +122,29 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
             const SizedBox(
               height: 12,
             ),
-            BlocConsumer<BrandCubit, BrandState>(
+            BlocConsumer<ProductCubit, ProductState>(
               listener: (context, state) {
+                print("STATE PRODUCT = $state");
                 // TODO: implement listener
               },
               builder: (context, state) {
-                if (state.brandStatus == BrandStatus.loading) {
+                if (state.productStatus == ProductStatus.loading) {
                   return const loadingBrand();
                 }
-                if (state.brandStatus == BrandStatus.error) {
+                if (state.productStatus == ProductStatus.error) {
                   // TODO: buat widget errornya
                   return const loadingBrand();
                 }
                 return Expanded(
                   child: ListView(
-                    primary: false,
-                    shrinkWrap: true,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: GridView.builder(
                           shrinkWrap: true,
                           primary: false,
-                          itemCount: state.brandItems.length,
+                          itemCount: state.products.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                                   childAspectRatio: 5.0 / 7.5,
@@ -156,7 +158,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                   MaterialPageRoute(
                                       builder: (builder) => DetailBrandItemPage(
                                             item: BrandItem.fromJson(
-                                                state.brandItems[index]),
+                                                state.products[index]),
                                           )));
                             },
                             borderRadius:
@@ -186,10 +188,10 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                                 width: 136,
                                                 fit: BoxFit.cover,
                                               ),
-                                          imageUrl: state.brands[index]
+                                          imageUrl: state.products[index]
                                                       ['Upload'] !=
                                                   null
-                                              ? "$URL_WEB${state.brands[index]['Upload']['path']}"
+                                              ? "$URL_WEB${state.products[index]['Upload']['path']}"
                                               : '',
                                           imageBuilder:
                                               (context, imageProvider) =>
@@ -215,7 +217,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                       height: 10,
                                     ),
                                     Text(
-                                      state.brandItems[index]["Brand"]['name'],
+                                      state.products[index]["Brand"]['name'],
                                       style: regularTextStyle.copyWith(
                                           fontSize: 12,
                                           overflow: TextOverflow.ellipsis,
@@ -227,7 +229,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                       height: 5,
                                     ),
                                     Text(
-                                      state.brandItems[index]['name'],
+                                      state.products[index]['name'],
                                       style: labelTextStyle.copyWith(
                                           fontSize: 14,
                                           overflow: TextOverflow.ellipsis),
@@ -237,7 +239,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                                       height: 5,
                                     ),
                                     Text(
-                                      "Rp. ${kmbGenerator(int.parse(state.brandItems[index]["price"] ?? "0"))}",
+                                      "Rp. ${kmbGenerator(int.parse(state.products[index]["price"] ?? "0"))}",
                                       style: regularTextStyle,
                                       maxLines: 2,
                                     ),

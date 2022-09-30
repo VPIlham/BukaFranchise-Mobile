@@ -169,34 +169,48 @@ class loadingBrandHome extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.count(
-        crossAxisCount: 4,
-        physics: const NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        childAspectRatio: 0.98,
-        children: List.generate(8, growable: false, (index) {
-          return SkeletonItem(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const SkeletonAvatar(
-                  style: SkeletonAvatarStyle(
-                      shape: BoxShape.circle, width: 40, height: 40),
+    return Column(
+      children: [
+        SkeletonLine(
+          style: SkeletonLineStyle(
+            height: 12,
+            width: 141,
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        const SizedBox(
+          height: 24,
+        ),
+        GridView.count(
+            crossAxisCount: 4,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            childAspectRatio: 0.98,
+            children: List.generate(8, growable: false, (index) {
+              return SkeletonItem(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const SkeletonAvatar(
+                      style: SkeletonAvatarStyle(
+                          shape: BoxShape.circle, width: 40, height: 40),
+                    ),
+                    const SizedBox(width: 5),
+                    SkeletonParagraph(
+                      style: SkeletonParagraphStyle(
+                          lines: 2,
+                          spacing: 6,
+                          lineStyle: SkeletonLineStyle(
+                            height: 6,
+                            borderRadius: BorderRadius.circular(8),
+                            maxLength: MediaQuery.of(context).size.width / 7,
+                          )),
+                    )
+                  ],
                 ),
-                const SizedBox(width: 5),
-                SkeletonParagraph(
-                  style: SkeletonParagraphStyle(
-                      lines: 2,
-                      spacing: 6,
-                      lineStyle: SkeletonLineStyle(
-                        height: 6,
-                        borderRadius: BorderRadius.circular(8),
-                        maxLength: MediaQuery.of(context).size.width / 7,
-                      )),
-                )
-              ],
-            ),
-          );
-        }));
+              );
+            })),
+      ],
+    );
   }
 }

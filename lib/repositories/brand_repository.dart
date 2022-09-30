@@ -43,7 +43,7 @@ class BrandRepository {
 
       if (search != null) {
         dio.options.queryParameters.addAll({
-          "q": search,
+          "filters[col][name]": search,
         });
       }
 
