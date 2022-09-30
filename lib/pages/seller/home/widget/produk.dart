@@ -57,7 +57,7 @@ class _ProdukWidgetState extends State<ProdukWidget> {
               ],
             ),
             const SizedBox(
-              height: 10,
+              height: 8,
             ),
             SizedBox(
               height: 130,

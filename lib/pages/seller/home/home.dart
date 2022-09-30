@@ -51,12 +51,12 @@ class _HomePageState extends State<HomePage> {
                         ),
                         const DashboardWidget(),
                         const SizedBox(
-                          height: 15,
+                          height: 24,
                         ),
                         // MY PRODUK
                         const ProdukWidget(),
                         const SizedBox(
-                          height: 15,
+                          height: 24,
                         ),
                         const WishlistWidget(),
                       ],

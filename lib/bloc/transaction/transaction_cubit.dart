@@ -94,4 +94,54 @@ class TransactionCubit extends Cubit<TransactionState> {
       emit(state.copyWith(transactionStatus: TransactionStatus.error));
     }
   }
+
+  Future<void> getListWithdraw(
+      {String? search,
+      int? pageSize,
+      String? direction,
+      String? sort,
+      String? status}) async {
+    emit(state.copyWith(transactionStatus: TransactionStatus.loading));
+    try {
+      await transactionRepository
+          .getListWithdraw(
+        pageSize: pageSize,
+        direction: direction,
+        sort: sort,
+        status: status,
+      )
+          .then((value) {
+        if (value.statusCode == 200) {
+          final data = value.data['data'];
+          print('DATA C WITHDRAW = $data');
+          emit(state.copyWith(
+              transactionStatus: TransactionStatus.success, withdraws: data));
+        } else {
+          emit(state.copyWith(transactionStatus: TransactionStatus.error));
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(transactionStatus: TransactionStatus.error));
+    }
+  }
+
+  Future<void> createWithdraw({required data}) async {
+    emit(state.copyWith(transactionStatus: TransactionStatus.submitting));
+    try {
+      print('DATA CUBIT = $data');
+
+      await transactionRepository.createWithdraw(data: data).then((value) {
+        if (value.statusCode == 200) {
+          emit(
+              state.copyWith(transactionStatus: TransactionStatus.formSuccess));
+        } else {
+          emit(state.copyWith(
+              transactionStatus: TransactionStatus.errorWithdraw,
+              errorMsg: value.data["message"]));
+        }
+      });
+    } catch (e) {
+      emit(state.copyWith(transactionStatus: TransactionStatus.errorWithdraw));
+    }
+  }
 }
