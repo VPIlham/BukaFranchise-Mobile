@@ -109,7 +109,7 @@ class ProductCubit extends Cubit<ProductState> {
       await productRepository
           .getAllProducts(search: search, pageSize: pageSize)
           .then((value) {
-        print("STATUS KODE NYA = ${value}");
+        print("STATUS KODE NYA = $value");
         if (value.statusCode == 200) {
           final data = value.data['data'];
           emit(state.copyWith(

@@ -1,6 +1,10 @@
+import 'package:bukafranchise/bloc/mostsold/mostsold_cubit.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
+import 'package:bukafranchise/utils/constant.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:skeletons/skeletons.dart';
 
 class WishlistWidget extends StatefulWidget {
@@ -12,85 +16,134 @@ class WishlistWidget extends StatefulWidget {
 
 class _WishlistWidgetState extends State<WishlistWidget> {
   @override
+  void initState() {
+    _getMostSold();
+    super.initState();
+  }
+
+  void _getMostSold() {
+    context.read<MostsoldCubit>().getMostSoldItem();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // return LoadingWishlist();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+    return BlocConsumer<MostsoldCubit, MostSoldState>(
+      listener: (context, state) {
+        // TODO: implement listener
+      },
+      builder: (context, state) {
+        print("STATE MOST SOLD = $state");
+        if (state.mostSoldStatus == MostSoldStatus.loading) {
+          return const LoadingWishlist();
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Paling banyak diminati',
-              style: titleTextStyle.copyWith(letterSpacing: 1),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  'Paling banyak diminati',
+                  style: titleTextStyle.copyWith(letterSpacing: 1),
+                ),
+              ],
             ),
-          ],
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        SizedBox(
-          height: 225,
-          child: ListView.builder(
-            shrinkWrap: true,
-            scrollDirection: Axis.horizontal,
-            itemCount: 10,
-            physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.only(left: 15, top: 8, bottom: 10),
-                width: 135,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.1),
-                      spreadRadius: 3,
-                      blurRadius: 5,
-                      offset: const Offset(2, 3), // changes position of shadow
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          Assets.exampleGB,
-                          height: 110,
-                          width: 115,
-                          fit: BoxFit.cover,
+            const SizedBox(
+              height: 10,
+            ),
+            SizedBox(
+              height: 225,
+              child: ListView.builder(
+                shrinkWrap: true,
+                scrollDirection: Axis.horizontal,
+                itemCount: state.mostsold?.length ?? 0,
+                physics: const BouncingScrollPhysics(),
+                itemBuilder: (context, index) {
+                  var imgUrl = state.mostsold[index]["Upload"] != null
+                      ? "$URL_WEB${state.mostsold[index]["Upload"]["path"]}"
+                      : '';
+                  return Container(
+                    margin: const EdgeInsets.only(left: 15, top: 8, bottom: 10),
+                    width: 135,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.1),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                          offset:
+                              const Offset(2, 3), // changes position of shadow
                         ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding:
+                          const EdgeInsets.only(left: 10, right: 10, top: 10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(12)),
+                            child: CachedNetworkImage(
+                              placeholder: (context, url) =>
+                                  const CircularProgressIndicator(),
+                              imageUrl: imgUrl,
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                height: 110,
+                                width: 115,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                Assets.imgBrandPlaceholder,
+                                height: 110,
+                                width: 115,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            state.mostsold[index]['name'],
+                            style: labelTextStyle.copyWith(
+                                fontSize: 14, overflow: TextOverflow.ellipsis),
+                            maxLines: 2,
+                          ),
+                          const SizedBox(
+                            height: 8,
+                          ),
+                          Text(
+                            formatRupiah.format(
+                                int.parse(state.mostsold[index]['price'])),
+                            style: regularTextStyle.copyWith(fontSize: 12),
+                          ),
+                          const SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            "${"Terdaftar " + state.mostsold[index]['OrderCount']} kali",
+                            style: regularTextStyle.copyWith(fontSize: 12),
+                          ),
+                        ],
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Geprek Bensu Kang ujo banget',
-                        style: labelTextStyle.copyWith(
-                            fontSize: 14, overflow: TextOverflow.ellipsis),
-                        maxLines: 2,
-                      ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      Text(
-                        'Rp22.000.000',
-                        style: regularTextStyle.copyWith(fontSize: 12),
-                      ),
-                    ],
-                  ),
-                ),
-              );
-            },
-          ),
-        )
-      ],
+                    ),
+                  );
+                },
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }

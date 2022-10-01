@@ -128,4 +128,21 @@ class UserRepository {
       print('ERROR Wishlist = $e');
     }
   }
+
+  getMostSoldItem() async {
+    try {
+      // final token = await getToken();
+      return await dio.get(
+        "$baseUrl/items/mostSold",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer $token"
+          },
+        ),
+      );
+    } catch (e) {
+      print('ERROR Most Sold Item = $e');
+    }
+  }
 }

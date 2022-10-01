@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
+import 'package:bukafranchise/bloc/mostsold/mostsold_cubit.dart';
 import 'package:bukafranchise/bloc/product/product_cubit.dart';
 import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/pages/seller/home/widget/dashboard.dart';
@@ -24,6 +25,7 @@ class _HomePageState extends State<HomePage> {
     context.read<ProductCubit>().getMyProduct();
     context.read<ProfileCubit>().getProfile(id: userId);
     context.read<DashboardCubit>().getSummary();
+    context.read<MostsoldCubit>().getMostSoldItem();
   }
 
   @override
