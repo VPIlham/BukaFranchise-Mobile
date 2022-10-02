@@ -21,7 +21,8 @@ class PengaturanAkun extends StatefulWidget {
 class _PengaturanAkunState extends State<PengaturanAkun> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  String? _name, _telp, _rekening, _bank;
+  String? _name, _telp, _rekening;
+  String? _bank;
 
   final roleBank = ['BCA', 'BRI', 'MANDIRI', 'BSI', 'BNI', 'BTN'];
 
@@ -127,6 +128,21 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
               },
             ).show();
           }
+
+          if (state.profileStatus == ProfileStatus.loaded) {
+            _name = state.user.name!;
+            _telp = state.user.phoneNumber ?? '';
+            _rekening = state.user.norek ?? '';
+            if (state.user.bank != '') {
+              setState(() {
+                _bank = state.user.bank;
+              });
+            }
+
+            nameC = TextEditingController(text: _name);
+            telpC = TextEditingController(text: _telp.toString());
+            rekeningC = TextEditingController(text: _rekening.toString());
+          }
         },
         builder: (context, state) {
           print('AKUN STATE = $state');
@@ -135,17 +151,6 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
             return const Center(
               child: CircularProgressIndicator(),
             );
-          }
-
-          if (state.profileStatus == ProfileStatus.loaded) {
-            _name = state.user.name!;
-            _telp = state.user.phoneNumber ?? '';
-            _bank = state.user.bank ?? '';
-            _rekening = state.user.norek ?? '';
-
-            nameC = TextEditingController(text: _name);
-            telpC = TextEditingController(text: _telp.toString());
-            rekeningC = TextEditingController(text: _rekening.toString());
           }
 
           final imgServer = "$URL_WEB${state.user.image}";
@@ -363,7 +368,11 @@ class _PengaturanAkunState extends State<PengaturanAkun> {
                                     _bank = value.toString();
                                   });
                                 },
-                                onChanged: (String? value) {},
+                                onChanged: (String? value) {
+                                  setState(() {
+                                    _bank = value.toString();
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(
