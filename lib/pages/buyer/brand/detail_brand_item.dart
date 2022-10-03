@@ -149,6 +149,13 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                           value: value);
                     }
                   },
+                  onSaved: (value) {
+                    if (value != null) {
+                      onChangePaymentType(
+                          price: int.parse(widget.item.price ?? "0"),
+                          value: value);
+                    }
+                  },
                 ),
               ),
               const SizedBox(
@@ -206,6 +213,7 @@ class _DetailBrandItemPageState extends State<DetailBrandItemPage> {
                 price: priceCalculated,
                 fee: 50000,
                 totalPrice: priceCalculated,
+                priceProduct: int.parse(widget.item.price!),
                 itemId: widget.item.id,
                 paymentBank: _currentBankValue,
               ),
@@ -322,14 +330,15 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
       this.price,
       this.fee,
       this.totalPrice,
-      this.isFilled})
+      this.isFilled,
+      this.priceProduct})
       : super(key: key);
 
   final String? paymentType, paymentBank;
   final num? price, fee;
   final num? totalPrice;
   final bool? isFilled;
-  final int? itemId;
+  final int? itemId, priceProduct;
 
   @override
   Widget build(BuildContext context) {
@@ -350,7 +359,7 @@ class BottomSheetDetailBrandItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Text(
-                      formatRupiah.format(price),
+                      formatRupiah.format(priceProduct),
                       style: paymentType == 'cicilan'
                           ? labelTextStyle.copyWith(
                               decoration: TextDecoration.lineThrough)
