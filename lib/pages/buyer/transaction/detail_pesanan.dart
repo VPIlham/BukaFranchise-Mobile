@@ -1,6 +1,4 @@
-import 'package:bukafranchise/bloc/profile/profile_cubit.dart';
 import 'package:bukafranchise/bloc/transaction/transaction_cubit.dart';
-import 'package:bukafranchise/pages/buyer/transaction/transaksi_sukses.dart';
 import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
@@ -193,101 +191,103 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                   const SizedBox(
                     height: 30,
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xF9F7FBff),
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 14, right: 24, top: 12, bottom: 12),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5)),
-                                child: Image.asset(
-                                  state.transaction['logs']['va_numbers'][0]
-                                              ['bank'] ==
-                                          'bni'
-                                      ? Assets.logoBNI
-                                      : state.transaction['logs']['va_numbers']
-                                                  [0]['bank'] ==
-                                              'bca'
-                                          ? Assets.logoBCA
-                                          : Assets.logoBRI,
-                                  fit: BoxFit.fill,
-                                  height: 50,
-                                  width: 50,
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 12,
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Bank ${state.transaction['logs']['va_numbers'][0]['bank'].toString().toUpperCase()}',
-                                        style: labelTextStyle.copyWith(
-                                            fontSize: 14),
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 2,
-                                      ),
-                                      const SizedBox(
-                                        height: 5,
-                                      ),
-                                      Text(
-                                        state.transaction['logs']['va_numbers']
-                                                [0]['va_number']
-                                            .toString(),
-                                        style: regularTextStyle,
-                                      ),
-                                    ],
+                  if (state.transaction['status'] == "Menunggu Pembayaran") ...[
+                    Container(
+                      decoration: BoxDecoration(
+                        color: const Color(0xF9F7FBff),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 14, right: 24, top: 12, bottom: 12),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5)),
+                                  child: Image.asset(
+                                    state.transaction['logs']['va_numbers'][0]
+                                                ['bank'] ==
+                                            'bni'
+                                        ? Assets.logoBNI
+                                        : state.transaction['logs']
+                                                    ['va_numbers'][0]['bank'] ==
+                                                'bca'
+                                            ? Assets.logoBCA
+                                            : Assets.logoBRI,
+                                    fit: BoxFit.fill,
+                                    height: 50,
+                                    width: 50,
                                   ),
-                                  const SizedBox(
-                                    height: 36,
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                          InkWell(
-                            onTap: () {
-                              Clipboard.setData(
-                                ClipboardData(
-                                  text: state.transaction['logs']['va_numbers']
-                                          [0]['va_number']
-                                      .toString(),
                                 ),
-                              );
-
-                              const snackBar = SnackBar(
-                                content: Text('Nomor VA Berhasil Disalin'),
-                              );
-
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
-                            },
-                            child: Text(
-                              "Salin",
-                              style: labelTextStyle.copyWith(
-                                fontSize: 12,
-                                color: greenColor,
-                              ),
+                                const SizedBox(
+                                  width: 12,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'Bank ${state.transaction['logs']['va_numbers'][0]['bank'].toString().toUpperCase()}',
+                                          style: labelTextStyle.copyWith(
+                                              fontSize: 14),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 2,
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          state.transaction['logs']
+                                                  ['va_numbers'][0]['va_number']
+                                              .toString(),
+                                          style: regularTextStyle,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(
+                                      height: 36,
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
-                          )
-                        ],
+                            InkWell(
+                              onTap: () {
+                                Clipboard.setData(
+                                  ClipboardData(
+                                    text: state.transaction['logs']
+                                            ['va_numbers'][0]['va_number']
+                                        .toString(),
+                                  ),
+                                );
+
+                                const snackBar = SnackBar(
+                                  content: Text('Nomor VA Berhasil Disalin'),
+                                );
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              },
+                              child: Text(
+                                "Salin",
+                                style: labelTextStyle.copyWith(
+                                  fontSize: 12,
+                                  color: greenColor,
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
-                  ),
+                  ],
                   const SizedBox(
                     height: 24,
                   ),
