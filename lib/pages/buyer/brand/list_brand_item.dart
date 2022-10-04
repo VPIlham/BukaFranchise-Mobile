@@ -147,7 +147,7 @@ class _ListBrandItemPageState extends State<ListBrandItemPage> {
                           itemCount: state.products.length,
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
-                                  childAspectRatio: 5.0 / 7.5,
+                                  childAspectRatio: 5.0 / 8.15,
                                   crossAxisCount: 2,
                                   crossAxisSpacing: 10,
                                   mainAxisSpacing: 10),
