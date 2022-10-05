@@ -52,6 +52,7 @@ class TransactionCubit extends Cubit<TransactionState> {
       {String? search,
       int? pageSize,
       String? direction,
+      String? sort,
       String? status}) async {
     emit(state.copyWith(transactionStatus: TransactionStatus.loading));
     try {
@@ -59,6 +60,7 @@ class TransactionCubit extends Cubit<TransactionState> {
           .getListorderById(
         search: search,
         pageSize: pageSize,
+        sort: sort,
         direction: direction,
         status: status,
       )

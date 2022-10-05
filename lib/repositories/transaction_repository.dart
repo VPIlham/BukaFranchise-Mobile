@@ -22,7 +22,7 @@ class TransactionRepository {
   getListorderById(
       {String? search,
       int? pageSize = 7,
-      String? status = '',
+      String? status,
       String? sort = 'createdAt',
       String? direction = 'desc'}) async {
     try {

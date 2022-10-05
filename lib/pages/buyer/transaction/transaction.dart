@@ -54,11 +54,15 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   void getListTrasaction() {
-    context.read<TransactionCubit>().getListorderById(pageSize: 40);
+    context
+        .read<TransactionCubit>()
+        .getListorderById(pageSize: 40, sort: 'createdAt', direction: 'desc');
   }
 
   Future refreshPage() async {
-    context.read<TransactionCubit>().getListorderById();
+    context
+        .read<TransactionCubit>()
+        .getListorderById(pageSize: 40, sort: 'createdAt', direction: 'desc');
   }
 
   _onSearchChanged(String query) {
@@ -218,13 +222,11 @@ class _TransactionPageState extends State<TransactionPage> {
                           });
 
                           if (valSort == 'Terbaru') {
-                            context
-                                .read<TransactionCubit>()
-                                .getListorderById(direction: 'desc');
+                            context.read<TransactionCubit>().getListorderById(
+                                sort: 'createdAt', direction: 'desc');
                           } else if (valSort == 'Terlama') {
-                            context
-                                .read<TransactionCubit>()
-                                .getListorderById(direction: 'asc');
+                            context.read<TransactionCubit>().getListorderById(
+                                sort: 'createdAt', direction: 'asc');
                           }
                         },
                       ),
@@ -243,15 +245,14 @@ class _TransactionPageState extends State<TransactionPage> {
               builder: (context, state) {
                 print(state.transactions);
                 if (state.transactionStatus == TransactionStatus.loading) {
-                  return const Expanded(
-                    child: Center(
-                      child: LoadingTransaction(),
-                    ),
+                  return const Center(
+                    child: LoadingTransaction(),
                   );
                 }
 
                 return Expanded(
                   child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: state.transactions.length,
                     primary: false,
                     shrinkWrap: true,
