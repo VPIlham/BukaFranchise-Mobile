@@ -31,7 +31,7 @@ class TransactionRepository {
 
       dio.options.queryParameters.clear();
 
-      if (search != null) {
+      if (search != null && search != '') {
         dio.options.queryParameters.addAll({
           "filters[Item][name]": search,
         });

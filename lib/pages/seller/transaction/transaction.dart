@@ -40,7 +40,9 @@ class _TransactionPageState extends State<TransactionPage> {
   String? search;
 
   void getListTrasaction() {
-    context.read<TransactionCubit>().getListorderById(pageSize: 40);
+    context
+        .read<TransactionCubit>()
+        .getListorderById(pageSize: 40, sort: "createdAt", direction: "desc");
   }
 
   @override
@@ -58,14 +60,17 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   Future refreshPage() async {
-    context.read<TransactionCubit>().getListorderById();
+    context
+        .read<TransactionCubit>()
+        .getListorderById(sort: "createdAt", direction: "desc", pageSize: 40);
   }
 
   _onSearchChanged(String query) {
     if (search != query) {
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
-        context.read<TransactionCubit>().getListorderById(search: query);
+        context.read<TransactionCubit>().getListorderById(
+            search: query, sort: "createdAt", direction: "desc", pageSize: 40);
         setState(() {
           search = query;
         });
@@ -121,9 +126,11 @@ class _TransactionPageState extends State<TransactionPage> {
                           ),
                           onPressed: () {
                             if (search != '' || search != null) {
-                              context
-                                  .read<TransactionCubit>()
-                                  .getListorderById(search: '');
+                              context.read<TransactionCubit>().getListorderById(
+                                  search: '',
+                                  sort: "createdAt",
+                                  direction: "desc",
+                                  pageSize: 40);
                               setState(() {
                                 search = '';
                               });
@@ -254,8 +261,10 @@ class _TransactionPageState extends State<TransactionPage> {
               builder: (context, state) {
                 print(state.transactions);
                 if (state.transactionStatus == TransactionStatus.loading) {
-                  return const Center(
-                    child: LoadingTransaction(),
+                  return const Expanded(
+                    child: Center(
+                      child: LoadingTransaction(),
+                    ),
                   );
                 }
 
