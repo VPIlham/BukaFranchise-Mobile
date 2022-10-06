@@ -150,7 +150,7 @@ class UserRepository {
     try {
       // final token = await getToken();
       return await dio.get(
-        "$baseUrl/banners?populate=Upload",
+        "$baseUrl/banners?populate=Upload&isLive=true",
         options: myOption.copyWith(
           headers: {
             "Content-Type": "application/json",

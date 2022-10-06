@@ -5,33 +5,30 @@ enum BannerStatus { initial, loading, success, error }
 class BannerState extends Equatable {
   final BannerStatus bannerStatus;
   final banner;
+  List<dynamic> banners;
 
-  const BannerState({
-    required this.bannerStatus,
-    required this.banner,
-  });
+  BannerState(
+      {required this.bannerStatus,
+      required this.banner,
+      required this.banners});
 
   factory BannerState.initial() {
-    return const BannerState(
-      bannerStatus: BannerStatus.initial,
-      banner: '',
-    );
+    return BannerState(
+        bannerStatus: BannerStatus.initial, banner: '', banners: const []);
   }
 
   @override
-  List<Object> get props => [bannerStatus, banner];
+  List<Object> get props => [bannerStatus, banner, banners];
 
   @override
   String toString() =>
-      'BannerState(bannerStatus: $bannerStatus, banner: $banner)';
+      'BannerState(bannerStatus: $bannerStatus, banner: $banner, banners $banners)';
 
-  BannerState copyWith({
-    BannerStatus? bannerStatus,
-    dynamic? banner,
-  }) {
+  BannerState copyWith(
+      {BannerStatus? bannerStatus, dynamic? banner, List<dynamic>? banners}) {
     return BannerState(
-      bannerStatus: bannerStatus ?? this.bannerStatus,
-      banner: banner ?? this.banner,
-    );
+        bannerStatus: bannerStatus ?? this.bannerStatus,
+        banner: banner ?? this.banner,
+        banners: banners ?? this.banners);
   }
 }

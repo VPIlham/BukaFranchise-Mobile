@@ -15,8 +15,8 @@ class BannerCubit extends Cubit<BannerState> {
         print("RESPONSE BANNER = $value");
         if (value.statusCode == 200) {
           final data = value.data['data'];
-          emit(
-              state.copyWith(bannerStatus: BannerStatus.success, banner: data));
+          emit(state.copyWith(
+              bannerStatus: BannerStatus.success, banners: data));
         } else {
           emit(state.copyWith(bannerStatus: BannerStatus.error));
         }

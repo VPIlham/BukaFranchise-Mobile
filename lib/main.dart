@@ -1,4 +1,5 @@
 import 'package:bukafranchise/bloc/auth/auth_bloc.dart';
+import 'package:bukafranchise/bloc/banner/banner_cubit.dart';
 import 'package:bukafranchise/bloc/brand/brand_cubit.dart';
 import 'package:bukafranchise/bloc/dashboard/dashboard_cubit.dart';
 import 'package:bukafranchise/bloc/login/login_cubit.dart';
@@ -107,6 +108,11 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<MostsoldCubit>(
             create: (context) => MostsoldCubit(
+              userRepository: context.read<UserRepository>(),
+            ),
+          ),
+          BlocProvider<BannerCubit>(
+            create: (context) => BannerCubit(
               userRepository: context.read<UserRepository>(),
             ),
           ),
