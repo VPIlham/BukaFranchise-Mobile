@@ -86,7 +86,8 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
               desc: 'Status pesanan berhasil diubah',
               btnOkOnPress: () {
                 Navigator.pop(context);
-                context.read<TransactionCubit>().getListorderById();
+                context.read<TransactionCubit>().getListorderById(
+                    sort: "createdAt", direction: "desc", pageSize: 40);
               },
             ).show();
           }
