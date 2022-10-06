@@ -145,4 +145,21 @@ class UserRepository {
       print('ERROR Most Sold Item = $e');
     }
   }
+
+  getBanner() async {
+    try {
+      // final token = await getToken();
+      return await dio.get(
+        "$baseUrl/banners?populate=Upload",
+        options: myOption.copyWith(
+          headers: {
+            "Content-Type": "application/json",
+            // "Authorization": "Bearer $token"
+          },
+        ),
+      );
+    } catch (e) {
+      print('ERROR Most Sold Item = $e');
+    }
+  }
 }
