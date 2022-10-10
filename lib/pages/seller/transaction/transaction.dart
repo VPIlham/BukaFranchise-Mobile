@@ -115,7 +115,7 @@ class _TransactionPageState extends State<TransactionPage> {
                             style: BorderStyle.none,
                           ),
                         ),
-                        hintText: 'Cari Pesanan',
+                        hintText: 'Cari Nomor Transaksi',
                         filled: true,
                         fillColor: inputColorGray,
                         suffixIcon: IconButton(
@@ -372,12 +372,14 @@ class _TransactionPageState extends State<TransactionPage> {
                                               height: 5,
                                             ),
                                             Text(
-                                              state.transactions[index]['User']
-                                                  ['email'],
-                                              style: regularTextStyle,
+                                              state.transactions[index]
+                                                  ['trxId'],
+                                              style: regularTextStyle.copyWith(
+                                                fontSize: 12,
+                                              ),
                                             ),
                                             const SizedBox(
-                                              height: 5,
+                                              height: 2,
                                             ),
                                             Text(
                                               state.transactions[index]['Item']
@@ -395,6 +397,9 @@ class _TransactionPageState extends State<TransactionPage> {
                                                 fontSize: 10,
                                               ),
                                             ),
+                                            const SizedBox(
+                                              height: 2,
+                                            ),
                                             Text(
                                               formatRupiah.format(
                                                   state.transactions[index]
@@ -402,11 +407,11 @@ class _TransactionPageState extends State<TransactionPage> {
                                                       state.transactions[index]
                                                           ['fee']),
                                               style: regularTextStyle.copyWith(
-                                                fontSize: 10,
+                                                fontSize: 12,
                                               ),
                                             ),
                                             const SizedBox(
-                                              height: 10,
+                                              height: 7,
                                             ),
                                             Column(
                                               children: [
