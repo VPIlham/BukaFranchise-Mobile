@@ -372,8 +372,8 @@ class _TransactionPageState extends State<TransactionPage> {
                                               height: 5,
                                             ),
                                             Text(
-                                              state.transactions[index]['User']
-                                                  ['email'],
+                                              state.transactions[index]
+                                                  ['trxId'],
                                               style: regularTextStyle,
                                             ),
                                             const SizedBox(
