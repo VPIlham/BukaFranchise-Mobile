@@ -1,4 +1,5 @@
 import 'package:bukafranchise/bloc/banner/banner_cubit.dart';
+import 'package:bukafranchise/theme/style.dart';
 import 'package:bukafranchise/utils/assets.dart';
 import 'package:bukafranchise/utils/constant.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -41,7 +42,7 @@ class _BannerWidgetState extends State<BannerWidget> {
       },
       builder: (context, state) {
         print("state Banner: $state");
-        print("state path : ${state.banners}");
+        print("state path : ${state.banners.length}");
         return Column(children: [
           CarouselSlider(
             items: state.banners.isNotEmpty
@@ -96,6 +97,8 @@ class _BannerWidgetState extends State<BannerWidget> {
                 disableCenter: true,
                 aspectRatio: 2,
                 enlargeCenterPage: true,
+                autoPlayInterval: const Duration(seconds: 10),
+                autoPlay: state.banners.length < 2 ? false : true,
                 enableInfiniteScroll: false,
                 onPageChanged: (index, reason) {
                   setState(() {
@@ -105,23 +108,47 @@ class _BannerWidgetState extends State<BannerWidget> {
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: imgList.asMap().entries.map((entry) {
-              return GestureDetector(
-                onTap: () => _controller.animateToPage(entry.key),
-                child: Container(
-                  width: 12.0,
-                  height: 12.0,
-                  margin: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 4.0),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: (Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black)
-                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                ),
-              );
-            }).toList(),
+            children: state.banners.isNotEmpty
+                ? state.banners.asMap().entries.map((entry) {
+                    return GestureDetector(
+                      onTap: () => _controller.animateToPage(entry.key),
+                      child: Container(
+                        width: _current == entry.key ? 30.0 : 12,
+                        height: 10.0,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 4.0),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12),
+                            color:
+                                (Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white
+                                        : mainColor)
+                                    .withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4)),
+                      ),
+                    );
+                  }).toList()
+                : imgList.asMap().entries.map((entry) {
+                    return GestureDetector(
+                      onTap: () => _controller.animateToPage(entry.key),
+                      child: Container(
+                        width: _current == entry.key ? 30.0 : 12,
+                        height: 10.0,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 4.0),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.rectangle,
+                            borderRadius: BorderRadius.circular(12),
+                            color:
+                                (Theme.of(context).brightness == Brightness.dark
+                                        ? Colors.white
+                                        : mainColor)
+                                    .withOpacity(
+                                        _current == entry.key ? 0.9 : 0.4)),
+                      ),
+                    );
+                  }).toList(),
           ),
         ]);
       },
