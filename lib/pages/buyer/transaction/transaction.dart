@@ -69,7 +69,8 @@ class _TransactionPageState extends State<TransactionPage> {
     if (search != query) {
       if (_debounce?.isActive ?? false) _debounce?.cancel();
       _debounce = Timer(const Duration(milliseconds: 500), () {
-        context.read<TransactionCubit>().getListorderById(search: query);
+        context.read<TransactionCubit>().getListorderById(
+            search: query, pageSize: 40, sort: 'createdAt', direction: 'desc');
         setState(() {
           search = query;
         });
@@ -223,10 +224,14 @@ class _TransactionPageState extends State<TransactionPage> {
 
                           if (valSort == 'Terbaru') {
                             context.read<TransactionCubit>().getListorderById(
-                                sort: 'createdAt', direction: 'desc');
+                                sort: 'createdAt',
+                                direction: 'desc',
+                                pageSize: 40);
                           } else if (valSort == 'Terlama') {
                             context.read<TransactionCubit>().getListorderById(
-                                sort: 'createdAt', direction: 'asc');
+                                sort: 'createdAt',
+                                direction: 'asc',
+                                pageSize: 40);
                           }
                         },
                       ),
@@ -245,8 +250,10 @@ class _TransactionPageState extends State<TransactionPage> {
               builder: (context, state) {
                 print(state.transactions);
                 if (state.transactionStatus == TransactionStatus.loading) {
-                  return const Center(
-                    child: LoadingTransaction(),
+                  return const Expanded(
+                    child: Center(
+                      child: LoadingTransaction(),
+                    ),
                   );
                 }
 

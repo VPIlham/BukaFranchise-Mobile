@@ -19,8 +19,8 @@ class TransactionPage extends StatefulWidget {
 }
 
 class _TransactionPageState extends State<TransactionPage> {
-  String? _filter, valFilter, _sort, valSort;
-
+  String? _filter, _sort, valSort;
+  String valFilter = "Pengajuan Diproses";
   final roleFilter = [
     'Semua',
     'Menunggu Pembayaran',
@@ -40,9 +40,11 @@ class _TransactionPageState extends State<TransactionPage> {
   String? search;
 
   void getListTrasaction() {
-    context
-        .read<TransactionCubit>()
-        .getListorderById(pageSize: 40, sort: "createdAt", direction: "desc");
+    context.read<TransactionCubit>().getListorderById(
+        pageSize: 40,
+        sort: "createdAt",
+        direction: "desc",
+        status: 'Pengajuan Diproses');
   }
 
   @override
@@ -60,9 +62,11 @@ class _TransactionPageState extends State<TransactionPage> {
   }
 
   Future refreshPage() async {
-    context
-        .read<TransactionCubit>()
-        .getListorderById(sort: "createdAt", direction: "desc", pageSize: 40);
+    context.read<TransactionCubit>().getListorderById(
+        sort: "createdAt",
+        direction: "desc",
+        pageSize: 40,
+        status: valFilter != "Semua" ? valFilter : null);
   }
 
   _onSearchChanged(String query) {
@@ -236,11 +240,17 @@ class _TransactionPageState extends State<TransactionPage> {
                               if (valSort == 'Terbaru') {
                                 context
                                     .read<TransactionCubit>()
-                                    .getListorderById(direction: 'desc');
+                                    .getListorderById(
+                                        pageSize: 40,
+                                        sort: "createdAt",
+                                        direction: 'desc');
                               } else if (valSort == 'Terlama') {
                                 context
                                     .read<TransactionCubit>()
-                                    .getListorderById(direction: 'asc');
+                                    .getListorderById(
+                                        pageSize: 40,
+                                        sort: "createdAt",
+                                        direction: 'asc');
                               }
                             },
                           ),
@@ -286,7 +296,9 @@ class _TransactionPageState extends State<TransactionPage> {
                               MaterialPageRoute(
                                   builder: (builder) => DetailPesananPage(
                                         data: state.transactions[index],
-                                      )));
+                                      ))).then((value) => setState(() {
+                                valFilter = "Semua";
+                              }));
                         },
                         child: Container(
                           margin: const EdgeInsets.only(
