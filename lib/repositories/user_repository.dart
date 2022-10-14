@@ -131,13 +131,13 @@ class UserRepository {
 
   getMostSoldItem() async {
     try {
-      // final token = await getToken();
+      final token = await getToken();
       return await dio.get(
         "$baseUrl/items/mostSold",
         options: myOption.copyWith(
           headers: {
             "Content-Type": "application/json",
-            // "Authorization": "Bearer $token"
+            "Authorization": "Bearer $token"
           },
         ),
       );

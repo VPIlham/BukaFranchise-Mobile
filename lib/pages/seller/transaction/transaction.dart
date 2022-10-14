@@ -23,11 +23,11 @@ class _TransactionPageState extends State<TransactionPage> {
   String valFilter = "Pengajuan Diproses";
   final roleFilter = [
     'Semua',
-    'Menunggu Pembayaran',
+    // 'Menunggu Pembayaran',
     'Pengajuan Diproses',
     'Terdaftar',
     'Dibatalkan',
-    'Kedaluwarsa',
+    // 'Kedaluwarsa',
   ];
 
   final roleSort = [

@@ -45,7 +45,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  'Paling banyak diminati',
+                  'Paling banyak Terjual',
                   style: titleTextStyle.copyWith(letterSpacing: 1),
                 ),
               ],
@@ -54,7 +54,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
               height: 10,
             ),
             SizedBox(
-              height: 225,
+              height: 240,
               child: ListView.builder(
                 shrinkWrap: true,
                 scrollDirection: Axis.horizontal,
@@ -85,6 +85,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                           const EdgeInsets.only(left: 10, right: 10, top: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           ClipRRect(
                             borderRadius:
@@ -120,7 +121,7 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                             maxLines: 2,
                           ),
                           const SizedBox(
-                            height: 8,
+                            height: 3,
                           ),
                           Text(
                             formatRupiah.format(
@@ -131,8 +132,11 @@ class _WishlistWidgetState extends State<WishlistWidget> {
                             height: 2,
                           ),
                           Text(
-                            "${"Terdaftar " + state.mostsold[index]['OrderCount']} kali",
+                            "${"Terjual " + state.mostsold[index]['OrderCount']} kali",
                             style: regularTextStyle.copyWith(fontSize: 12),
+                          ),
+                          const SizedBox(
+                            height: 3,
                           ),
                         ],
                       ),

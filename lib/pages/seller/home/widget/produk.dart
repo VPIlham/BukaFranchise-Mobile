@@ -131,42 +131,49 @@ class _ProdukWidgetState extends State<ProdukWidget> {
                           const SizedBox(
                             width: 20,
                           ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                state.products[index]['name']
-                                    .toString()
-                                    .toTitleCase(),
-                                style: titleTextStyle.copyWith(fontSize: 15),
-                              ),
-                              const SizedBox(
-                                height: 2,
-                              ),
-                              Text(
-                                formatRupiah.format(
-                                    int.parse(state.products[index]['price'])),
-                                style: regularTextStyle.copyWith(fontSize: 12),
-                              ),
-                              const SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  SvgPicture.asset(Assets.icCategory),
-                                  const SizedBox(
-                                    width: 3,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.products[index]['name']
+                                      .toString()
+                                      .toTitleCase(),
+                                  style: titleTextStyle.copyWith(
+                                    fontSize: 15,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                  Text(
-                                    state.products[index]['Brand']['category']
-                                        .toString(),
-                                    style:
-                                        regularTextStyle.copyWith(fontSize: 10),
-                                  ),
-                                ],
-                              )
-                            ],
+                                  maxLines: 2,
+                                ),
+                                const SizedBox(
+                                  height: 2,
+                                ),
+                                Text(
+                                  formatRupiah.format(int.parse(
+                                      state.products[index]['price'])),
+                                  style:
+                                      regularTextStyle.copyWith(fontSize: 12),
+                                ),
+                                const SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(Assets.icCategory),
+                                    const SizedBox(
+                                      width: 3,
+                                    ),
+                                    Text(
+                                      state.products[index]['Brand']['category']
+                                          .toString(),
+                                      style: regularTextStyle.copyWith(
+                                          fontSize: 10),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
                           )
                         ],
                       ),

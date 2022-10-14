@@ -186,38 +186,44 @@ class _DetailPesananPageState extends State<DetailPesananPage> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              widget.data['Item']['name'],
-                              style: titleTextStyle.copyWith(fontSize: 16),
-                            ),
-                            // Text(
-                            //   formatRupiah.format(
-                            //       int.parse(widget.data['Item']['price'])),
-                            //   style: regularTextStyle.copyWith(fontSize: 16),
-                            // ),
-                            Row(
-                              children: [
-                                SvgPicture.asset(
-                                  Assets.icTag,
-                                  height: 12,
-                                  width: 9,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.data['Item']['name'],
+                                style: titleTextStyle.copyWith(
+                                  fontSize: 16,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(
-                                  width: 3,
-                                ),
-                                Text(
-                                  widget.data['Item']['Brand']['category'],
-                                  style:
-                                      regularTextStyle.copyWith(fontSize: 10),
-                                ),
-                              ],
-                            )
-                          ],
+                                maxLines: 2,
+                              ),
+                              // Text(
+                              //   formatRupiah.format(
+                              //       int.parse(widget.data['Item']['price'])),
+                              //   style: regularTextStyle.copyWith(fontSize: 16),
+                              // ),
+                              Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    Assets.icTag,
+                                    height: 12,
+                                    width: 9,
+                                  ),
+                                  const SizedBox(
+                                    width: 3,
+                                  ),
+                                  Text(
+                                    widget.data['Item']['Brand']['category'],
+                                    style:
+                                        regularTextStyle.copyWith(fontSize: 10),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       )
                     ],
